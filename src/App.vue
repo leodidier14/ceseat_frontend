@@ -7,7 +7,8 @@
         <Navbar/>
       </div>
       <v-main>
-         <router-view/>
+         <!-- <router-view/> -->
+         <RestaurantsList/>
       </v-main>
       <template>
          <v-footer
@@ -66,13 +67,15 @@
 import Vue from 'vue';
 import Navbar from '@/components/Navbar.vue'
 import NavbarMobile from '@/components/NavbarMobile.vue'
+import RestaurantsList from '@/components/restaurants-list/RestaurantsList.vue'
 
 export default Vue.extend({
   name: 'App',
 
   components : {
     Navbar,
-    NavbarMobile
+    NavbarMobile,
+    RestaurantsList
   },
 
   data: () => ({
