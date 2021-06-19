@@ -1,56 +1,100 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+   <v-app>
+      <div v-if="isMobile()">
+        <NavbarMobile/>
       </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <router-view/>
-    </v-main>
-  </v-app>
+      <div v-else>
+        <Navbar/>
+      </div>
+      <v-main>
+         <router-view/>
+      </v-main>
+      <template>
+         <v-footer
+            color="#CA6B3E"
+            padless
+            >
+            <v-row
+               justify="center"
+               no-gutters
+               >
+               <v-btn
+                  color="white"
+                  text
+                  rounded
+                  class="my-2"
+                  >
+                  Accueil
+               </v-btn>
+               <v-btn
+                  color="white"
+                  text
+                  rounded
+                  class="my-2"
+                  >
+                  Conditions d'utilisation
+               </v-btn>
+               <v-btn
+                  color="white"
+                  text
+                  rounded
+                  class="my-2"
+                  >
+                  L'équipe
+               </v-btn>
+               <v-btn
+                  color="white"
+                  text
+                  rounded
+                  class="my-2"
+                  >
+                  A propos
+               </v-btn>
+               <v-col
+                  class="#CA6B3E lighten-2 py-4 text-center white--text"
+                  cols="12"
+                  >
+                  {{ new Date().getFullYear() }} — <strong>Ces'Eat</strong>
+               </v-col>
+            </v-row>
+         </v-footer>
+      </template>
+   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import Navbar from '@/components/Navbar.vue'
+import NavbarMobile from '@/components/NavbarMobile.vue'
 
 export default Vue.extend({
   name: 'App',
 
+  components : {
+    Navbar,
+    NavbarMobile
+  },
+
   data: () => ({
-    //
   }),
+
+  methods : {
+  isMobile() {
+    return this.$vuetify.breakpoint.smAndDown;
+  }
+  }
 });
 </script>
+
+<style>
+/* html {
+  overflow: hidden !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+} */
+</style>
