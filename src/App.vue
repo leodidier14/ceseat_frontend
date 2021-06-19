@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app style="background: #FFF5F0">
     <v-app-bar
       app
       color="primary"
