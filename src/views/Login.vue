@@ -1,15 +1,28 @@
 <template>
-  <v-card class="mt-16 py-10" id="login" elevation="2" max-width="536">
-    <img
+  <v-card class="mt-16 py-10 mx-auto" width="50%" id="login-card" elevation="2">
+    <v-img
+      class="mx-auto"
       src="@/assets/logo_typo.png"
       alt="Logo Ces'Eat"
-      width="205"
-      height="147"
-    />
-    <span id="subtitle">Se connecter à Ces'Eat</span>
+      contain
+      width="200"
+    ></v-img>
+    <h3 class="text-center mt-5" id="subtitle">Se connecter à Ces'Eat</h3>
 
-    <v-form id="login-form" class="mx-16 my-5" ref="loginForm" lazy-validation>
-      <v-text-field v-model="email" :rules="emailRules" label="E-mail" required>
+    <v-form
+      id="login-form"
+      class="mx-auto my-5"
+      ref="loginForm"
+      lazy-validation
+    >
+      <v-text-field
+        class="textfield mx-auto"
+        v-model="email"
+        :rules="emailRules"
+        label="E-mail"
+        color="#CA6B3E"
+        required
+      >
       </v-text-field>
 
       <v-text-field
@@ -18,16 +31,22 @@
         :type="showPassword ? 'text' : 'password'"
         name="passwordInput"
         label="Mot de passe"
-        class="input-group--focused"
+        color="#CA6B3E"
+        class="input-group--focused textfield mx-auto"
         @click:append="showPassword = !showPassword"
       ></v-text-field>
 
       <div id="form-buttons">
-        <v-btn class="form-button" color="#CA6B3E" style="color: white" @click="submit">
+        <v-btn
+          class="form-button mt-5"
+          color="#CA6B3E"
+          style="color: white"
+          @click="submit"
+        >
           Se connecter
         </v-btn>
-        <v-btn class="form-button" color="#CA6B3E" outlined @click="signup"
-          >Nouveau sur Ces'Eat ? S'inscrire ici
+        <v-btn class="form-button mt-5" color="#CA6B3E" outlined @click="signup">
+          <span class="new-on-ceseat-message">Nouveau sur Ces'Eat ?</span> S'inscrire ici
         </v-btn>
       </div>
     </v-form>
@@ -53,28 +72,39 @@ export default class Login extends Vue {
 </script>
 
 <style scoped>
-#login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: auto;
-}
-#logo {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 #subtitle {
-  margin-top: 1em;
+  font-weight: normal;
 }
-#form-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+.textfield {
+  width: 50%;
 }
+
 .form-button {
-    margin-top: 1em;
-    width: 30em;
+  width: 50%;
+}
+
+#form-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (max-width: 1280px) {
+  .new-on-ceseat-message {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #login-card {
+    width: 80% !important;
+  }
+  .textfield {
+    width: 80%;
+  }
+  .form-button {
+    width: 80%;
+  }
 }
 </style>
