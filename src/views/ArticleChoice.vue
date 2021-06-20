@@ -7,7 +7,7 @@
     max-height="80%"
   >
     <div id="banner">
-      <H1 class="ml-10" id="title">McDonald's</H1>
+      <h2 class="ml-10" id="title" v-text="currentRestaurant"></h2>
     </div>
 
     <v-tabs v-model="currentType" light color="#CA6B3E" show-arrows>
@@ -25,7 +25,7 @@
           v-for="article in getArticleTypeMap()[key]"
           :key="article.name"
         >
-          <ArticleCard :article="article">
+          <ArticleCard :article="article" :restaurant="currentRestaurant">
             <template v-slot:article-image>
               <v-img :src="article.image"></v-img>
             </template>
@@ -50,7 +50,7 @@
  <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ArticleCard from "@/components/ArticleCard.vue";
-import { ArticleChoice1 } from "@/shims-tsx";
+import { Articles } from "@/shims-tsx";
 const lodash = require("lodash");
 
 @Component({
@@ -60,14 +60,16 @@ const lodash = require("lodash");
 })
 export default class ArticleChoice extends Vue {
   private currentType: string = "";
+  private currentRestaurant: string = "McDonald's";
 
-  private articles: Array<ArticleChoice1.Article> = [
+  private articles: Array<Articles.Article> = [
     {
       name: "Tripple Cheese",
       description:
         "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
       type: "Burger",
       price: 5.0,
+      quantity: 1,
       image: require("../assets/triple_cheese.png"),
     },
     {
@@ -75,6 +77,7 @@ export default class ArticleChoice extends Vue {
       description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
       type: "Burger",
       price: 6.2,
+      quantity: 1,
       image: require("../assets/CBO.png"),
     },
     {
@@ -82,6 +85,7 @@ export default class ArticleChoice extends Vue {
       description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
       type: "Boisson",
       price: 3.5,
+      quantity: 1,
       image: require("../assets/coca_sans_sucre.png"),
     },
     {
@@ -89,6 +93,7 @@ export default class ArticleChoice extends Vue {
       description: "Une portion de frite pour accompagner ton plat.",
       type: "Accompagnement",
       price: 2.5,
+      quantity: 1,
       image: require("../assets/frites.png"),
     },
   ];
@@ -122,7 +127,6 @@ export default class ArticleChoice extends Vue {
 
 #title {
   color: white;
-  font-size: 5em;
 }
 
 #banner {
@@ -131,7 +135,7 @@ export default class ArticleChoice extends Vue {
   align-items: center;
   width: 100%;
   height: 12em;
-  background: url("../assets/mcdonalds_banner.jpeg") center center no-repeat;
+  background: url("https://img.bfmtv.com/i/0/0/d0496/352d3eefcf45ef141370f002903.jpeg") center center no-repeat;
   background-size: cover;
 }
 
@@ -158,5 +162,11 @@ h2 {
 .t {
   margin-top: 5px;
   width: auto;
+}
+
+@media screen and (max-width: 500px) {
+  #title {
+    font-size: 40px;
+  }
 }
 </style>

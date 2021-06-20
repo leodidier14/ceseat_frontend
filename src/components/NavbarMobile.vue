@@ -82,21 +82,19 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import ShoppingCart from "@/components/ShoppingCart.vue";
 
-export default Vue.extend({
-  name: "NavbarMobile",
-
+@Component({
   components: {
     ShoppingCart,
   },
-
-  data: () => ({
-    dialog: false,
-    selectedItem: 0,
-  }),
-});
+})
+export default class NavbarMobile extends Vue {
+  private name: string = "NavbarMobile";
+  private dialog: boolean = false;
+  private selectedItem: number = 0;
+}
 </script>
 
 <style scoped>

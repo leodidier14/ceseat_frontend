@@ -38,12 +38,5 @@ import ShoppingCart from "@/components/ShoppingCart.vue";
 })
 export default class Navbar extends Vue {
   private name: string = "Navbar";
-  private count: number = 0;
-
-  mounted() {
-    this.$root.$on("add-to-cart", (count: number) => {
-      this.count += count;
-    });
-  }
 }
 </script>
