@@ -7,7 +7,7 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="black" text v-bind="attrs" v-on="on">
-        <span class="mr-2">Panier ({{nbArticles}})</span></v-btn
+        <span class="mr-2">Panier ({{totalCount}})</span></v-btn
       >
     </template>
     <v-card
@@ -82,7 +82,6 @@ import { Articles } from "@/shims-tsx";
 })
 export default class ShoppingCart extends Vue {
   private dialog: boolean = false;
-  private nbArticles: number = 0
   private articles: Array<Articles.Article> = [];
   private restaurant: string = "";
 
@@ -95,9 +94,16 @@ export default class ShoppingCart extends Vue {
         newArticle.quantity += article.quantity;
       } else {
         this.articles.push(article)
-        this.nbArticles += article.quantity;
       }
     })
+  }
+
+  get totalCount() {
+    let count = 0;
+    this.articles.forEach(article => {
+      count += article.quantity;
+    })
+    return count;
   }
 
   get total() {

@@ -53,7 +53,6 @@ import { Articles } from "@/shims-tsx";
 @Component
 export default class CartArticle extends Vue {
   @Prop({ required: true }) private article!: Articles.Article;
-  private count: number = 1;
 }
 </script>
 

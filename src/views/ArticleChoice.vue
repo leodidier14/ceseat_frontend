@@ -3,8 +3,8 @@
     class="restaurants-list mx-auto pb-5"
     elevation="10"
     width="80%"
-    height="70%"
-    max-height="80%"
+    height="80%"
+    max-height="90%"
   >
     <div id="banner">
       <h2 class="ml-10" id="title" v-text="currentRestaurant"></h2>
