@@ -18,6 +18,7 @@ namespace ArticleChoice1 {
     description: string,
     type: string
     price: number,
+    quantity: number,
     image: string
   }
 }

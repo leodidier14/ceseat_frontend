@@ -47,21 +47,24 @@
       <v-toolbar
         dark
         color="white"
-        class="mx-auto"
+        class="mx-auto payment-bar"
         elevation="10"
         width="80%"
         height="70%"
         max-height="80%"
       >
-        <v-toolbar-title style="color: black"
-          >Total commande : 50€</v-toolbar-title
-        >
-        <v-spacer></v-spacer>
-
-        <v-btn color="#CA6B3E">
-          Payer ma commande
-          <!-- <v-icon>mdi-credit-card-outline</v-icon> -->
-        </v-btn>
+        <v-container height="70%" max-height="80%">
+          <v-row no-gutters>
+            <v-toolbar-title style="color: black"
+              >Total : {{ total }}</v-toolbar-title
+            >
+            <v-spacer></v-spacer>
+            <v-btn color="#CA6B3E">
+              Payer ma commande
+              <!-- <v-icon>mdi-credit-card-outline</v-icon> -->
+            </v-btn>
+          </v-row>
+        </v-container>
       </v-toolbar>
     </v-card>
   </v-dialog>
@@ -86,6 +89,7 @@ export default class ShoppingCart extends Vue {
         "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
       type: "Burger",
       price: 5.0,
+      quantity: 1,
       image: require("../assets/triple_cheese.png"),
     },
     {
@@ -93,6 +97,7 @@ export default class ShoppingCart extends Vue {
       description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
       type: "Burger",
       price: 6.2,
+      quantity: 1,
       image: require("../assets/CBO.png"),
     },
     {
@@ -100,6 +105,7 @@ export default class ShoppingCart extends Vue {
       description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
       type: "Boisson",
       price: 3.5,
+      quantity: 1,
       image: require("../assets/coca_sans_sucre.png"),
     },
     {
@@ -107,9 +113,18 @@ export default class ShoppingCart extends Vue {
       description: "Une portion de frite pour accompagner ton plat.",
       type: "Accompagnement",
       price: 2.5,
+      quantity: 3,
       image: require("../assets/frites.png"),
     },
   ];
+
+  get total() {
+    let total = 0;
+    this.articles.forEach((item) => {
+      total += item.price * item.quantity;
+    });
+    return Number.parseFloat(String(total)).toFixed(2) + " €";
+  }
 }
 </script>
 
@@ -128,5 +143,14 @@ export default class ShoppingCart extends Vue {
   height: 20%;
   background-image: url("https://img.bfmtv.com/i/0/0/d0496/352d3eefcf45ef141370f002903.jpeg");
   background-size: cover;
+}
+
+@media screen and (max-width: 500px) {
+  .cart-list {
+    margin-top: 20px;
+  }
+  .payment-bar {
+    padding-bottom: 10px;
+  }
 }
 </style>
