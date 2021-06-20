@@ -8,15 +8,15 @@
 
         <v-card-actions>
           <span class="ml-2 mt-5" v-text="Number.parseFloat(article.price).toFixed(2) + ' €'"></span>
-          <v-btn class="ml-10 mt-5" fab icon height="30px" width="30px">
+          <v-btn class="ml-10 mt-5" fab icon height="30px" width="30px" @click="count -= 1">
             <v-icon>mdi-minus</v-icon>
           </v-btn>
-          <span class="ml-2 mt-5">1</span>
-          <v-btn class="ml-2 mt-5" fab icon height="30px" width="30px">
+          <span class="ml-2 mt-5" v-text="count"></span>
+          <v-btn class="ml-2 mt-5" fab icon height="30px" width="30px" @click="count += 1">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
 
-          <v-btn class="ml-2 mt-5" color="#CA6B3E" rounded small dark>
+          <v-btn class="ml-2 mt-5" color="#CA6B3E" rounded small dark @click="addtoCart()">
             Ajouter
           </v-btn>
         </v-card-actions>
@@ -36,6 +36,13 @@ import { ArticleChoice1 } from "@/shims-tsx";
 @Component
 export default class ArticleCard extends Vue {
   @Prop({ required: true }) private article!: ArticleChoice1.Article;
+
+  private count: number = 1;
+
+  addtoCart() {
+    this.$root.$emit("add-to-cart", this.count);
+    this.count = 1;
+  }
 }
 </script>
 

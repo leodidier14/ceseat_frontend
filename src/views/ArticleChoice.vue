@@ -13,12 +13,18 @@
     <v-tabs v-model="currentType" light color="#CA6B3E" show-arrows>
       <v-tabs-slider color="#CA6B3E"></v-tabs-slider>
 
-      <v-tab v-for="type in getArticleTypes()" :key="type"> {{ type }} </v-tab>
+      <v-tab v-for="type in Object.keys(getArticleTypeMap())" :key="type">
+        {{ type }}
+      </v-tab>
     </v-tabs>
 
-    <!--v-tabs-items v-model="currentType">
-      <v-tab-item v-for="article in articles" :key="article.type">
-        <div id="restaurant-card-layout">
+    <v-tabs-items v-model="currentType">
+      <v-tab-item v-for="key in Object.keys(getArticleTypeMap())" :key="key">
+        <div
+          id="restaurant-card-layout"
+          v-for="article in getArticleTypeMap()[key]"
+          :key="article.name"
+        >
           <ArticleCard :article="article">
             <template v-slot:article-image>
               <v-img :src="article.image"></v-img>
@@ -26,14 +32,18 @@
           </ArticleCard>
         </div>
       </v-tab-item>
-    </v-tabs-items-->
-    <div id="restaurant-card-layout" v-for="article in articles" :key="article.name">
+    </v-tabs-items>
+    <!--div
+      id="restaurant-card-layout"
+      v-for="article in articles"
+      :key="article.name"
+    >
       <ArticleCard :article="article">
         <template v-slot:article-image>
           <v-img :src="article.image"></v-img>
         </template>
       </ArticleCard>
-    </div>
+    </div-->
   </v-card>
 </template>
 
@@ -41,6 +51,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ArticleCard from "@/components/ArticleCard.vue";
 import { ArticleChoice1 } from "@/shims-tsx";
+const lodash = require("lodash");
 
 @Component({
   components: {
@@ -48,7 +59,7 @@ import { ArticleChoice1 } from "@/shims-tsx";
   },
 })
 export default class ArticleChoice extends Vue {
-  //private currentType: string = "";
+  private currentType: string = "";
 
   private articles: Array<ArticleChoice1.Article> = [
     {
@@ -82,9 +93,16 @@ export default class ArticleChoice extends Vue {
     },
   ];
 
-  getArticleTypes(): Array<string> {
-    let types: Array<string> = this.articles.map((article) => article.type);
-    return types.filter((type, i) => types.indexOf(type) === i);
+  getArticleTypeMap() {
+    //let types: Array<string> = this.articles.map((article) => article.type);
+    //return types.filter((type, i) => types.indexOf(type) === i);
+    let typeMap = lodash.groupBy(this.articles, "type");
+    // let typeArray = [];
+    // for(let type in Object.keys(typeMap)) {
+    //   typeArray.push(typeMap[type]);
+    // }
+    console.log(typeMap);
+    return typeMap;
   }
 }
 </script>
