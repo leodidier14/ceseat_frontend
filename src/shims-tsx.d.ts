@@ -11,3 +11,14 @@ declare global {
     }
   }
 }
+
+namespace ArticleChoice1 {
+  interface Article {
+    name: string,
+    description: string,
+    type: string
+    price: number,
+    quantity: number,
+    image: string
+  }
+}
