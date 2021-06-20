@@ -17,18 +17,12 @@
       <v-img alt="Ces'Eat nom" contain src="@/assets/typo.png" width="100" />
     </v-btn>
     <v-spacer></v-spacer>
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark v-bind="attrs" v-on="on"> Open Dialog </v-btn>
-    </template>
     <v-btn href="#" text color="black">
       <span class="mr-2">Mon restaurant</span>
     </v-btn>
     <v-btn href="#" text color="black">
       <span class="mr-2">Mon compte</span>
     </v-btn>
-    <!-- <v-btn href="#" text color="black">
-      <span class="mr-2">Panier (0)</span>
-    </v-btn> -->
     <ShoppingCart />
   </v-app-bar>
 </template>
