@@ -9,5 +9,17 @@ declare global {
     interface IntrinsicElements {
       [elem: string]: any
     }
+
+  }
+}
+
+namespace Restaurants {
+  interface Restaurant {
+    id: number,
+    name: string,
+    city: string,
+    type: string
+    schedule: string,
+    image: string
   }
 }
