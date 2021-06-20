@@ -17,6 +17,14 @@ const routes: Array<RouteConfig> = [
     name: 'RestaurantsList',
 
     component: () => import('@/views/RestaurantsList.vue')
+  },
+  {
+    path: '/card',
+    name: 'Article-Choice',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/ArticleChoice.vue')
   }
 ]
 
