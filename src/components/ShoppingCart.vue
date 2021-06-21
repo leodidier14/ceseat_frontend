@@ -7,7 +7,7 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="black" text v-bind="attrs" v-on="on">
-        <span class="mr-2">Panier ({{totalCount}})</span></v-btn
+        <span class="mr-2">Panier ({{total}})</span></v-btn
       >
     </template>
     <v-card
