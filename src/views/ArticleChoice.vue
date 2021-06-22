@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="restaurants-list mx-auto pb-5"
+    class="article-list mx-auto pb-5"
     elevation="10"
     width="80%"
     height="80%"
@@ -21,7 +21,7 @@
     <v-tabs-items v-model="currentType">
       <v-tab-item v-for="key in Object.keys(getArticleTypeMap())" :key="key">
         <div
-          id="restaurant-card-layout"
+          id="article-card-layout"
           v-for="article in getArticleTypeMap()[key]"
           :key="article.name"
         >
@@ -33,17 +33,6 @@
         </div>
       </v-tab-item>
     </v-tabs-items>
-    <!--div
-      id="restaurant-card-layout"
-      v-for="article in articles"
-      :key="article.name"
-    >
-      <ArticleCard :article="article">
-        <template v-slot:article-image>
-          <v-img :src="article.image"></v-img>
-        </template>
-      </ArticleCard>
-    </div-->
   </v-card>
 </template>
 
@@ -114,12 +103,12 @@ export default class ArticleChoice extends Vue {
 
 
 <style scoped>
-.restaurants-list {
+.article-list {
   margin-top: 50px;
   overflow-y: auto;
 }
 
-#restaurant-card-layout {
+#article-card-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,25 +132,6 @@ h2 {
   font-size: 50px;
   font-weight: normal;
   margin-left: 50px;
-}
-
-.restaurant-card {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.infos {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 50px;
-}
-
-.t {
-  margin-top: 5px;
-  width: auto;
 }
 
 @media screen and (max-width: 500px) {
