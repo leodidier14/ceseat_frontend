@@ -13,13 +13,14 @@ declare global {
   }
 }
 
-namespace ArticleChoice1 {
+namespace Articles {
   interface Article {
     name: string,
     description: string,
     type: string
     price: number,
-    quantity: number
+    quantity: number,
+    image: string
   }
 }
 

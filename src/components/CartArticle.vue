@@ -49,10 +49,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { ArticleChoice1 } from "@/shims-tsx";
+import { Articles } from "@/shims-tsx";
 @Component
 export default class CartArticle extends Vue {
-  @Prop({ required: true }) private article!: ArticleChoice1.Article;
+  @Prop({ required: true }) private article!: Articles.Article;
   private count: number = 1;
 }
 </script>

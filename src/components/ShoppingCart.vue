@@ -73,7 +73,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import CartArticle from "@/components/CartArticle.vue";
-import { ArticleChoice1 } from "@/shims-tsx";
+import { Articles } from "@/shims-tsx";
 
 @Component({
   components: {
@@ -82,7 +82,7 @@ import { ArticleChoice1 } from "@/shims-tsx";
 })
 export default class ShoppingCart extends Vue {
   private dialog: boolean = false;
-  private articles: Array<ArticleChoice1.Article> = [
+  private articles: Array<Articles.Article> = [
     {
       name: "Tripple Cheese",
       description:
