@@ -19,7 +19,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/RestaurantsList.vue')
   },
   {
-    path: '/card',
+    path: '/article-choice',
     name: 'Article-Choice',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
