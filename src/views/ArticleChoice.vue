@@ -50,7 +50,7 @@
  <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ArticleCard from "@/components/ArticleCard.vue";
-import { ArticleChoice1 } from "@/shims-tsx";
+import { Articles } from "@/shims-tsx";
 const lodash = require("lodash");
 
 @Component({
@@ -61,13 +61,14 @@ const lodash = require("lodash");
 export default class ArticleChoice extends Vue {
   private currentType: string = "";
 
-  private articles: Array<ArticleChoice1.Article> = [
+  private articles: Array<Articles.Article> = [
     {
       name: "Tripple Cheese",
       description:
         "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
       type: "Burger",
       price: 5.0,
+      quantity: 1,
       image: require("../assets/triple_cheese.png"),
     },
     {
@@ -75,6 +76,7 @@ export default class ArticleChoice extends Vue {
       description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
       type: "Burger",
       price: 6.2,
+      quantity: 1,
       image: require("../assets/CBO.png"),
     },
     {
@@ -82,6 +84,7 @@ export default class ArticleChoice extends Vue {
       description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
       type: "Boisson",
       price: 3.5,
+      quantity: 1,
       image: require("../assets/coca_sans_sucre.png"),
     },
     {
@@ -89,6 +92,7 @@ export default class ArticleChoice extends Vue {
       description: "Une portion de frite pour accompagner ton plat.",
       type: "Accompagnement",
       price: 2.5,
+      quantity: 1,
       image: require("../assets/frites.png"),
     },
   ];
