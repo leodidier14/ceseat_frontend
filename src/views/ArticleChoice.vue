@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
     <div id="banner">
-      <H1 class="ml-10" id="title">McDonald's</H1>
+      <h2 class="ml-10" id="title" v-text="currentRestaurant"></h2>
     </div>
 
     <v-tabs v-model="currentType" light color="#CA6B3E" show-arrows>
@@ -18,7 +18,7 @@
           v-for="article in getArticleTypeMap()[key]"
           :key="article.name"
         >
-          <ArticleCard :article="article">
+          <ArticleCard :article="article" :restaurant="currentRestaurant">
             <template v-slot:article-image>
               <v-img :src="article.image"></v-img>
             </template>
@@ -42,6 +42,7 @@ const lodash = require("lodash");
 })
 export default class ArticleChoice extends Vue {
   private currentType: string = "";
+  private currentRestaurant: string = "McDonald's";
 
   private articles: Array<Articles.Article> = [
     {
@@ -108,7 +109,6 @@ export default class ArticleChoice extends Vue {
 
 #title {
   color: white;
-  font-size: 5em;
 }
 
 #banner {
@@ -117,7 +117,8 @@ export default class ArticleChoice extends Vue {
   align-items: center;
   width: 100%;
   height: 12em;
-  background: url("../assets/mcdonalds_banner.jpeg") center center no-repeat;
+  background: url("https://img.bfmtv.com/i/0/0/d0496/352d3eefcf45ef141370f002903.jpeg")
+    center center no-repeat;
   background-size: cover;
 }
 
@@ -144,5 +145,11 @@ h2 {
 .t {
   margin-top: 5px;
   width: auto;
+}
+
+@media screen and (max-width: 500px) {
+  #title {
+    font-size: 40px;
+  }
 }
 </style>

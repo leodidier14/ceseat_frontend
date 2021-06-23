@@ -7,7 +7,7 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="black" text v-bind="attrs" v-on="on">
-        <span class="mr-2">Panier (0)</span></v-btn
+        <span class="mr-2">Panier ({{ total }})</span></v-btn
       >
     </template>
     <v-card
@@ -34,7 +34,7 @@
         max-height="80%"
       >
         <div id="banner">
-          <H1 class="ml-10" id="title">McDonald's</H1>
+          <H1 class="ml-10" id="title" v-text="restaurant"></H1>
         </div>
         <div v-for="article in articles" :key="article.name">
           <CartArticle :article="article">
@@ -82,41 +82,31 @@ import { Articles } from "@/shims-tsx";
 })
 export default class ShoppingCart extends Vue {
   private dialog: boolean = false;
-  private articles: Array<Articles.Article> = [
-    {
-      name: "Tripple Cheese",
-      description:
-        "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
-      type: "Burger",
-      price: 5.0,
-      quantity: 1,
-      image: require("../assets/triple_cheese.png"),
-    },
-    {
-      name: "CBO",
-      description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-      type: "Burger",
-      price: 6.2,
-      quantity: 1,
-      image: require("../assets/CBO.png"),
-    },
-    {
-      name: "Coca Cola",
-      description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-      type: "Boisson",
-      price: 3.5,
-      quantity: 1,
-      image: require("../assets/coca_sans_sucre.png"),
-    },
-    {
-      name: "Frite",
-      description: "Une portion de frite pour accompagner ton plat.",
-      type: "Accompagnement",
-      price: 2.5,
-      quantity: 3,
-      image: require("../assets/frites.png"),
-    },
-  ];
+  private articles: Array<Articles.Article> = [];
+  private restaurant: string = "";
+
+  mounted() {
+    this.$root.$on("add-to-cart", (articleData: [Articles.Article, string]) => {
+      this.restaurant = articleData[1];
+      let article = articleData[0];
+      let newArticle: Articles.Article = this.articles.filter(
+        (art) => art.name === article.name
+      )[0];
+      if (newArticle) {
+        newArticle.quantity += article.quantity;
+      } else {
+        this.articles.push(article);
+      }
+    });
+  }
+
+  get totalCount() {
+    let count = 0;
+    this.articles.forEach((article) => {
+      count += article.quantity;
+    });
+    return count;
+  }
 
   get total() {
     let total = 0;

@@ -17,19 +17,19 @@
             icon
             height="30px"
             width="30px"
-            :disabled="count == 1"
-            @click="count -= 1"
+            :disabled="article.quantity == 1"
+            @click="article.quantity -= 1"
           >
             <v-icon>mdi-minus</v-icon>
           </v-btn>
-          <span class="ml-2 mt-5" v-text="count"></span>
+          <span class="ml-2 mt-5" v-text="article.quantity"></span>
           <v-btn
             class="ml-2 mt-5"
             fab
             icon
             height="30px"
             width="30px"
-            @click="count += 1"
+            @click="article.quantity += 1"
           >
             <v-icon>mdi-plus</v-icon>
           </v-btn>
@@ -47,7 +47,7 @@
         </v-card-actions>
       </div>
 
-      <v-avatar class="ma-3" size="125" tile>
+      <v-avatar class="ma-3 img-article" size="125" tile>
         <slot name="article-image">Image de l'article</slot>
       </v-avatar>
     </div>
@@ -61,25 +61,32 @@ import { Articles } from "@/shims-tsx";
 @Component
 export default class ArticleCard extends Vue {
   @Prop({ required: true }) private article!: Articles.Article;
-
-  private count: number = 1;
+  @Prop({ required: true }) private restaurant!: string;
 
   addtoCart() {
-    this.$root.$emit("add-to-cart", this.count);
-    this.count = 1;
+    this.$root.$emit("add-to-cart", [
+      JSON.parse(JSON.stringify(this.article)),
+      this.restaurant,
+    ]);
+    this.article.quantity = 1;
   }
 
   subtractCount() {
-    if (this.count > 1) {
-      this.count -= 1;
+    if (this.article.quantity > 1) {
+      this.article.quantity -= 1;
     }
   }
 
   addCount() {
-    this.count += 1;
+    this.article.quantity += 1;
   }
 }
 </script>
 
 <style scoped>
+@media screen and (max-width: 500px) {
+  .img-article {
+    display: none;
+  }
+}
 </style>
