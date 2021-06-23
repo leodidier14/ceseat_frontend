@@ -1,11 +1,5 @@
 <template>
-  <v-card
-    class="content mx-auto"
-    elevation="10"
-    width="80%"
-    height="80%"
-    max-height="80%"
-  >
+  <v-card class="mx-auto" elevation="10" width="80%" height="100%">
     <v-toolbar class="filter-bar" color="white">
       <v-text-field
         label="Nom du restaurant"
@@ -228,9 +222,6 @@ function getBySchedule(list: Array<any>, city: string) {
 .filter-bar {
   padding-top: 20px;
   padding-bottom: 70px;
-}
-.content {
-  margin-top: 50px;
 }
 
 .restaurants-list {

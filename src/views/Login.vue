@@ -45,8 +45,14 @@
         >
           Se connecter
         </v-btn>
-        <v-btn class="form-button mt-5" color="#CA6B3E" outlined @click="signup">
-          <span class="new-on-ceseat-message">Nouveau sur Ces'Eat ?</span> S'inscrire ici
+        <v-btn
+          class="form-button mt-5"
+          color="#CA6B3E"
+          outlined
+          @click="signup"
+        >
+          <span class="new-on-ceseat-message">Nouveau sur Ces'Eat ?</span>
+          S'inscrire ici
         </v-btn>
       </div>
     </v-form>

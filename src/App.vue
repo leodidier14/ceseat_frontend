@@ -6,7 +6,7 @@
     <div v-else>
       <Navbar />
     </div>
-    <v-main>
+    <v-main class="main">
       <router-view />
     </v-main>
     <template>
@@ -54,13 +54,15 @@ export default Vue.extend({
 </script>
 
 <style>
-/* html {
-  overflow: hidden !important;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+.main {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+html {
+  overflow-y: auto !important;
 }
 
-html::-webkit-scrollbar {
+/* html::-webkit-scrollbar {
   width: 0;
   height: 0;
 } */
