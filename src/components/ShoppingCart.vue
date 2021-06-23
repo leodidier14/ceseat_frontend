@@ -37,11 +37,11 @@
           <H1 class="ml-10" id="title" v-text="restaurant"></H1>
         </div>
         <div v-for="article in articles" :key="article.name">
-          <CartArticle :article="article">
+          <ArticleCard :article="article" type="cart">
             <template v-slot:article-image>
               <v-img :src="article.image"></v-img>
             </template>
-          </CartArticle>
+          </ArticleCard>
         </div>
       </v-card>
       <v-toolbar
@@ -72,12 +72,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import CartArticle from "@/components/CartArticle.vue";
+import ArticleCard from "@/components/ArticleCard.vue";
 import { Articles } from "@/shims-tsx";
 
 @Component({
   components: {
-    CartArticle,
+    ArticleCard
   },
 })
 export default class ShoppingCart extends Vue {
@@ -86,14 +86,13 @@ export default class ShoppingCart extends Vue {
   private restaurant: string = "";
 
   mounted() {
-    this.$root.$on("add-to-cart", (articleData: [Articles.Article, string]) => {
-      this.restaurant = articleData[1];
-      let article = articleData[0]
-      let newArticle: Articles.Article =  this.articles.filter(art => art.name === article.name)[0];
+    this.$root.$on("add-to-cart", (articleData: Articles.Article) => {
+      this.restaurant = articleData.restaurant;
+      let newArticle: Articles.Article =  this.articles.filter(art => art.name === articleData.name)[0];
       if(newArticle) {
-        newArticle.quantity += article.quantity;
+        newArticle.quantity += articleData.quantity;
       } else {
-        this.articles.push(article)
+        this.articles.push(articleData)
       }
     })
   }

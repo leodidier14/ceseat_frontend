@@ -21,6 +21,7 @@ namespace Articles {
     price: number,
     image: string,
     quantity: number
+    restaurant: string
   }
 }
 
