@@ -13,7 +13,7 @@
       width="150"
     ></v-img>
     <h3 class="text-center">S'inscrire à Ces'Eat</h3>
-    <v-form class="mx-auto" ref="registerForm" lazy-validation>
+    <v-form class="mx-auto" ref="registerForm" v-model="valid" lazy-validation>
       <v-container>
         <v-row no-gutters>
           <v-col cols="12" md="6">
@@ -25,7 +25,7 @@
               :items="accountTypes"
               :rules="[rules.required]"
               required
-            ></v-select>
+            />
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
@@ -33,28 +33,27 @@
               v-model="register.email"
               :rules="emailRules"
               required
-            >
-            </v-text-field>
+            />
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
               label="Mot de passe"
               v-model="register.password"
-              :rules="[rules.required]"
+              :rules="passwordRules"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPassword ? 'text' : 'password'"
               @click:append="showPassword = !showPassword"
-            ></v-text-field>
+            />
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
               label="Confirmez votre mot de passe"
               v-model="register.confirmedPassword"
-              :rules="[rules.required]"
+              :rules="confirmedPasswordRules"
               :append-icon="showConfirmedPassword ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showConfirmedPassword ? 'text' : 'password'"
               @click:append="showConfirmedPassword = !showConfirmedPassword"
-            ></v-text-field>
+            />
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
@@ -64,8 +63,7 @@
               v-model="register.lastName"
               :rules="[rules.required]"
               required
-            >
-            </v-text-field>
+            />
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
@@ -73,30 +71,35 @@
               v-model="register.firstName"
               :rules="[rules.required]"
               required
-            >
-            </v-text-field>
+            />
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
               label="Téléphone"
               v-model="register.phoneNumber"
-              :rules="[rules.required]"
+              :rules="phoneNumberRules"
               required
-            >
-            </v-text-field>
+            />
           </v-col>
         </v-row>
       </v-container>
-      <div id="form-buttons">
+      <div id="form-buttons" class="mx-auto">
+        <v-checkbox
+          class="form-button"
+          label="J'ai lu et j'accepte la politique de confidentialité."
+          :rules="[rules.required]"
+          required
+        />
         <v-btn
-          class="form-button mt-5"
+          class="form-button mt-2"
           color="#CA6B3E"
           style="color: white"
           @click="submitForm"
+          :disabled="!valid"
         >
           S'inscrire
         </v-btn>
-        <v-btn class="form-button mt-5" color="#CA6B3E" outlined>
+        <v-btn class="form-button mt-5" color="#CA6B3E" outlined href="/login">
           <span class="old-on-ceseat-message">Déjà un compte ?</span>
           Se connecter ici
         </v-btn>
@@ -107,12 +110,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
-import { required, minLength, between } from "vuelidate/lib/validators";
 
 @Component
 export default class Register extends Vue {
-  /* post data */
-  private register: object = {
+  private valid: boolean = true;
+
+  private register = {
     accountType: "Client",
     email: "",
     password: "",
@@ -122,35 +125,39 @@ export default class Register extends Vue {
     phoneNumber: "",
   };
 
-  // private phoneNumber: string = "";
-
-  // private test: string = "";
-
-  // private validation: any = {
-  //   phoneNumber: {
-  //     required,
-  //     minLength: minLength(4),
-  //   },
-  // };
-
-  // get nameErrors() {
-  //   const errors: string[] = [];
-  //   if (!this.$v.phoneNumber.$dirty) return errors;
-  //   // !this.$v.name.decimal && errors.push('Name must be a number')
-  //   !this.$v.phoneNumber.maxLength &&
-  //     errors.push("Name must be at most 10 characters long");
-  //   !this.$v.phoneNumber.required && errors.push("Name is required.");
-  //   return errors;
-  // }
-
   /* input rules,style and selectItem */
   private showPassword: boolean = false;
   private showConfirmedPassword: boolean = false;
   private email: string = "";
+  private strongRegex = new RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+  );
+  private passwordRules = [
+    (password: string) => !!password || "Le mot de passe est obligatoire.",
+    (password: string) =>
+      this.strongRegex.test(password) ||
+      "Le mot de passe doit contenir au moins 8 caractères (dont : 1 majuscule, 1 minuscule, 1 caractère spécial, 1 chiffre) .",
+  ];
+
+  private confirmedPasswordRules = [
+    (confirmedPassword: string) =>
+      !!confirmedPassword || "Confirmation de mot de passe obligatoire.",
+    (confirmedPassword: string) =>
+      this.register.password == confirmedPassword ||
+      "Les mots de passes doivent être identiques",
+  ];
+
+  private phoneNumberRules = [
+    (phoneNumber: string) => !!phoneNumber || "Le numéro est obligatoire.",
+    (phoneNumber: string) =>
+      /^((\+)33|0|0033)[1-9](\d{2}){4}$/g.test(phoneNumber) ||
+      "Le numéro doit être valide.",
+  ];
+
   private emailRules = [
-    (mail: string) => !!mail || "L'adresse mail est obligatoire",
+    (mail: string) => !!mail || "L'adresse mail est obligatoire.",
     (mail: string) =>
-      /.+@.+\..+/.test(mail) || "L'adresse mail doit être valide",
+      /.+@.+\..+/.test(mail) || "L'adresse mail doit être valide.",
   ];
   private rules = {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
@@ -165,27 +172,30 @@ export default class Register extends Vue {
     "Technicien",
   ];
 
+  //api call to post data
   public submitForm(): void {
-    axios
-      .post("/register", this.register)
-      .then((res: any) => {
-        //Perform Success Action
-      })
-      .catch((error: any) => {
-        // error.response.status Check status code
-      })
-      .finally(() => {
-        //Perform action in always
-      });
+    if (
+      (this.$refs.registerForm as Vue & { validate: () => boolean }).validate()
+    ) {
+      axios
+        .post("/register", this.register)
+        .then((res: any) => {
+          //Perform Success Action
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+        })
+        .finally(() => {
+          //Perform action in always
+        });
+    }
   }
 }
 </script>
-
 <style scoped>
 .logo {
   padding-top: 50px;
 }
-
 h3 {
   font-weight: normal;
 }

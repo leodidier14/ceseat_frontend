@@ -50,6 +50,7 @@
           color="#CA6B3E"
           outlined
           @click="signup"
+          href="/register"
         >
           <span class="new-on-ceseat-message">Nouveau sur Ces'Eat ?</span>
           S'inscrire ici
