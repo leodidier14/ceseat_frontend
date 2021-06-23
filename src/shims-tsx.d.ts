@@ -19,8 +19,9 @@ namespace Articles {
     description: string,
     type: string
     price: number,
-    quantity: number,
-    image: string
+    image: string,
+    quantity: number
+    restaurant: string
   }
 }
 

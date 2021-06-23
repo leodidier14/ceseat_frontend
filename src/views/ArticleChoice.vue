@@ -14,11 +14,11 @@
     <v-tabs-items class="articles-list" v-model="currentType">
       <v-tab-item v-for="key in Object.keys(getArticleTypeMap())" :key="key">
         <div
-          id="restaurant-card-layout"
+          id="article-card-layout"
           v-for="article in getArticleTypeMap()[key]"
           :key="article.name"
         >
-          <ArticleCard :article="article" :restaurant="currentRestaurant">
+          <ArticleCard :article="article" type="customer">
             <template v-slot:article-image>
               <v-img :src="article.image"></v-img>
             </template>
@@ -53,6 +53,7 @@ export default class ArticleChoice extends Vue {
       price: 5.0,
       quantity: 1,
       image: require("../assets/triple_cheese.png"),
+      restaurant: "McDonald's",
     },
     {
       name: "CBO",
@@ -61,6 +62,7 @@ export default class ArticleChoice extends Vue {
       price: 6.2,
       quantity: 1,
       image: require("../assets/CBO.png"),
+      restaurant: "McDonald's",
     },
     {
       name: "Coca Cola",
@@ -69,6 +71,7 @@ export default class ArticleChoice extends Vue {
       price: 3.5,
       quantity: 1,
       image: require("../assets/coca_sans_sucre.png"),
+      restaurant: "McDonald's",
     },
     {
       name: "Frite",
@@ -77,6 +80,7 @@ export default class ArticleChoice extends Vue {
       price: 2.5,
       quantity: 1,
       image: require("../assets/frites.png"),
+      restaurant: "McDonald's",
     },
   ];
 
@@ -101,7 +105,7 @@ export default class ArticleChoice extends Vue {
   overflow-y: auto;
 }
 
-#restaurant-card-layout {
+#article-card-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,25 +130,6 @@ h2 {
   font-size: 50px;
   font-weight: normal;
   margin-left: 50px;
-}
-
-.restaurant-card {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.infos {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 50px;
-}
-
-.t {
-  margin-top: 5px;
-  width: auto;
 }
 
 @media screen and (max-width: 500px) {
