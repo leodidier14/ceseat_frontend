@@ -1,11 +1,5 @@
 <template>
-  <v-card
-    class="restaurants-list mx-auto pb-5"
-    elevation="10"
-    width="80%"
-    height="70%"
-    max-height="80%"
-  >
+  <v-card class="mx-auto" elevation="10" width="80%" height="100%">
     <div id="banner">
       <H1 class="ml-10" id="title">McDonald's</H1>
     </div>
@@ -17,8 +11,7 @@
         {{ type }}
       </v-tab>
     </v-tabs>
-
-    <v-tabs-items v-model="currentType">
+    <v-tabs-items class="articles-list" v-model="currentType">
       <v-tab-item v-for="key in Object.keys(getArticleTypeMap())" :key="key">
         <div
           id="restaurant-card-layout"
@@ -33,17 +26,6 @@
         </div>
       </v-tab-item>
     </v-tabs-items>
-    <!--div
-      id="restaurant-card-layout"
-      v-for="article in articles"
-      :key="article.name"
-    >
-      <ArticleCard :article="article">
-        <template v-slot:article-image>
-          <v-img :src="article.image"></v-img>
-        </template>
-      </ArticleCard>
-    </div-->
   </v-card>
 </template>
 
@@ -113,8 +95,8 @@ export default class ArticleChoice extends Vue {
 
 
 <style scoped>
-.restaurants-list {
-  margin-top: 50px;
+.articles-list {
+  height: 400px;
   overflow-y: auto;
 }
 
