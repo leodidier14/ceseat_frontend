@@ -17,8 +17,8 @@
               icon
               height="30px"
               width="30px"
-              :disabled="article.quantity == 1"
-              @click="article.quantity -= 1"
+              :disabled="type == 'customer' ? article.quantity == 1 : false"
+              @click="decrementQuantity()"
             >
               <v-icon>mdi-minus</v-icon>
             </v-btn>
@@ -31,7 +31,7 @@
               icon
               height="30px"
               width="30px"
-              @click="article.quantity += 1"
+              @click="incrementQuantity()"
             >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
@@ -61,32 +61,37 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Articles } from "@/shims-tsx";
+import { getModule } from "vuex-module-decorators";
+import CartModule from "@/store/cart";
 
 @Component
 export default class ArticleCard extends Vue {
+  private cartModule = getModule(CartModule, this.$store);
+
   @Prop({ required: true })
   private article!: Articles.Article;
 
   @Prop({
     default: "customer",
-    validator: (value: string) => ["customer", "cart", "restaurant"].includes(value),
+    validator: (value: string) =>
+      ["customer", "cart", "restaurant"].includes(value),
   })
   private type!: string;
-  //@Prop({ required: true }) private restaurant!: string;
 
   addtoCart() {
-    this.$root.$emit("add-to-cart", JSON.parse(JSON.stringify(this.article)));
-    this.article.quantity = 1;
+    this.cartModule.addArticle(this.article).then(() => {
+      this.article.quantity = 1;
+    });
   }
 
-  subtractCount() {
-    if (this.article.quantity > 1) {
-      this.article.quantity -= 1;
-    }
+  incrementQuantity() {
+    this.article.quantity++
+    this.cartModule.incrementQuantity(this.article);
   }
 
-  addCount() {
-    this.article.quantity += 1;
+  decrementQuantity() {
+    this.article.quantity--
+    this.cartModule.decrementQuantity(this.article);
   }
 }
 </script>

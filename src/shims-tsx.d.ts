@@ -35,3 +35,15 @@ namespace Restaurants {
     image: string
   }
 }
+
+namespace Orders {
+  interface RestaurantOrder {
+    number: string,
+    clientName: string,
+    deliveryManName: string,
+    price: float,
+    comment: string,
+    type: string,
+    articles: Array<object>,
+  }
+}
