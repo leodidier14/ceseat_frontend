@@ -125,6 +125,14 @@
           Sauvegarder
         </v-btn>
         <v-btn
+          class="form-button mt-2"
+          color="white"
+          style="color: #ca6b3e"
+          @click="deleteAccount"
+        >
+          Supprimer
+        </v-btn>
+        <v-btn
           class="form-button mt-7"
           color="white"
           style="color: #ca6b3e"
@@ -229,6 +237,20 @@ export default class ClientProfile extends Vue {
           //Perform action in always
         });
     }
+  }
+
+  public deleteAccount(): void {
+    axios
+      .delete("/client/id")
+      .then((res: any) => {
+        //Perform Success Action
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+      })
+      .finally(() => {
+        //Perform action in always
+      });
   }
 }
 </script>

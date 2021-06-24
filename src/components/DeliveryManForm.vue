@@ -3,7 +3,7 @@
     class="develiryman-card mx-auto"
     elevation="10"
     width="40%"
-    height="60%"
+    height="70%"
   >
     <v-img
       class="logo mx-auto"
@@ -46,6 +46,15 @@
         >
           <span v-if="formType == 'register'">Devenir livreur</span>
           <span v-else>Sauvegarder</span>
+        </v-btn>
+        <v-btn
+          class="form-button mt-2"
+          color="white"
+          style="color: #ca6b3e"
+          @click="deleteDeliveryMan"
+          v-if="formType == 'profile'"
+        >
+          Supprimer
         </v-btn>
       </div>
     </v-form>
@@ -98,6 +107,20 @@ export default class DeliveryManForm extends Vue {
           //Perform action in always
         });
     }
+  }
+
+  public deleteDeliveryMan(): void {
+    axios
+      .delete("/delivery-man/id")
+      .then((res: any) => {
+        //Perform Success Action
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+      })
+      .finally(() => {
+        //Perform action in always
+      });
   }
 }
 </script>

@@ -274,6 +274,15 @@
           <span v-if="formType == 'register'">Ouvrir mon restaurant</span>
           <span v-else>Sauvegarder</span>
         </v-btn>
+        <v-btn
+          class="form-button mt-2"
+          color="white"
+          style="color: #ca6b3e"
+          @click="deleteRestaurant"
+          v-if="formType == 'profile'"
+        >
+          Supprimer
+        </v-btn>
       </div>
     </v-form>
   </v-card>
@@ -370,6 +379,20 @@ export default class RestaurantForm extends Vue {
           //Perform action in always
         });
     }
+  }
+
+  public deleteRestaurant(): void {
+    axios
+      .delete("/restaurant/id")
+      .then((res: any) => {
+        //Perform Success Action
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+      })
+      .finally(() => {
+        //Perform action in always
+      });
   }
 }
 </script>

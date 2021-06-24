@@ -64,12 +64,6 @@
         </v-row>
       </v-container>
       <div class="form-buttons mx-auto">
-        <v-checkbox
-          class="form-button"
-          label="J'ai lu et j'accepte la politique de confidentialité."
-          :rules="[rules.required]"
-          required
-        />
         <v-btn
           class="form-button mt-2"
           color="#CA6B3E"
@@ -78,6 +72,14 @@
           :disabled="!valid"
         >
           Sauvegarder
+        </v-btn>
+        <v-btn
+          class="form-button mt-2"
+          color="white"
+          style="color: #ca6b3e"
+          @click="deleteAccount"
+        >
+          Supprimer
         </v-btn>
       </div>
     </v-form>
@@ -149,6 +151,20 @@ export default class DevProfile extends Vue {
           //Perform action in always
         });
     }
+  }
+
+  public deleteAccount(): void {
+    axios
+      .delete("/developper/id")
+      .then((res: any) => {
+        //Perform Success Action
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+      })
+      .finally(() => {
+        //Perform action in always
+      });
   }
 }
 </script>
