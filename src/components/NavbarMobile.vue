@@ -9,15 +9,8 @@
         transition="scale-transition"
         width="70"
       />
-      <v-img
-        alt="Vuetify Name"
-        class="shrink mt-1 hidden-sm-and-down"
-        contain
-        min-width="100"
-        src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-        width="100"
-      />
     </div>
+
     <v-spacer></v-spacer>
     <template>
       <v-dialog v-model="dialog" fullscreen>
@@ -44,26 +37,78 @@
             </v-btn>
           </v-toolbar>
           <v-list dense color="#CA6B3E">
-            <v-list-item-group v-model="selectedItem" color="dark">
+            <v-list-item-group v-model="selectedItem" color="white">
+              <router-link to="/home" class="home">
+                <v-list-item class="text-center">
+                  <v-list-item-content>
+                    <v-list-item-title class="item-list">
+                      Accueil
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </router-link>
               <v-list-item class="text-center">
                 <v-list-item-content>
-                  <v-list-item-title class="item-list"
-                    >Accueil</v-list-item-title
-                  >
+                  <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn text color="white" v-bind="attrs" v-on="on"
+                        ><span class="mr-2">Mon restaurant</span></v-btn
+                      >
+                    </template>
+                    <v-list>
+                      <router-link
+                        to="/restaurant-home"
+                        class="router-mobile-link text-center mr-2"
+                        >Acceuil</router-link
+                      >
+                      <router-link
+                        to="/restaurant-profile"
+                        class="router-mobile-link text-center mr-2"
+                        >Profil</router-link
+                      >
+                      <router-link
+                        to="/restaurant-cart"
+                        class="router-mobile-link text-center"
+                        >Carte</router-link
+                      >
+                      <router-link
+                        to="/restaurant-orders"
+                        class="router-mobile-link text-center"
+                        >Commandes</router-link
+                      >
+                      <router-link
+                        to="/restaurant-history"
+                        class="router-mobile-link text-center"
+                        >Historique</router-link
+                      >
+                    </v-list>
+                  </v-menu>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item class="text-center">
                 <v-list-item-content>
-                  <v-list-item-title class="item-list"
-                    >Mon restaurant</v-list-item-title
-                  >
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item class="text-center">
-                <v-list-item-content>
-                  <v-list-item-title class="item-list"
+                  <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn text color="white" v-bind="attrs" v-on="on"
+                        ><span class="mr-2">Mon compte</span></v-btn
+                      >
+                    </template>
+                    <v-list>
+                      <router-link
+                        to="/client-profile"
+                        class="router-mobile-link text-center"
+                        >Mon profil</router-link
+                      >
+                      <router-link
+                        to="/logout"
+                        class="router-mobile-link text-center"
+                        >Se déconnecter</router-link
+                      >
+                    </v-list>
+                  </v-menu>
+                  <!-- <v-list-item-title class="item-list"
                     >Mon compte</v-list-item-title
-                  >
+                  > -->
                 </v-list-item-content>
               </v-list-item>
               <v-list-item class="text-center">
@@ -100,6 +145,24 @@ export default class NavbarMobile extends Vue {
 <style scoped>
 .item-list {
   font-size: 18px !important;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  color: black !important;
+}
+
+.router-link-exact-active {
+  font-weight: bold;
+}
+
+.router-mobile-link {
+  display: block;
+  padding: 10px;
+}
+
+.home {
   color: white;
 }
 </style>

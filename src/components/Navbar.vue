@@ -17,12 +17,45 @@
       <v-img alt="Ces'Eat nom" contain src="@/assets/typo.png" width="100" />
     </v-btn>
     <v-spacer></v-spacer>
-    <v-btn href="#" text color="black">
-      <span class="mr-2">Mon restaurant</span>
-    </v-btn>
-    <v-btn href="#" text color="black">
-      <span class="mr-2">Mon compte</span>
-    </v-btn>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn text color="black" v-bind="attrs" v-on="on"
+          ><span class="mr-2">Mon restaurant</span></v-btn
+        >
+      </template>
+      <v-list>
+        <v-list-item>
+          <a href="">Accueil</a>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/restaurant-profile">Profil</router-link>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/restaurant-cart">Carte</router-link>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/restaurant-orders">Commandes</router-link>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/restaurant-history">Historique</router-link>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn text color="black" v-bind="attrs" v-on="on"
+          ><span class="mr-2">Mon compte</span></v-btn
+        >
+      </template>
+      <v-list>
+        <v-list-item>
+          <router-link to="/client-profile">Mon profil</router-link>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/logout">Se déconnecter</router-link>
+        </v-list-item>
+      </v-list>
+    </v-menu>
     <ShoppingCart />
   </v-app-bar>
 </template>
@@ -40,3 +73,14 @@ export default class Navbar extends Vue {
   private name: string = "Navbar";
 }
 </script>
+
+<style scoped>
+a {
+  text-decoration: none;
+  color: black !important;
+}
+
+.router-link-exact-active {
+  font-weight: bold;
+}
+</style>
