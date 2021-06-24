@@ -7,7 +7,7 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="black" text v-bind="attrs" v-on="on">
-        <span class="mr-2">Panier ({{ total }})</span></v-btn
+        <span class="mr-2">Panier ({{ totalPriceString }})</span></v-btn
       >
     </template>
     <v-card
@@ -36,7 +36,7 @@
         <div id="banner">
           <H1 class="ml-10" id="title" v-text="restaurant"></H1>
         </div>
-        <div v-for="article in articles" :key="article.name">
+        <div v-for="article in cart.articles" :key="article.name">
           <ArticleCard :article="article" type="cart">
             <template v-slot:article-image>
               <v-img :src="article.image"></v-img>
@@ -56,7 +56,7 @@
         <v-container height="70%" max-height="80%">
           <v-row no-gutters>
             <v-toolbar-title style="color: black"
-              >Total : {{ total }}</v-toolbar-title
+              >Total : {{ totalPriceString }}</v-toolbar-title
             >
             <v-spacer></v-spacer>
             <v-btn color="#CA6B3E">
@@ -74,6 +74,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ArticleCard from "@/components/ArticleCard.vue";
 import { Articles } from "@/shims-tsx";
+import { CartModule } from '@/store/cart'
 
 @Component({
   components: {
@@ -81,38 +82,12 @@ import { Articles } from "@/shims-tsx";
   },
 })
 export default class ShoppingCart extends Vue {
+  private cart = CartModule;
   private dialog: boolean = false;
-  private articles: Array<Articles.Article> = [];
   private restaurant: string = "";
 
-  mounted() {
-    this.$root.$on("add-to-cart", (articleData: Articles.Article) => {
-      this.restaurant = articleData.restaurant;
-      let newArticle: Articles.Article = this.articles.filter(
-        (art) => art.name === articleData.name
-      )[0];
-      if (newArticle) {
-        newArticle.quantity += articleData.quantity;
-      } else {
-        this.articles.push(articleData);
-      }
-    });
-  }
-
-  get totalCount() {
-    let count = 0;
-    this.articles.forEach((article) => {
-      count += article.quantity;
-    });
-    return count;
-  }
-
-  get total() {
-    let total = 0;
-    this.articles.forEach((item) => {
-      total += item.price * item.quantity;
-    });
-    return Number.parseFloat(String(total)).toFixed(2) + " €";
+  get totalPriceString(): string {
+    return Number.parseFloat(String(this.cart.totalPrice)).toFixed(2) + " €";
   }
 }
 </script>
