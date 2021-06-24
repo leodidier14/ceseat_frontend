@@ -34,10 +34,10 @@
         max-height="80%"
       >
         <div id="banner">
-          <H1 class="ml-10" id="title" v-text="restaurant"></H1>
+          <H1 class="ml-10" id="title" v-text="cartModule.restaurant"></H1>
         </div>
-        <div v-for="article in cart.articles" :key="article.name">
-          <ArticleCard :article="article" type="cart">
+        <div v-for="article in cartModule.articles" :key="article.name">
+          <ArticleCard :article="JSON.parse(JSON.stringify(article))" type="cart">
             <template v-slot:article-image>
               <v-img :src="article.image"></v-img>
             </template>
@@ -74,7 +74,8 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ArticleCard from "@/components/ArticleCard.vue";
 import { Articles } from "@/shims-tsx";
-import { CartModule } from '@/store/cart'
+import { getModule } from "vuex-module-decorators"
+import CartModule from '@/store/cart'
 
 @Component({
   components: {
@@ -82,12 +83,12 @@ import { CartModule } from '@/store/cart'
   },
 })
 export default class ShoppingCart extends Vue {
-  private cart = CartModule;
+  private cartModule = getModule(CartModule, this.$store);
   private dialog: boolean = false;
   private restaurant: string = "";
 
   get totalPriceString(): string {
-    return Number.parseFloat(String(this.cart.totalPrice)).toFixed(2) + " €";
+    return Number.parseFloat(String(this.cartModule.totalPrice)).toFixed(2) + " €";
   }
 }
 </script>
