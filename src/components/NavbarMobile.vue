@@ -61,9 +61,24 @@
               </v-list-item>
               <v-list-item class="text-center">
                 <v-list-item-content>
-                  <v-list-item-title class="item-list"
+                  <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn text color="white" v-bind="attrs" v-on="on"
+                        ><span class="mr-2">Mon compte</span></v-btn
+                      >
+                    </template>
+                    <v-list>
+                      <v-list-item>
+                        <a href="">Mon profil</a>
+                      </v-list-item>
+                      <v-list-item>
+                        <a href="/logout">Se déconnecter</a>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                  <!-- <v-list-item-title class="item-list"
                     >Mon compte</v-list-item-title
-                  >
+                  > -->
                 </v-list-item-content>
               </v-list-item>
               <v-list-item class="text-center">

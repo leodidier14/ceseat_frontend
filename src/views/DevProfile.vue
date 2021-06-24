@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="register-card mx-auto"
+    class="dev-profile-card mx-auto"
     elevation="10"
     width="80%"
     height="100%"
@@ -12,25 +12,21 @@
       contain
       width="150"
     ></v-img>
-    <h3 class="text-center">S'inscrire à Ces'Eat</h3>
-    <v-form class="mx-auto" ref="registerForm" v-model="valid" lazy-validation>
+    <h3 class="text-center">Mon profil - Développeur</h3>
+    <v-form
+      class="mx-auto"
+      ref="devProfileForm"
+      v-model="valid"
+      lazy-validation
+    >
       <v-container>
         <v-row no-gutters>
           <v-col cols="12" md="6">
-            <v-select
-              class="input-field mx-auto"
-              color="#CA6B3E"
-              label="Type de compte"
-              v-model="register.accountType"
-              :items="accountTypes"
-              :rules="[rules.required]"
-              required
-            />
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
               label="E-mail"
-              v-model="register.email"
+              v-model="devProfile.email"
               :rules="emailRules"
               required
             />
@@ -38,7 +34,7 @@
               class="input-field mx-auto"
               color="#CA6B3E"
               label="Mot de passe"
-              v-model="register.password"
+              v-model="devProfile.password"
               :rules="passwordRules"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPassword ? 'text' : 'password'"
@@ -48,7 +44,7 @@
               class="input-field mx-auto"
               color="#CA6B3E"
               label="Confirmez votre mot de passe"
-              v-model="register.confirmedPassword"
+              v-model="devProfile.confirmedPassword"
               :rules="confirmedPasswordRules"
               :append-icon="showConfirmedPassword ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showConfirmedPassword ? 'text' : 'password'"
@@ -59,31 +55,15 @@
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
-              label="Nom"
-              v-model="register.lastName"
+              label="Nom de l'entreprise"
+              v-model="devProfile.companyName"
               :rules="[rules.required]"
-              required
-            />
-            <v-text-field
-              class="input-field mx-auto"
-              color="#CA6B3E"
-              label="Prénom"
-              v-model="register.firstName"
-              :rules="[rules.required]"
-              required
-            />
-            <v-text-field
-              class="input-field mx-auto"
-              color="#CA6B3E"
-              label="Téléphone"
-              v-model="register.phoneNumber"
-              :rules="phoneNumberRules"
               required
             />
           </v-col>
         </v-row>
       </v-container>
-      <div id="form-buttons" class="mx-auto">
+      <div class="form-buttons mx-auto">
         <v-checkbox
           class="form-button"
           label="J'ai lu et j'accepte la politique de confidentialité."
@@ -97,11 +77,7 @@
           @click="submitForm"
           :disabled="!valid"
         >
-          S'inscrire
-        </v-btn>
-        <v-btn class="form-button mt-5" color="#CA6B3E" outlined href="/login">
-          <span class="old-on-ceseat-message">Déjà un compte ?</span>
-          Se connecter ici
+          Sauvegarder
         </v-btn>
       </div>
     </v-form>
@@ -112,17 +88,15 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 
 @Component
-export default class Register extends Vue {
+export default class DevProfile extends Vue {
   private valid: boolean = true;
 
-  private register = {
-    accountType: "Client",
+  private devProfile = {
+    accountType: "developper",
     email: "",
     password: "",
     confirmedPassword: "",
-    lastName: "",
-    firstName: "",
-    phoneNumber: "",
+    companyName: "",
   };
 
   /* input rules,style and selectItem */
@@ -143,15 +117,8 @@ export default class Register extends Vue {
     (confirmedPassword: string) =>
       !!confirmedPassword || "Confirmation de mot de passe obligatoire.",
     (confirmedPassword: string) =>
-      this.register.password == confirmedPassword ||
+      this.devProfile.password == confirmedPassword ||
       "Les mots de passes doivent être identiques",
-  ];
-
-  private phoneNumberRules = [
-    (phoneNumber: string) => !!phoneNumber || "Le numéro est obligatoire.",
-    (phoneNumber: string) =>
-      /^((\+)33|0|0033)[1-9](\d{2}){4}$/g.test(phoneNumber) ||
-      "Le numéro doit être valide.",
   ];
 
   private emailRules = [
@@ -163,22 +130,15 @@ export default class Register extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private accountTypes = [
-    "Client",
-    "Livreur",
-    "Restaurateur",
-    "Développeur",
-    "Commercial",
-    "Technicien",
-  ];
-
   //api call to post data
   public submitForm(): void {
     if (
-      (this.$refs.registerForm as Vue & { validate: () => boolean }).validate()
+      (
+        this.$refs.devProfileForm as Vue & { validate: () => boolean }
+      ).validate()
     ) {
       axios
-        .post("/register", this.register)
+        .post("/developper/id", this.devProfile)
         .then((res: any) => {
           //Perform Success Action
         })
@@ -205,21 +165,14 @@ h3 {
 .form-button {
   width: 30%;
 }
-#form-buttons {
+.form-buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 50px;
 }
-@media screen and (max-width: 1280px) {
-  .old-on-ceseat-message {
-    display: none;
-  }
-}
+
 @media screen and (max-width: 960px) {
-  #login-card {
-    width: 80% !important;
-  }
   .textfield {
     width: 80%;
   }
