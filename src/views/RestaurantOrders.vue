@@ -107,6 +107,7 @@ export default class RestaurantsOrders extends Vue {
       price: "10.00",
       comment: "Ajoutez des cornichons",
       type: "new",
+      date: "14h45 26/06/21",
       articles: [
         {
           name: "menu",
@@ -127,6 +128,7 @@ export default class RestaurantsOrders extends Vue {
       price: "10.00",
       comment: "Ajoutez des cornichons",
       type: "waiting",
+      date: "14h45 26/06/21",
       articles: [
         {
           name: "menu",
@@ -147,6 +149,7 @@ export default class RestaurantsOrders extends Vue {
       price: "10.00",
       comment: "Ajoutez des cornichons",
       type: "inProgress",
+      date: "14h45 26/06/21",
       articles: [
         {
           name: "menu",
@@ -167,6 +170,7 @@ export default class RestaurantsOrders extends Vue {
       price: "10.00",
       comment: "Ajoutez des cornichons",
       type: "ready",
+      date: "14h45 26/06/21",
       articles: [
         {
           name: "menu",
@@ -187,6 +191,7 @@ export default class RestaurantsOrders extends Vue {
       price: "10.00",
       comment: "Ajoutez des cornichons",
       type: "ready",
+      date: "14h45 26/06/21",
       articles: [
         {
           name: "menu",

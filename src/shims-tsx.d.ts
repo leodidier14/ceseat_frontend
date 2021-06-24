@@ -45,5 +45,6 @@ namespace Orders {
     comment: string,
     type: string,
     articles: Array<object>,
+    date: string,
   }
 }
