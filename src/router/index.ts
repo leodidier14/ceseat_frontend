@@ -27,6 +27,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/RestaurantsList.vue')
   },
   {
+    path: '/restaurant-history',
+    name: 'RestaurantHistory',
+
+    component: () => import('@/views/RestaurantHistory.vue')
+  },
+  {
     path: '/article-choice',
     name: 'Article-Choice',
     // route level code-splitting
