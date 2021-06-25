@@ -153,7 +153,7 @@ export default class RestaurantHistory extends Vue {
       deliveryManName: "Romain Kauf",
       price: "10.00",
       comment: "Ajoutez des cornichons",
-      type: "old",
+      status: "delivered",
       date: "14h45 24/06/21",
       articles: [
         {
@@ -175,7 +175,7 @@ export default class RestaurantHistory extends Vue {
       price: "20.00",
       date: "14h45 16/04/21",
       comment: "Ajoutez des cornichons",
-      type: "old",
+      status: "delivered",
       articles: [
         {
           name: "menu",
@@ -196,7 +196,7 @@ export default class RestaurantHistory extends Vue {
       price: "20.00",
       date: "14h45 17/03/21",
       comment: "Ajoutez des cornichons",
-      type: "old",
+      status: "delivered",
       articles: [
         {
           name: "menu",

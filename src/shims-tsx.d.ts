@@ -43,8 +43,21 @@ namespace Orders {
     deliveryManName: string,
     price: float,
     comment: string,
-    type: string,
+    status: string,
     articles: Array<object>,
+    date: string,
+  }
+
+  interface DeliveryManOrder {
+    number: string,
+    clientName: string,
+    clientAddress: object,
+    clientPhone: string,
+    restaurantName: string,
+    restaurantAddress: object,
+    deliveryManId : number,
+    comment: string,
+    status: string,
     date: string,
   }
 }

@@ -21,8 +21,7 @@
               <RestaurantOrderCard
                 class="restaurant-order-card"
                 :order="order"
-                type="new"
-                v-for="order in getNewOrders()"
+                v-for="order in getPendingValidationOrders()"
                 :key="order.number"
               />
             </div> </v-card
@@ -41,8 +40,7 @@
               <RestaurantOrderCard
                 class="restaurant-order-card"
                 :order="order"
-                type="waiting"
-                v-for="order in getWaitingOrders()"
+                v-for="order in getPendingRealizationOrders()"
                 :key="order.number"
               />
             </div> </v-card
@@ -60,8 +58,7 @@
               <RestaurantOrderCard
                 class="restaurant-order-card"
                 :order="order"
-                type="inProgress"
-                v-for="order in getInProgressOrders()"
+                v-for="order in getRealizationOrders()"
                 :key="order.number"
               /></div></v-card
         ></v-col>
@@ -78,8 +75,7 @@
               <RestaurantOrderCard
                 class="restaurant-order-card"
                 :order="order"
-                type="ready"
-                v-for="order in getReadyOrders()"
+                v-for="order in getPendingDeliveryOrders()"
                 :key="order.number"
               /></div></v-card
         ></v-col>
@@ -106,7 +102,7 @@ export default class RestaurantsOrders extends Vue {
       deliveryManName: "Romain Kauf",
       price: "10.00",
       comment: "Ajoutez des cornichons",
-      type: "new",
+      status: "pendingValidation",
       date: "14h45 26/06/21",
       articles: [
         {
@@ -127,7 +123,7 @@ export default class RestaurantsOrders extends Vue {
       deliveryManName: "Romain Kauf",
       price: "10.00",
       comment: "Ajoutez des cornichons",
-      type: "waiting",
+      status: "pendingRealization",
       date: "14h45 26/06/21",
       articles: [
         {
@@ -148,7 +144,7 @@ export default class RestaurantsOrders extends Vue {
       deliveryManName: "Romain Kauf",
       price: "10.00",
       comment: "Ajoutez des cornichons",
-      type: "inProgress",
+      status: "realization",
       date: "14h45 26/06/21",
       articles: [
         {
@@ -169,7 +165,7 @@ export default class RestaurantsOrders extends Vue {
       deliveryManName: "Romain Kauf",
       price: "10.00",
       comment: "Ajoutez des cornichons",
-      type: "ready",
+      status: "pendingDelivery",
       date: "14h45 26/06/21",
       articles: [
         {
@@ -190,7 +186,7 @@ export default class RestaurantsOrders extends Vue {
       deliveryManName: "Romain Kauf",
       price: "10.00",
       comment: "Ajoutez des cornichons",
-      type: "ready",
+      status: "pendingDelivery",
       date: "14h45 26/06/21",
       articles: [
         {
@@ -207,25 +203,25 @@ export default class RestaurantsOrders extends Vue {
     },
   ];
 
-  getNewOrders() {
-    return this.orders.filter((i) => i.type === "new");
+  getPendingValidationOrders() {
+    return this.orders.filter((i) => i.status === "pendingValidation");
   }
 
-  getWaitingOrders() {
-    return this.orders.filter((i) => i.type === "waiting");
+  getPendingRealizationOrders() {
+    return this.orders.filter((i) => i.status === "pendingRealization");
   }
 
-  getInProgressOrders() {
-    return this.orders.filter((i) => i.type === "inProgress");
+  getRealizationOrders() {
+    return this.orders.filter((i) => i.status === "realization");
   }
 
-  getReadyOrders() {
-    return this.orders.filter((i) => i.type === "ready");
+  getPendingDeliveryOrders() {
+    return this.orders.filter((i) => i.status === "pendingDelivery");
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 h3,
 h4 {
   font-weight: normal;

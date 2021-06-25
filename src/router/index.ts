@@ -80,6 +80,12 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "about" */ '@/views/DeliveryManProfile.vue')
   },
   {
+    path: '/deliveryman-orders',
+    name: 'DeliveryManOrders',
+
+    component: () => import('@/views/DeliveryManOrders.vue')
+  },
+  {
     path: '/restaurants-list',
     name: 'RestaurantsList',
 

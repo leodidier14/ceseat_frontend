@@ -20,6 +20,27 @@
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
+          ><span class="mr-2">Livreur</span></v-btn
+        >
+      </template>
+      <v-list>
+        <v-list-item>
+          <a href="">Accueil</a>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/deliveryman-profile">Profil</router-link>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/deliveryman-wallet">Portefeuille</router-link>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/deliveryman-orders">Commandes</router-link>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Mon restaurant</span></v-btn
         >
       </template>
