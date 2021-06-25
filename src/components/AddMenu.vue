@@ -63,6 +63,7 @@
                 <v-col cols="12" sm="5">
                   <v-select
                     color="#ca6b3e"
+                    item-color="#ca6b3e"
                     :items="categories"
                     v-model="category"
                     label="Categorie"
