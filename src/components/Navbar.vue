@@ -31,7 +31,7 @@
           <router-link to="/restaurant-profile">Profil</router-link>
         </v-list-item>
         <v-list-item>
-          <router-link to="/restaurant-cart">Carte</router-link>
+          <router-link to="/restaurant-menu">Carte</router-link>
         </v-list-item>
         <v-list-item>
           <router-link to="/restaurant-orders">Commandes</router-link>

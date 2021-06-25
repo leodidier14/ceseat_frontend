@@ -1,46 +1,19 @@
 <template>
-  <v-card class="mx-auto" elevation="10" width="80%" height="100%">
-    <div id="banner">
-      <h2 class="ml-10" id="title" v-text="currentRestaurant"></h2>
-    </div>
-
-    <v-tabs v-model="currentType" light color="#CA6B3E" show-arrows>
-      <v-tabs-slider color="#CA6B3E"></v-tabs-slider>
-
-      <v-tab v-for="type in Object.keys(getArticleTypeMap())" :key="type">
-        {{ type }}
-      </v-tab>
-    </v-tabs>
-    <v-tabs-items class="articles-list" v-model="currentType">
-      <v-tab-item v-for="key in Object.keys(getArticleTypeMap())" :key="key">
-        <div
-          id="article-card-layout"
-          v-for="article in getArticleTypeMap()[key]"
-          :key="article.name"
-        >
-          <ArticleCard :article="article" type="customer">
-            <template v-slot:article-image>
-              <v-img :src="article.image"></v-img>
-            </template>
-          </ArticleCard>
-        </div>
-      </v-tab-item>
-    </v-tabs-items>
-  </v-card>
+  <ArticleList menuType="customer" />
 </template>
 
  <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import ArticleCard from "@/components/ArticleCard.vue";
+import ArticleList from "../components/ArticleList.vue";
 import { Articles } from "@/shims-tsx";
 const lodash = require("lodash");
 
 @Component({
   components: {
-    ArticleCard,
+    ArticleList,
   },
 })
-export default class ArticleChoice extends Vue {
+export default class CustomerMenu extends Vue {
   private currentType: string = "";
   private currentRestaurant: string = "McDonald's";
 
