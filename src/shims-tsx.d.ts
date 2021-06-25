@@ -60,4 +60,15 @@ namespace Orders {
     status: string,
     date: string,
   }
+
+  interface ClientOrder {
+    number: string,
+    restaurantName: string,
+    deliveryManName: string,
+    price: float,
+    comment: string,
+    status: string,
+    articles: Array<object>,
+    date: string,
+  }
 }

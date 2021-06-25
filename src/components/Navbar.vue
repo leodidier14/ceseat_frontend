@@ -70,6 +70,9 @@
       </template>
       <v-list>
         <v-list-item>
+          <router-link to="/client-orders">Mes commandes</router-link>
+        </v-list-item>
+        <v-list-item>
           <router-link to="/client-profile">Mon profil</router-link>
         </v-list-item>
         <v-list-item>

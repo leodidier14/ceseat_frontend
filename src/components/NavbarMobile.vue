@@ -126,6 +126,11 @@
                     </template>
                     <v-list>
                       <router-link
+                        to="/client-orders"
+                        class="router-mobile-link text-center"
+                        >Mes commandes</router-link
+                      >
+                      <router-link
                         to="/client-profile"
                         class="router-mobile-link text-center"
                         >Mon profil</router-link
@@ -137,9 +142,6 @@
                       >
                     </v-list>
                   </v-menu>
-                  <!-- <v-list-item-title class="item-list"
-                    >Mon compte</v-list-item-title
-                  > -->
                 </v-list-item-content>
               </v-list-item>
               <v-list-item class="text-center">
