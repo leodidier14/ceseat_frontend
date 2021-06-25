@@ -3,7 +3,7 @@
     <h3 class="text-center pt-5" style="font-weight: normal">Historique</h3>
     <v-data-table
       :headers="headers"
-      :items="orders"
+      :items="getOrdersHistory()"
       :items-per-page="5"
       class="elevation-1 pt-5"
       lang="fr"
@@ -175,7 +175,7 @@ export default class RestaurantHistory extends Vue {
       price: "20.00",
       date: "14h45 16/04/21",
       comment: "Ajoutez des cornichons",
-      status: "delivered",
+      status: "realization",
       articles: [
         {
           name: "menu",
@@ -211,6 +211,10 @@ export default class RestaurantHistory extends Vue {
       ],
     },
   ];
+
+  getOrdersHistory() {
+    return this.orders.filter((i) => i.status === "delivered");
+  }
 
   public showDialog(item: Orders.RestaurantOrder) {
     this.dialog = true;

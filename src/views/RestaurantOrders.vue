@@ -186,7 +186,7 @@ export default class RestaurantsOrders extends Vue {
       deliveryManName: "Romain Kauf",
       price: "10.00",
       comment: "Ajoutez des cornichons",
-      status: "pendingDelivery",
+      status: "delivery",
       date: "14h45 26/06/21",
       articles: [
         {
@@ -216,7 +216,9 @@ export default class RestaurantsOrders extends Vue {
   }
 
   getPendingDeliveryOrders() {
-    return this.orders.filter((i) => i.status === "pendingDelivery");
+    return this.orders.filter(
+      (i) => i.status === "pendingDelivery" || i.status === "delivery"
+    );
   }
 }
 </script>

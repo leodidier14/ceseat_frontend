@@ -67,6 +67,16 @@
                 >
                   Restituée
                 </v-btn>
+                <v-btn
+                  class="ml-2 mt-5"
+                  color="#CA6B3E"
+                  rounded
+                  small
+                  style="color: white"
+                  v-else-if="order.status == 'delivery'"
+                >
+                  Livraison...
+                </v-btn>
               </v-col>
             </v-row>
           </v-container>
