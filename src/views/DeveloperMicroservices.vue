@@ -59,10 +59,12 @@ export default class DeveloperMicroservices extends Vue {
     {
       text: "Documentation",
       value: "documentationLink",
+      sortable: false,
     },
     {
       text: "Télecharger",
       value: "downloadLink",
+      sortable: false,
     },
   ];
 

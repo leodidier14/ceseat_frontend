@@ -90,3 +90,11 @@ namespace Components {
     downloadLink: string
   }
 }
+
+namespace Logs {
+  interface connexionLogs {
+    time: string,
+    idUser: number,
+    state: boolean,
+  }
+}

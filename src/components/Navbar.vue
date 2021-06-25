@@ -20,6 +20,25 @@
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
+          ><span class="mr-2">Technicien</span></v-btn
+        >
+      </template>
+      <v-list>
+        <v-list-item>
+          <router-link to="/technician-connexion-logs"
+            >Logs de connexions</router-link
+          >
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/technician-components-logs"
+            >Logs de composants</router-link
+          >
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Développeur</span></v-btn
         >
       </template>

@@ -64,10 +64,12 @@ export default class DeveloperNpm extends Vue {
     {
       text: "Documentation",
       value: "documentationLink",
+      sortable: false,
     },
     {
       text: "Télecharger",
       value: "downloadLink",
+      sortable: false,
     },
   ];
 
