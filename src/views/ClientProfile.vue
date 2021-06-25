@@ -58,8 +58,6 @@
               :rules="phoneNumberRules"
               required
             />
-          </v-col>
-          <v-col cols="12" md="6">
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
@@ -68,6 +66,8 @@
               :rules="[rules.required]"
               required
             />
+          </v-col>
+          <v-col cols="12" md="6">
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
@@ -99,7 +99,6 @@
                 :rules="zipCodeRules"
                 required
               />
-
               <div class="half-input-field"></div>
 
               <v-select
@@ -111,6 +110,13 @@
                 required
               />
             </div>
+            <v-text-field
+              class="input-field mx-auto"
+              color="#CA6B3E"
+              readonly="true"
+              label="Lien de parrainage"
+              v-model="clientProfile.sponsorshipLink"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -171,6 +177,7 @@ export default class ClientProfile extends Vue {
     city: "",
     zipCode: "",
     country: "France",
+    sponsorshipLink: "https://vuetifyjs.com/en/api/v-text-field/#props",
   };
 
   /* input rules,style and selectItem */

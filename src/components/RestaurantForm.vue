@@ -260,6 +260,14 @@
                 required
               />
             </div>
+            <v-text-field
+              class="input-field mx-auto"
+              color="#CA6B3E"
+              readonly="true"
+              label="Lien de parrainage"
+              v-model="restaurant.sponsorshipLink"
+              v-if="formType == 'profile'"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -318,6 +326,7 @@ export default class RestaurantForm extends Vue {
     city: "",
     zipCode: "",
     country: "",
+    sponsorshipLink: "https://vuetifyjs.com/en/api/v-text-field/#props",
   };
 
   /* input rules,style and selectItem */

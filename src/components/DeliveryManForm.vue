@@ -3,7 +3,7 @@
     class="develiryman-card mx-auto"
     elevation="10"
     width="40%"
-    height="70%"
+    height="80%"
   >
     <v-img
       class="logo mx-auto"
@@ -32,6 +32,14 @@
               v-model="deliveryMan.siretNumber"
               :rules="[rules.required]"
               required
+            />
+            <v-text-field
+              class="input-field mx-auto"
+              color="#CA6B3E"
+              readonly="true"
+              label="Lien de parrainage"
+              v-model="deliveryMan.sponsorshipLink"
+              v-if="formType == 'profile'"
             />
           </v-col>
         </v-row>
@@ -74,6 +82,7 @@ export default class DeliveryManForm extends Vue {
   private deliveryMan = {
     siretNumber: "",
     accountType: "Livreur",
+    sponsorshipLink: "https://vuetifyjs.com/en/api/v-text-field/#props",
   };
 
   /* input rules,style and selectItem */
