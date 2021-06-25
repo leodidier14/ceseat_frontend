@@ -3,7 +3,7 @@
     class="develiryman-card mx-auto"
     elevation="10"
     width="40%"
-    height="80%"
+    height="100%"
   >
     <v-img
       class="logo mx-auto"
@@ -36,7 +36,7 @@
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
-              readonly="true"
+              disabled
               label="Lien de parrainage"
               v-model="deliveryMan.sponsorshipLink"
               v-if="formType == 'profile'"

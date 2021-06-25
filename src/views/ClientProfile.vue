@@ -113,7 +113,7 @@
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
-              readonly="true"
+              disabled
               label="Lien de parrainage"
               v-model="clientProfile.sponsorshipLink"
             />

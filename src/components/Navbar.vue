@@ -25,6 +25,9 @@
       </template>
       <v-list>
         <v-list-item>
+          <router-link to="/developer-profile">Mon profil</router-link>
+        </v-list-item>
+        <v-list-item>
           <router-link to="/developer-npm">Composants npm</router-link>
         </v-list-item>
         <v-list-item>

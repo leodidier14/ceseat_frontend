@@ -47,16 +47,21 @@
                       >
                     </template>
                     <v-list>
-                      <v-list-item>
-                        <router-link to="/developer-npm"
-                          >Composants npm</router-link
-                        >
-                      </v-list-item>
-                      <v-list-item>
-                        <router-link to="/developer-microservices"
-                          >Micro-services</router-link
-                        >
-                      </v-list-item>
+                      <router-link
+                        to="/developer-profile"
+                        class="router-mobile-link text-center mr-2"
+                        >Mon profil</router-link
+                      >
+                      <router-link
+                        to="/developer-npm"
+                        class="router-mobile-link text-center mr-2"
+                        >Composants npm</router-link
+                      >
+                      <router-link
+                        to="/developer-microservices"
+                        class="router-mobile-link text-center mr-2"
+                        >Micro-services</router-link
+                      >
                     </v-list>
                   </v-menu>
                 </v-list-item-content>
@@ -70,21 +75,21 @@
                       >
                     </template>
                     <v-list>
-                      <v-list-item>
-                        <router-link to="/deliveryman-profile"
-                          >Profil</router-link
-                        >
-                      </v-list-item>
-                      <v-list-item>
-                        <router-link to="/deliveryman-wallet"
-                          >Portefeuille</router-link
-                        >
-                      </v-list-item>
-                      <v-list-item>
-                        <router-link to="/deliveryman-orders"
-                          >Commandes</router-link
-                        >
-                      </v-list-item>
+                      <router-link
+                        to="/deliveryman-profile"
+                        class="router-mobile-link text-center mr-2"
+                        >Profil</router-link
+                      >
+                      <router-link
+                        to="/deliveryman-wallet"
+                        class="router-mobile-link text-center mr-2"
+                        >Portefeuille</router-link
+                      >
+                      <router-link
+                        to="/deliveryman-orders"
+                        class="router-mobile-link text-center mr-2"
+                        >Commandes</router-link
+                      >
                     </v-list>
                   </v-menu>
                 </v-list-item-content>

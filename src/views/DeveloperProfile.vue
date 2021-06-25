@@ -90,7 +90,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 
 @Component
-export default class DevProfile extends Vue {
+export default class DeveloperProfile extends Vue {
   private valid: boolean = true;
 
   private devProfile = {
