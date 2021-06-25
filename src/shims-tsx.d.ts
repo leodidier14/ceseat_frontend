@@ -72,3 +72,21 @@ namespace Orders {
     date: string,
   }
 }
+
+namespace Components {
+  interface npmComponent
+  {
+    name: string,
+    description: string,
+    version: string,
+    documentationLink: string,
+    downloadLink: string
+  }
+  interface microserviceComponent
+  {
+    name: string,
+    version: string,
+    documentationLink: string,
+    downloadLink: string
+  }
+}

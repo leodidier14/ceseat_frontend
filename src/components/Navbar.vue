@@ -20,13 +20,27 @@
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
-          ><span class="mr-2">Livreur</span></v-btn
+          ><span class="mr-2">Développeur</span></v-btn
         >
       </template>
       <v-list>
         <v-list-item>
-          <a href="">Accueil</a>
+          <router-link to="/developer-npm">Composants npm</router-link>
         </v-list-item>
+        <v-list-item>
+          <router-link to="/developer-microservices"
+            >Micro-services</router-link
+          >
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn text color="black" v-bind="attrs" v-on="on"
+          ><span class="mr-2">Livreur</span></v-btn
+        >
+      </template>
+      <v-list>
         <v-list-item>
           <router-link to="/deliveryman-profile">Profil</router-link>
         </v-list-item>
@@ -45,9 +59,6 @@
         >
       </template>
       <v-list>
-        <v-list-item>
-          <a href="">Accueil</a>
-        </v-list-item>
         <v-list-item>
           <router-link to="/restaurant-profile">Profil</router-link>
         </v-list-item>

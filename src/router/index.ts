@@ -53,6 +53,23 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "about" */ '@/views/DevProfile.vue')
   },
   {
+    path: '/developer-npm',
+    name: 'DevelopperNpm',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/views/DeveloperNpm.vue')
+  },
+  {
+    path: '/developer-microservices',
+    name: 'DevelopperMicroservices',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/views/DeveloperMicroservices.vue')
+  },
+  
+  {
     path: '/restaurant-register',
     name: 'RestaurantRegister',
     // route level code-splitting

@@ -38,15 +38,29 @@
           </v-toolbar>
           <v-list dense color="#CA6B3E">
             <v-list-item-group v-model="selectedItem" color="white">
-              <router-link to="/home" class="home">
-                <v-list-item class="text-center">
-                  <v-list-item-content>
-                    <v-list-item-title class="item-list">
-                      Accueil
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </router-link>
+              <v-list-item class="text-center">
+                <v-list-item-content>
+                  <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn text color="white" v-bind="attrs" v-on="on"
+                        ><span class="mr-2">Développeur</span></v-btn
+                      >
+                    </template>
+                    <v-list>
+                      <v-list-item>
+                        <router-link to="/developer-npm"
+                          >Composants npm</router-link
+                        >
+                      </v-list-item>
+                      <v-list-item>
+                        <router-link to="/developer-microservices"
+                          >Micro-services</router-link
+                        >
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </v-list-item-content>
+              </v-list-item>
               <v-list-item class="text-center">
                 <v-list-item-content>
                   <v-menu offset-y>
@@ -56,9 +70,6 @@
                       >
                     </template>
                     <v-list>
-                      <v-list-item>
-                        <a href="">Accueil</a>
-                      </v-list-item>
                       <v-list-item>
                         <router-link to="/deliveryman-profile"
                           >Profil</router-link
@@ -87,11 +98,6 @@
                       >
                     </template>
                     <v-list>
-                      <router-link
-                        to="/restaurant-home"
-                        class="router-mobile-link text-center mr-2"
-                        >Acceuil</router-link
-                      >
                       <router-link
                         to="/restaurant-profile"
                         class="router-mobile-link text-center mr-2"
