@@ -14,6 +14,7 @@ declare global {
 }
 
 namespace Articles {
+
   interface Article {
     name: string,
     description: string,
@@ -22,6 +23,10 @@ namespace Articles {
     image: string,
     quantity: number
     restaurant: string
+  }
+
+  interface Menu extends Article {
+    articles: Array<Article>
   }
 }
 

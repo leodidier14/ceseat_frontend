@@ -2,14 +2,14 @@
   <v-card class="mt-5 mx-auto" color="#FFF5F0" width="95%">
     <div class="d-flex flex-no-wrap justify-space-between">
       <div>
-        <v-card-title class="text-h5" v-text="article.name"></v-card-title>
+        <v-card-title class="text-h5" v-text="getCardItem.name"></v-card-title>
 
-        <v-card-subtitle v-text="article.description"></v-card-subtitle>
+        <v-card-subtitle v-text="getCardItem.description"></v-card-subtitle>
 
         <v-card-actions>
           <span
             class="ml-2 mt-5"
-            v-text="Number.parseFloat(article.price).toFixed(2) + ' €'"
+            v-text="Number.parseFloat(getCardItem.price).toFixed(2) + ' €'"
           ></span>
           <span class="ml-10 mt-5" v-if="type != 'restaurant'">
             <v-btn
@@ -17,13 +17,13 @@
               icon
               height="30px"
               width="30px"
-              :disabled="type == 'customer' ? article.quantity == 1 : false"
+              :disabled="type == 'customer' ? getCardItem.quantity == 1 : false"
               @click="decrementQuantity()"
             >
               <v-icon>mdi-minus</v-icon>
             </v-btn>
 
-            <span class="ml-2" v-text="article.quantity"></span>
+            <span class="ml-2" v-text="getCardItem.quantity"></span>
 
             <v-btn
               class="ml-2"
@@ -48,6 +48,12 @@
           >
             Ajouter
           </v-btn>
+
+          <span v-if="type == 'restaurant'">
+            <AddArticle v-if="article != null" mode="edit" :article="JSON.parse(JSON.stringify(article))"/>
+            <AddMenu v-if="menu != null" mode="edit" :menu="JSON.parse(JSON.stringify(menu))"/>
+            <v-icon class="ml-5 mt-5" color="red" @click="deleteArticle()">mdi-delete</v-icon>
+          </span>
         </v-card-actions>
       </div>
 
@@ -63,13 +69,23 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { Articles } from "@/shims-tsx";
 import { getModule } from "vuex-module-decorators";
 import CartModule from "@/store/cart";
+import AddMenu from "@/components/AddMenu.vue"
+import AddArticle from "@/components/AddArticle.vue"
 
-@Component
+@Component({
+  components: {
+    AddMenu,
+    AddArticle
+  }
+})
 export default class ArticleCard extends Vue {
   private cartModule = getModule(CartModule, this.$store);
 
-  @Prop({ required: true })
+  @Prop()
   private article!: Articles.Article;
+
+  @Prop()
+  private menu!: Articles.Menu;
 
   @Prop({
     default: "customer",
@@ -78,21 +94,51 @@ export default class ArticleCard extends Vue {
   })
   private type!: string;
 
+  get getCardItem() {
+    return this.article ? this.article : this.menu;
+  }
+
+  deleteArticle() {
+    if(this.article) {
+      if(confirm("Etes-vous sûr de vouloir supprimer cet article : " + this.article.name)) {
+        this.$root.$emit("delete-article", this.article);
+      }
+    } else {
+      if(confirm("Etes-vous sûr de vouloir supprimer ce menu : " + this.menu.name)) {
+        this.$root.$emit("delete-menu", this.menu);
+      }
+    }
+  }
+
   addtoCart() {
-    this.cartModule.addArticle(this.article).then(() => {
-      this.article.quantity = 1;
-    });
+    if(this.article) {
+      this.cartModule.addArticle(this.article).then(() => {
+        this.getCardItem.quantity = 1;
+      });
+    } else {
+      this.cartModule.addMenu(this.menu).then(() => {
+        this.getCardItem.quantity = 1;
+      });
+    }
   }
 
   incrementQuantity() {
-    this.article.quantity++
-    this.cartModule.incrementQuantity(this.article);
+    this.getCardItem.quantity++;
+    if(this.article) {
+      this.cartModule.incrementArticleQuantity(this.article);
+    } else {
+      this.cartModule.incrementMenuQuantity(this.menu);
+    }
   }
 
   decrementQuantity() {
-    this.article.quantity--
-    this.cartModule.decrementQuantity(this.article);
-  }
+    this.getCardItem.quantity--;
+    if(this.article != null) {
+      this.cartModule.decrementArticleQuantity(this.article);
+    } else {
+      this.cartModule.decrementMenuQuantity(this.menu);
+    }
+   }
 }
 </script>
 
