@@ -150,6 +150,16 @@ const routes: Array<RouteConfig> = [
     name: 'RestaurantMenu',
     component: () => import('@/views/RestaurantMenu.vue')
   },
+  {
+    path: '/business-orders-monitor',
+    name: 'BusinessRestaurantList',
+    component: () => import('@/views/BusinessRestaurantList.vue')
+  },
+  {
+    path: '/business-orders-monitor/:restaurantId',
+    name: 'BusinessOrdersMonitor',
+    component: () => import('@/views/BusinessOrdersMonitor.vue')
+  },
 ]
 
 const router = new VueRouter({

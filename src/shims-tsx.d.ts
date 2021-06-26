@@ -21,7 +21,7 @@ namespace Articles {
     type: string
     price: number,
     image: string,
-    quantity: number
+    quantity: number,
     restaurant: string
   }
 
@@ -35,7 +35,7 @@ namespace Restaurants {
     id: number,
     name: string,
     city: string,
-    type: string
+    type: string,
     schedule: string,
     image: string
   }
@@ -49,7 +49,7 @@ namespace Orders {
     price: float,
     comment: string,
     status: string,
-    articles: Array<object>,
+    articles: Array<Articles.Article>,
     date: string,
   }
 
