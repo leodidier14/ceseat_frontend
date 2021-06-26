@@ -60,6 +60,14 @@
           <span class="new-on-ceseat-message">Nouveau sur Ces'Eat ?&nbsp;</span>
           S'inscrire ici
         </v-btn>
+        <v-btn
+          class="form-button mt-5"
+          color="#CA6B3E"
+          outlined
+          href="/developer-login"
+        >
+          Développeur ?
+        </v-btn>
       </div>
     </v-form>
   </v-card>
@@ -70,7 +78,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 
 @Component
-export default class Login extends Vue {
+export default class ClientLogin extends Vue {
   private valid: boolean = true;
 
   private login = {

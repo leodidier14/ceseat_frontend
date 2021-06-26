@@ -127,6 +127,13 @@
                           >Micro-services</span
                         ></router-link
                       >
+                      <router-link
+                        to="/developer-logout"
+                        class="router-mobile-link text-center mr-2"
+                        ><span @click="dialog = false"
+                          >Se déconnecter</span
+                        ></router-link
+                      >
                     </v-list>
                   </v-menu>
                 </v-list-item-content>

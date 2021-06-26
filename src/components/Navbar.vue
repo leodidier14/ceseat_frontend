@@ -74,6 +74,9 @@
             >Micro-services</router-link
           >
         </v-list-item>
+        <v-list-item>
+          <router-link to="/developer-logout">Se déconnecter</router-link>
+        </v-list-item>
       </v-list>
     </v-menu>
     <v-menu offset-y>
@@ -85,9 +88,6 @@
       <v-list>
         <v-list-item>
           <router-link to="/deliveryman-profile">Profil</router-link>
-        </v-list-item>
-        <v-list-item>
-          <router-link to="/deliveryman-wallet">Portefeuille</router-link>
         </v-list-item>
         <v-list-item>
           <router-link to="/deliveryman-orders">Commandes</router-link>

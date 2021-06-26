@@ -99,6 +99,14 @@
           <span class="old-on-ceseat-message">Déjà un compte ?&nbsp;</span>
           Se connecter ici
         </v-btn>
+        <v-btn
+          class="form-button mt-5"
+          color="#CA6B3E"
+          outlined
+          href="/developer-register"
+        >
+          Développeur ?
+        </v-btn>
       </div>
     </v-form>
   </v-card>

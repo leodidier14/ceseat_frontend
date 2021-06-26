@@ -10,9 +10,14 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/RestaurantsList.vue')
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/Login.vue')
+    path: '/client-login',
+    name: 'ClientLogin',
+    component: () => import('@/views/ClientLogin.vue')
+  },
+  {
+    path: '/developer-login',
+    name: 'DeveloperLogin',
+    component: () => import('@/views/DeveloperLogin.vue')
   },
   {
     path: '/client-register',
