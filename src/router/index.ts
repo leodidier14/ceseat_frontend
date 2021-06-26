@@ -28,6 +28,30 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "about" */ '@/views/ClientOrders.vue')
   },
   {
+    path: '/technician-components',
+    name: 'TechnicianComponents',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/views/TechnicianComponents.vue')
+  },
+  {
+    path: '/technician-connexion-logs',
+    name: 'TechnicianConnexionLogs',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/views/TechnicianConnexionLogs.vue')
+  },
+  {
+    path: '/technician-components-logs',
+    name: 'TechnicianComponentLogs',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '@/views/TechnicianComponentLogs.vue')
+  },
+  {
     path: '/developer-register',
     name: 'DeveloperRegister',
     // route level code-splitting

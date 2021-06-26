@@ -64,14 +64,16 @@ export default class DeveloperNpm extends Vue {
     {
       text: "Documentation",
       value: "documentationLink",
+      sortable: false,
     },
     {
       text: "Télecharger",
       value: "downloadLink",
+      sortable: false,
     },
   ];
 
-  private components: Array<Components.npmComponent> = [
+  private components: Array<Components.component> = [
     {
       name: "Bouton",
       description: "Bouton aux couleur de Ces'Eat",

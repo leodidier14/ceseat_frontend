@@ -79,7 +79,7 @@ namespace Orders {
 }
 
 namespace Components {
-  interface npmComponent
+  interface component
   {
     name: string,
     description: string,
@@ -87,11 +87,18 @@ namespace Components {
     documentationLink: string,
     downloadLink: string
   }
-  interface microserviceComponent
-  {
+}
+
+namespace Logs {
+  interface connexionLogs {
+    time: string,
+    idUser: number,
+    state: boolean,
+  }
+  interface componentLogs {
+    time: string,
+    idUser: number,
     name: string,
     version: string,
-    documentationLink: string,
-    downloadLink: string
   }
 }
