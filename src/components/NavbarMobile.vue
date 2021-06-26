@@ -48,6 +48,11 @@
                     </template>
                     <v-list>
                       <router-link
+                        to="/technician-components"
+                        class="router-mobile-link text-center mr-2"
+                        >Composants</router-link
+                      >
+                      <router-link
                         to="/technician-connexion-logs"
                         class="router-mobile-link text-center mr-2"
                         >Logs de connexions</router-link

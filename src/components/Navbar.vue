@@ -25,6 +25,13 @@
       </template>
       <v-list>
         <v-list-item>
+          <router-link
+            to="/technician-components"
+            class="router-mobile-link text-center mr-2"
+            >Composants</router-link
+          >
+        </v-list-item>
+        <v-list-item>
           <router-link to="/technician-connexion-logs"
             >Logs de connexions</router-link
           >

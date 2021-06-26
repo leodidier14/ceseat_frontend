@@ -1,6 +1,12 @@
 <template>
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
-    <h3 class="text-center pt-5" style="font-weight: normal">Composants npm</h3>
+    <h3 class="text-center pt-5" style="font-weight: normal">
+      Composants disponibles
+    </h3>
+    <div style="display: flex; justify-content: flex-end">
+      <v-btn small rounded color="#CA6B3E" style="color: white">Ajouter</v-btn>
+    </div>
+
     <v-data-table
       :headers="headers"
       :items="components"
@@ -36,6 +42,17 @@
               <v-icon dark>mdi-download</v-icon>
             </v-btn>
           </td>
+          <td>
+            <v-btn
+              class="mx-2"
+              text
+              small
+              color="red"
+              @click="deleteComponent(row.item)"
+            >
+              <v-icon dark>mdi-delete</v-icon>
+            </v-btn>
+          </td>
         </tr>
       </template>
     </v-data-table>
@@ -47,7 +64,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { Components } from "@/shims-tsx";
 
 @Component
-export default class DeveloperNpm extends Vue {
+export default class TechnicianComponents extends Vue {
   private headers: object = [
     {
       text: "Nom",
@@ -75,19 +92,25 @@ export default class DeveloperNpm extends Vue {
 
   private components: Array<Components.component> = [
     {
-      name: "Bouton",
-      description: "Bouton aux couleur de Ces'Eat",
+      name: "API de commandes",
       version: "1.0.0",
+      description: "Fonctionnalités pour faire des commandes",
       documentationLink: "https://github.com/leodidier14",
       downloadLink: "https://github.com/leodidier14",
     },
     {
-      name: "NavBar",
-      description: "NavBar aux couleur de Ces'Eat",
+      name: "API de connection",
       version: "1.0.0",
+      description: "Fonctionnalités pour connecter un utilisateur",
       documentationLink: "https://github.com/leodidier14",
       downloadLink: "https://github.com/leodidier14",
     },
   ];
+
+  public deleteComponent(item: Components.component) {
+    const index = this.components.indexOf(item);
+    this.components.splice(index, 1);
+    //axios delete
+  }
 }
 </script>

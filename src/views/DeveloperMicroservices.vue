@@ -12,6 +12,7 @@
       <template v-slot:item="row">
         <tr>
           <td>{{ row.item.name }}</td>
+          <td>{{ row.item.description }}</td>
           <td>{{ row.item.version }}</td>
           <td>
             <v-btn
@@ -53,6 +54,10 @@ export default class DeveloperMicroservices extends Vue {
       value: "name",
     },
     {
+      text: "Description",
+      value: "description",
+    },
+    {
       text: "Version",
       value: "version",
     },
@@ -68,16 +73,18 @@ export default class DeveloperMicroservices extends Vue {
     },
   ];
 
-  private components: Array<Components.microserviceComponent> = [
+  private components: Array<Components.component> = [
     {
       name: "API de commandes",
       version: "1.0.0",
+      description: "Fonctionnalités pour faire des commandes",
       documentationLink: "https://github.com/leodidier14",
       downloadLink: "https://github.com/leodidier14",
     },
     {
       name: "API de connection",
       version: "1.0.0",
+      description: "Fonctionnalités pour connecter un utilisateur",
       documentationLink: "https://github.com/leodidier14",
       downloadLink: "https://github.com/leodidier14",
     },
