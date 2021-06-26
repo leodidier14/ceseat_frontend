@@ -6,8 +6,19 @@
     height="100%"
   >
     <h3 class="text-center pt-5">Mes commandes</h3>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 30px;
+      "
+    >
+      <span class="mr-2">Disponible ?</span>
+      <v-switch color="green" v-model="deliveryManState"></v-switch>
+    </div>
     <v-container class="deliveryman-orders-container">
-      <v-row class="deliveryman-orders-row pt-5">
+      <v-row class="deliveryman-orders-row">
         <v-col cols="12" class="pb-5">
           <v-card
             class="mx-auto"
@@ -67,6 +78,7 @@ import { Orders } from "@/shims-tsx";
   },
 })
 export default class RestaurantsOrders extends Vue {
+  private deliveryManState: boolean = true;
   private orders: Array<Orders.Order> = [
     {
       number: "Commande1",
@@ -135,7 +147,7 @@ export default class RestaurantsOrders extends Vue {
           quantity: 1,
         },
       ],
-    }
+    },
   ];
 
   getPendingOrders() {
