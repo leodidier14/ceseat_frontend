@@ -81,7 +81,6 @@ export default class DeliveryManForm extends Vue {
 
   private deliveryMan = {
     siretNumber: "",
-    accountType: "Livreur",
     sponsorshipLink: "https://vuetifyjs.com/en/api/v-text-field/#props",
   };
 
