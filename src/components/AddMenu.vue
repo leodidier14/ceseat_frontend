@@ -1,11 +1,17 @@
 <template>
-  <v-dialog transition="dialog-bottom-transition" max-width="600">
+  <v-dialog
+    v-model="dialog"
+    transition="dialog-bottom-transition"
+    max-width="600"
+  >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
+        id="button"
         v-if="mode == 'create'"
         class="ml-5"
         rounded
-        large
+        :x-small="$vuetify.breakpoint.mdAndDown"
+        :large="$vuetify.breakpoint.mdAndUp"
         v-bind="attrs"
         v-on="on"
         ><v-icon class="mr-2">mdi-plus</v-icon>Menu</v-btn
@@ -125,12 +131,7 @@
             text
             color="#ca6b3e"
             v-text="mode == 'create' ? 'Ajouter' : 'Sauvegarder'"
-            @click="
-              () => {
-                addMenu();
-                dialog.value = false;
-              }
-            "
+            @click="addMenu()"
           ></v-btn>
         </v-card-actions>
       </v-card>
@@ -141,6 +142,7 @@
 <script lang="ts">
 import { Articles } from "@/shims-tsx";
 import { Component, Prop, Vue } from "vue-property-decorator";
+import Vuetify from "vuetify/lib";
 
 @Component
 export default class AddMenu extends Vue {
@@ -165,6 +167,8 @@ export default class AddMenu extends Vue {
     },
   })
   private menu!: Articles.Menu;
+
+  private dialog: boolean = false;
 
   private category: string = "";
   private articleName: string = "";
@@ -236,7 +240,13 @@ export default class AddMenu extends Vue {
   }
 
   private addMenu() {
-    this.$root.$emit("add-menu", this.menu);
+    if (
+      (this.$refs.addMenuForm as Vue & { validate: () => boolean }).validate()
+    ) {
+      this.$root.$emit("add-menu", this.menu);
+      this.dialog = false;
+    } else {
+    }
   }
 
   private rules = {
@@ -244,3 +254,11 @@ export default class AddMenu extends Vue {
   };
 }
 </script>
+
+<style scoped>
+@media screen and (max-width: 813px) {
+  #button {
+    margin-top: 10px;
+  }
+}
+</style>

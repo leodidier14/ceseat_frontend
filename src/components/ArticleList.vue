@@ -2,7 +2,7 @@
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
     <div id="banner">
       <h2 class="ml-10" id="title" v-text="currentRestaurant"></h2>
-      <span class="mr-10" v-if="menuType == 'restaurant'">
+      <span class="mr-10" id="add-buttons" v-if="menuType == 'restaurant'">
         <AddArticle />
         <AddMenu />
       </span>
@@ -227,6 +227,13 @@ export default class ArticleChoice extends Vue {
   background-size: cover;
 }
 
+#add-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 h2 {
   font-size: 50px;
   font-weight: normal;
@@ -236,6 +243,27 @@ h2 {
 @media screen and (max-width: 500px) {
   #title {
     font-size: 40px;
+  }
+}
+
+@media screen and (max-width: 813px) {
+  #title {
+    font-size: 40px;
+    margin-top: 50px;
+  }
+
+  #add-buttons {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+  }
+
+  #banner {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
   }
 }
 </style>

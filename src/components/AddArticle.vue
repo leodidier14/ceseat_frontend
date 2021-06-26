@@ -1,7 +1,17 @@
 <template>
-  <v-dialog transition="dialog-bottom-transition" max-width="600">
+  <v-dialog
+    v-model="dialog"
+    transition="dialog-bottom-transition"
+    max-width="600"
+  >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-if="mode == 'create'" rounded large v-bind="attrs" v-on="on"
+      <v-btn
+        v-if="mode == 'create'"
+        rounded
+        :x-small="$vuetify.breakpoint.mdAndDown"
+        :large="$vuetify.breakpoint.mdAndUp"
+        v-bind="attrs"
+        v-on="on"
         ><v-icon class="mr-2">mdi-plus</v-icon>Article</v-btn
       >
       <v-icon v-if="mode == 'edit'" class="ml-10 mt-5" v-bind="attrs" v-on="on"
@@ -16,12 +26,7 @@
         >
 
         <v-card-text>
-          <v-form
-            class="mx-auto"
-            ref="addArticleForm"
-            v-model="valid"
-            lazy-validation
-          >
+          <v-form class="mx-auto" ref="addArticleForm" lazy-validation>
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6">
@@ -74,17 +79,7 @@
 
         <v-card-actions class="justify-end">
           <v-btn text @click="dialog.value = false">Annuler</v-btn>
-          <v-btn
-            text
-            color="#ca6b3e"
-            @click="
-              () => {
-                addArticle();
-                dialog.value = false;
-              }
-            "
-            >Ajouter</v-btn
-          >
+          <v-btn text color="#ca6b3e" @click="addArticle()">Ajouter</v-btn>
         </v-card-actions>
       </v-card>
     </template>
@@ -120,12 +115,21 @@ export default class AddArticle extends Vue {
 
   private categories: Array<string> = ["Burger", "Boisson", "Accompagnement"];
 
+  private dialog: boolean = false;
+
   private rules = {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
   private addArticle() {
-    this.$root.$emit("add-article", JSON.parse(JSON.stringify(this.article)));
+    if (
+      (
+        this.$refs.addArticleForm as Vue & { validate: () => boolean }
+      ).validate()
+    ) {
+      this.$root.$emit("add-article", JSON.parse(JSON.stringify(this.article)));
+      this.dialog = false;
+    }
   }
 }
 </script>
