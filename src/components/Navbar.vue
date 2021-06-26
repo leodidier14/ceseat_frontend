@@ -17,6 +17,22 @@
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
+          ><span class="mr-2">Commercial</span></v-btn
+        >
+      </template>
+      <v-list>
+        <v-list-item>
+          <router-link
+            to="/business-orders-monitor"
+            class="router-mobile-link text-center mr-2"
+            >Suivi de commandes</router-link
+          >
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Technicien</span></v-btn
         >
       </template>

@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="restaurant-orders-card mx-auto"
+    class="business-orders-card mx-auto"
     elevation="10"
     width="80%"
     height="100%"
@@ -18,21 +18,21 @@
       </h3>
     </span>
 
-    <v-container class="restaurant-orders-container">
-      <v-row class="restaurant-orders-row pt-5">
+    <v-container class="business-orders-container">
+      <v-row class="business-order-row pt-5">
         <v-col cols="12" md="6" class="pb-5">
           <v-card
             class="mx-auto"
             elevation="10"
             width="100%"
             height="100%"
-            color="#FFF5F0"
+            color="#CA6B3E"
           >
-            <h4 class="text-center py-2">En attentes</h4>
+            <h4 class="text-center py-2" style="color: white">En attentes</h4>
             <div class="flex-container">
               <RestaurantOrderCard
                 cardType="business"
-                class="restaurant-order-card"
+                class="business-order-card"
                 :order="order"
                 v-for="order in getPendingRealizationOrders()"
                 :key="order.number"
@@ -45,13 +45,13 @@
             elevation="10"
             width="100%"
             height="100%"
-            color="#FFF5F0"
+            color="#CA6B3E"
           >
-            <h4 class="text-center py-2">En cours</h4>
+            <h4 class="text-center py-2" style="color: white">En cours</h4>
             <div class="flex-container">
               <RestaurantOrderCard
                 cardType="business"
-                class="restaurant-order-card"
+                class="business-order-card"
                 :order="order"
                 v-for="order in getRealizationOrders()"
                 :key="order.number"
@@ -65,13 +65,15 @@
             elevation="10"
             width="97%"
             height="100%"
-            color="#FFF5F0"
+            color="#CA6B3E"
           >
-            <h4 class="text-center mt-2 py-2">En attentes de livraison</h4>
+            <h4 class="text-center mt-2 py-2" style="color: white">
+              En attentes de livraison
+            </h4>
             <div class="flex-container">
               <RestaurantOrderCard
                 cardType="business"
-                class="restaurant-order-card"
+                class="business-order-card"
                 :order="order"
                 v-for="order in getPendingRealizationOrders()"
                 :key="order.number"
@@ -84,13 +86,15 @@
             elevation="10"
             width="97%"
             height="100%"
-            color="#FFF5F0"
+            color="#CA6B3E"
           >
-            <h4 class="text-center mt-2 py-2">Livraison</h4>
+            <h4 class="text-center mt-2 py-2" style="color: white">
+              Livraison
+            </h4>
             <div class="flex-container">
               <RestaurantOrderCard
                 cardType="business"
-                class="restaurant-order-card"
+                class="business-order-card"
                 :order="order"
                 v-for="order in getRealizationOrders()"
                 :key="order.number"
@@ -301,11 +305,11 @@ h4 {
   justify-content: space-between;
 }
 
-.restaurant-orders-container {
+.business-orders-container {
   height: 100% !important;
   padding: 0 !important;
 }
-.restaurant-orders-row {
+.business-order-row {
   height: 80%;
 }
 
@@ -317,7 +321,7 @@ h4 {
 }
 
 @media screen and (max-width: 965px) {
-  .restaurant-orders-card {
+  .business-orders-card {
     width: 100% !important;
   }
 }

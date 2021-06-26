@@ -6,11 +6,13 @@
     <v-data-table
       :headers="headers"
       :items="restaurants"
+      :header-props="headerProps"
+      :footer-props="footerProps"
       :items-per-page="5"
       class="elevation-1 pt-5"
       lang="fr"
     >
-      <template slot="no-data">Désolé, pas de composants disponibles</template>
+      <template slot="no-data">Désolé, pas de restaurants disponibles</template>
       <template v-slot:item="row">
         <tr>
           <td>{{ row.item.name }}</td>
@@ -35,7 +37,12 @@ import { Restaurants } from "@/shims-tsx";
 
 @Component
 export default class BusinessRestaurantList extends Vue {
-
+  private headerProps: object = {
+    sortByText: "Trier par",
+  };
+  private footerProps: object = {
+    "items-per-page-text": "Restaurants par page",
+  };
   private headers: object = [
     {
       text: "Nom",
@@ -51,7 +58,7 @@ export default class BusinessRestaurantList extends Vue {
     },
     {
       text: "Commandes en cours",
-      value: "name",
+      sortable: false,
     },
   ];
 
