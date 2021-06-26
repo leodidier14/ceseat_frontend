@@ -7,7 +7,9 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="black" text v-bind="attrs" v-on="on">
-        <span class="mr-2">Panier ({{ totalPriceString }})</span></v-btn
+        <span class="mr-2 shopping-cart-btn"
+          >Panier ({{ totalPriceString }})</span
+        ></v-btn
       >
     </template>
     <v-card
@@ -37,7 +39,10 @@
           <H1 class="ml-10" id="title" v-text="cartModule.restaurant"></H1>
         </div>
         <div v-for="article in cartModule.articles" :key="article.name">
-          <ArticleCard :article="JSON.parse(JSON.stringify(article))" type="cart">
+          <ArticleCard
+            :article="JSON.parse(JSON.stringify(article))"
+            type="cart"
+          >
             <template v-slot:article-image>
               <v-img :src="article.image"></v-img>
             </template>
@@ -74,8 +79,8 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ArticleCard from "@/components/ArticleCard.vue";
 import { Articles } from "@/shims-tsx";
-import { getModule } from "vuex-module-decorators"
-import CartModule from '@/store/cart'
+import { getModule } from "vuex-module-decorators";
+import CartModule from "@/store/cart";
 
 @Component({
   components: {
@@ -88,7 +93,9 @@ export default class ShoppingCart extends Vue {
   private restaurant: string = "";
 
   get totalPriceString(): string {
-    return Number.parseFloat(String(this.cartModule.totalPrice)).toFixed(2) + " €";
+    return (
+      Number.parseFloat(String(this.cartModule.totalPrice)).toFixed(2) + " €"
+    );
   }
 }
 </script>
@@ -116,6 +123,11 @@ export default class ShoppingCart extends Vue {
   }
   .payment-bar {
     padding-bottom: 10px;
+  }
+}
+@media screen and (max-width: 960px) {
+  .shopping-cart-btn {
+    color: white !important;
   }
 }
 </style>

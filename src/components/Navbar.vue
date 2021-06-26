@@ -1,21 +1,18 @@
  <template>
   <v-app-bar app color="white">
-    <v-btn
-      href="https://github.com/vuetifyjs/vuetify/releases/latest"
-      target="_blank"
-      text
-      color="white"
-    >
-      <v-img
-        alt="Ces'Eat logo"
-        class="shrink mr-2"
-        contain
-        src="@/assets/logo.png"
-        transition="scale-transition"
-        width="80"
-      />
-      <v-img alt="Ces'Eat nom" contain src="@/assets/typo.png" width="100" />
-    </v-btn>
+    <router-link to="/">
+      <v-btn target="_blank" text color="white">
+        <v-img
+          alt="Ces'Eat logo"
+          class="shrink mr-2"
+          contain
+          src="@/assets/logo.png"
+          transition="scale-transition"
+          width="80"
+        />
+        <v-img alt="Ces'Eat nom" contain src="@/assets/typo.png" width="100" />
+      </v-btn>
+    </router-link>
     <v-spacer></v-spacer>
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">

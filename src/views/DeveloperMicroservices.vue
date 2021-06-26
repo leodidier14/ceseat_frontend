@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
-    <h3 class="text-center pt-5" style="font-weight: normal">Composants npm</h3>
+    <h3 class="text-center pt-5" style="font-weight: normal">Micro-services</h3>
     <v-data-table
       :headers="headers"
       :items="components"

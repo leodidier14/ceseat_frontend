@@ -61,9 +61,4 @@ export default Vue.extend({
 html {
   overflow-y: auto !important;
 }
-
-/* html::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-} */
 </style>

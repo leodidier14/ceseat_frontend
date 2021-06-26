@@ -1,14 +1,16 @@
 <template>
   <v-app-bar app color="white">
     <div class="d-flex align-center">
-      <v-img
-        alt="Vuetify Logo"
-        class="shrink mr-2"
-        contain
-        src="@/assets/logo.png"
-        transition="scale-transition"
-        width="70"
-      />
+      <router-link to="/">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="@/assets/logo.png"
+          transition="scale-transition"
+          width="70"
+        />
+      </router-link>
     </div>
 
     <v-spacer></v-spacer>
@@ -22,14 +24,17 @@
         <v-card color="white">
           <v-toolbar dark color="white">
             <v-toolbar-items>
-              <v-img
-                alt="Vuetify Logo"
-                class="shrink mr-2"
-                contain
-                src="@/assets/logo.png"
-                transition="scale-transition"
-                width="70"
-              />
+              <router-link to="/">
+                <v-img
+                  alt="Vuetify Logo"
+                  class="shrink mr-2 mt-1"
+                  contain
+                  src="@/assets/logo.png"
+                  transition="scale-transition"
+                  width="70"
+                  @click="dialog = false"
+                />
+              </router-link>
             </v-toolbar-items>
             <v-spacer></v-spacer>
             <v-btn color="white" @click="dialog = false">
@@ -50,17 +55,23 @@
                       <router-link
                         to="/technician-components"
                         class="router-mobile-link text-center mr-2"
-                        >Composants</router-link
+                        ><span @click="dialog = false"
+                          >Composants</span
+                        ></router-link
                       >
                       <router-link
                         to="/technician-connexion-logs"
                         class="router-mobile-link text-center mr-2"
-                        >Logs de connexions</router-link
+                        ><span @click="dialog = false"
+                          >Logs de connexions</span
+                        ></router-link
                       >
                       <router-link
                         to="/technician-components-logs"
                         class="router-mobile-link text-center mr-2"
-                        >Logs de composants</router-link
+                        ><span @click="dialog = false"
+                          >Logs de composants</span
+                        ></router-link
                       >
                     </v-list>
                   </v-menu>
@@ -78,17 +89,23 @@
                       <router-link
                         to="/developer-profile"
                         class="router-mobile-link text-center mr-2"
-                        >Mon profil</router-link
+                        ><span @click="dialog = false"
+                          >Mon profil</span
+                        ></router-link
                       >
                       <router-link
                         to="/developer-npm"
                         class="router-mobile-link text-center mr-2"
-                        >Composants npm</router-link
+                        ><span @click="dialog = false"
+                          >Composants npm</span
+                        ></router-link
                       >
                       <router-link
                         to="/developer-microservices"
                         class="router-mobile-link text-center mr-2"
-                        >Micro-services</router-link
+                        ><span @click="dialog = false"
+                          >Micro-services</span
+                        ></router-link
                       >
                     </v-list>
                   </v-menu>
@@ -106,17 +123,23 @@
                       <router-link
                         to="/deliveryman-profile"
                         class="router-mobile-link text-center mr-2"
-                        >Profil</router-link
+                        ><span @click="dialog = false"
+                          >Profil</span
+                        ></router-link
                       >
                       <router-link
                         to="/deliveryman-wallet"
                         class="router-mobile-link text-center mr-2"
-                        >Portefeuille</router-link
+                        ><span @click="dialog = false"
+                          >Portefeuille</span
+                        ></router-link
                       >
                       <router-link
                         to="/deliveryman-orders"
                         class="router-mobile-link text-center mr-2"
-                        >Commandes</router-link
+                        ><span @click="dialog = false"
+                          >Commandes</span
+                        ></router-link
                       >
                     </v-list>
                   </v-menu>
@@ -134,22 +157,28 @@
                       <router-link
                         to="/restaurant-profile"
                         class="router-mobile-link text-center mr-2"
-                        >Profil</router-link
+                        ><span @click="dialog = false"
+                          >Profil</span
+                        ></router-link
                       >
                       <router-link
                         to="/restaurant-cart"
                         class="router-mobile-link text-center"
-                        >Carte</router-link
+                        ><span @click="dialog = false">Carte</span></router-link
                       >
                       <router-link
                         to="/restaurant-orders"
                         class="router-mobile-link text-center"
-                        >Commandes</router-link
+                        ><span @click="dialog = false"
+                          >Commandes</span
+                        ></router-link
                       >
                       <router-link
                         to="/restaurant-history"
                         class="router-mobile-link text-center"
-                        >Historique</router-link
+                        ><span @click="dialog = false"
+                          >Historique</span
+                        ></router-link
                       >
                     </v-list>
                   </v-menu>
@@ -167,17 +196,23 @@
                       <router-link
                         to="/client-orders"
                         class="router-mobile-link text-center"
-                        >Mes commandes</router-link
+                        ><span @click="dialog = false"
+                          >Mes commandes</span
+                        ></router-link
                       >
                       <router-link
                         to="/client-profile"
                         class="router-mobile-link text-center"
-                        >Mon profil</router-link
+                        ><span @click="dialog = false"
+                          >Mon profil</span
+                        ></router-link
                       >
                       <router-link
-                        to="/logout"
+                        to="/login"
                         class="router-mobile-link text-center"
-                        >Se déconnecter</router-link
+                        ><span @click="dialog = false"
+                          >Se déconnecter</span
+                        ></router-link
                       >
                     </v-list>
                   </v-menu>
