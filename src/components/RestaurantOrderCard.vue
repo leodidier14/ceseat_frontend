@@ -20,7 +20,7 @@
                   rounded
                   small
                   style="color: #ca6b3e"
-                  v-if="order.status == 'pendingValidation'"
+                  v-if="order.status == 'pendingValidation' && cardType == 'restaurant'"
                 >
                   Refuser
                 </v-btn>
@@ -33,7 +33,7 @@
                   rounded
                   small
                   style="color: white"
-                  v-if="order.status == 'pendingValidation'"
+                  v-if="order.status == 'pendingValidation' && cardType == 'restaurant'"
                 >
                   Accepter
                 </v-btn>
@@ -43,7 +43,7 @@
                   rounded
                   small
                   style="color: white"
-                  v-else-if="order.status == 'pendingRealization'"
+                  v-else-if="order.status == 'pendingRealization' && cardType == 'restaurant'"
                 >
                   Préparer
                 </v-btn>
@@ -53,7 +53,7 @@
                   rounded
                   small
                   style="color: white"
-                  v-else-if="order.status == 'realization'"
+                  v-else-if="order.status == 'realization' && cardType == 'restaurant'"
                 >
                   Prête
                 </v-btn>
@@ -63,7 +63,7 @@
                   rounded
                   small
                   style="color: white"
-                  v-else-if="order.status == 'pendingDelivery'"
+                  v-else-if="order.status == 'pendingDelivery' && cardType == 'restaurant'"
                 >
                   Restituée
                 </v-btn>
@@ -73,7 +73,7 @@
                   rounded
                   small
                   style="color: white"
-                  v-else-if="order.status == 'delivery'"
+                  v-else-if="order.status == 'delivery' && cardType == 'restaurant'"
                 >
                   Livraison...
                 </v-btn>
@@ -150,6 +150,12 @@ import { Orders } from "@/shims-tsx";
 export default class RestaurantOrderCard extends Vue {
   @Prop({ required: true })
   private order!: Orders.RestaurantOrder;
+
+  @Prop({
+    default: "restaurant",
+    validator: (value: string) => ["restaurant", "business"].includes(value),
+  })
+  private cardType!: string;
 
   private dialog: boolean = false;
 }

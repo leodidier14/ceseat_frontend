@@ -5,10 +5,22 @@
     width="80%"
     height="100%"
   >
-    <h3 class="text-center pt-5">Commandes</h3>
+    <span id="header">
+      <h3 id="title" class="ml-5 pt-5">
+        <span class="hidden-md-and-down">Suivi de commandes : </span> &nbsp;
+        {{ $route.params.restaurantId }}
+      </h3>
+      <h3 class="pt-5 pr-5">
+        <span class="hidden-md-and-down">
+          Chiffre d'affaire transactionnel :
+        </span>
+        &nbsp; {{ totalPrice }} €
+      </h3>
+    </span>
+
     <v-container class="restaurant-orders-container">
       <v-row class="restaurant-orders-row pt-5">
-        <v-col cols="12" class="pb-5">
+        <v-col cols="12" md="6" class="pb-5">
           <v-card
             class="mx-auto"
             elevation="10"
@@ -16,28 +28,10 @@
             height="100%"
             color="#FFF5F0"
           >
-            <h4 class="text-center py-2">Nouvelles commandes</h4>
+            <h4 class="text-center py-2">En attentes</h4>
             <div class="flex-container">
               <RestaurantOrderCard
-                class="restaurant-order-card"
-                :order="order"
-                v-for="order in getPendingValidationOrders()"
-                :key="order.number"
-              />
-            </div> </v-card
-        ></v-col>
-
-        <v-col cols="12" md="4" class="pb-5">
-          <v-card
-            class="mx-auto"
-            elevation="10"
-            width="97%"
-            height="100%"
-            color="#FFF5F0"
-          >
-            <h4 class="text-center mt-2 py-2">En attentes</h4>
-            <div class="flex-container">
-              <RestaurantOrderCard
+                cardType="business"
                 class="restaurant-order-card"
                 :order="order"
                 v-for="order in getPendingRealizationOrders()"
@@ -45,24 +39,27 @@
               />
             </div> </v-card
         ></v-col>
-        <v-col cols="12" md="4" class="pb-5">
+        <v-col cols="12" md="6" class="pb-5">
           <v-card
             class="mx-auto"
             elevation="10"
-            width="97%"
+            width="100%"
             height="100%"
             color="#FFF5F0"
           >
-            <h4 class="text-center mt-2 py-2">En cours</h4>
+            <h4 class="text-center py-2">En cours</h4>
             <div class="flex-container">
               <RestaurantOrderCard
+                cardType="business"
                 class="restaurant-order-card"
                 :order="order"
                 v-for="order in getRealizationOrders()"
                 :key="order.number"
-              /></div></v-card
+              />
+            </div> </v-card
         ></v-col>
-        <v-col cols="12" md="4" class="pb-5">
+
+        <v-col cols="12" md="6" class="pb-5">
           <v-card
             class="mx-auto"
             elevation="10"
@@ -70,12 +67,32 @@
             height="100%"
             color="#FFF5F0"
           >
-            <h4 class="text-center mt-2 py-2">Prêtes</h4>
+            <h4 class="text-center mt-2 py-2">En attentes de livraison</h4>
             <div class="flex-container">
               <RestaurantOrderCard
+                cardType="business"
                 class="restaurant-order-card"
                 :order="order"
-                v-for="order in getPendingDeliveryOrders()"
+                v-for="order in getPendingRealizationOrders()"
+                :key="order.number"
+              />
+            </div> </v-card
+        ></v-col>
+        <v-col cols="12" md="6" class="pb-5">
+          <v-card
+            class="mx-auto"
+            elevation="10"
+            width="97%"
+            height="100%"
+            color="#FFF5F0"
+          >
+            <h4 class="text-center mt-2 py-2">Livraison</h4>
+            <div class="flex-container">
+              <RestaurantOrderCard
+                cardType="business"
+                class="restaurant-order-card"
+                :order="order"
+                v-for="order in getRealizationOrders()"
                 :key="order.number"
               /></div></v-card
         ></v-col>
@@ -94,7 +111,8 @@ import { Orders } from "@/shims-tsx";
     RestaurantOrderCard,
   },
 })
-export default class RestaurantsOrders extends Vue {
+export default class BusinessOrdersMonitor extends Vue {
+  //'pendingRealization','realization','pendingDelivery','delivery','delivered'
   private orders: Array<Orders.RestaurantOrder> = [
     {
       number: "Commande1",
@@ -102,7 +120,7 @@ export default class RestaurantsOrders extends Vue {
       deliveryManName: "Romain Kauf",
       price: "10.00",
       comment: "Ajoutez des cornichons",
-      status: "pendingValidation",
+      status: "pendingRealization",
       date: "14h45 26/06/21",
       articles: [
         {
@@ -131,7 +149,7 @@ export default class RestaurantsOrders extends Vue {
       deliveryManName: "Romain Kauf",
       price: "10.00",
       comment: "Ajoutez des cornichons",
-      status: "pendingRealization",
+      status: "realization",
       date: "14h45 26/06/21",
       articles: [
         {
@@ -243,6 +261,16 @@ export default class RestaurantsOrders extends Vue {
     },
   ];
 
+  get totalPrice() {
+    let total: number = 0;
+    this.orders.forEach((order: Orders.RestaurantOrder) =>
+      order.articles.forEach(
+        (article) => (total += article.price * article.quantity)
+      )
+    );
+    return total;
+  }
+
   getPendingValidationOrders() {
     return this.orders.filter((i) => i.status === "pendingValidation");
   }
@@ -256,9 +284,7 @@ export default class RestaurantsOrders extends Vue {
   }
 
   getPendingDeliveryOrders() {
-    return this.orders.filter(
-      (i) => i.status === "pendingDelivery" || i.status === "delivery"
-    );
+    return this.orders.filter((i) => i.status === "pendingDelivery");
   }
 }
 </script>
@@ -267,6 +293,12 @@ export default class RestaurantsOrders extends Vue {
 h3,
 h4 {
   font-weight: normal;
+}
+
+#header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .restaurant-orders-container {
