@@ -162,7 +162,7 @@
                         ></router-link
                       >
                       <router-link
-                        to="/restaurant-cart"
+                        to="/restaurant-menu"
                         class="router-mobile-link text-center"
                         ><span @click="dialog = false">Carte</span></router-link
                       >
