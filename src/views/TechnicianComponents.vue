@@ -89,6 +89,8 @@
       :headers="headers"
       :items="components"
       :items-per-page="5"
+      :header-props="headerProps"
+      :footer-props="footerProps"
       class="elevation-1 pt-5"
       lang="fr"
     >
@@ -146,6 +148,14 @@ import axios from "axios";
 export default class TechnicianComponents extends Vue {
   private dialog: boolean = false;
   private valid: boolean = true;
+
+  private headerProps: object = {
+    sortByText: "Trier par",
+  };
+  private footerProps: object = {
+    "items-per-page-text": "Composants par page",
+  };
+
   private headers: object = [
     {
       text: "Nom",
@@ -205,9 +215,15 @@ export default class TechnicianComponents extends Vue {
   };
 
   public deleteComponent(item: Components.component) {
-    const index = this.components.indexOf(item);
-    this.components.splice(index, 1);
-    //axios delete
+    if (
+      confirm(
+        "Etes-vous sûr de vouloir supprimer le composant '" + item.name + "' ?"
+      )
+    ) {
+      const index = this.components.indexOf(item);
+      this.components.splice(index, 1);
+      //axios delete
+    }
   }
 
   public submitForm() {

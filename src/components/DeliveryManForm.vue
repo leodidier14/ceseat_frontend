@@ -119,17 +119,23 @@ export default class DeliveryManForm extends Vue {
   }
 
   public deleteDeliveryMan(): void {
-    axios
-      .delete("/delivery-man/id")
-      .then((res: any) => {
-        //Perform Success Action
-      })
-      .catch((error: any) => {
-        // error.response.status Check status code
-      })
-      .finally(() => {
-        //Perform action in always
-      });
+    if (
+      confirm(
+        "Etes-vous sûr de vouloir supprimer votre status de livreur de manière définitive ?"
+      )
+    ) {
+      axios
+        .delete("/delivery-man/id")
+        .then((res: any) => {
+          //Perform Success Action
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+        })
+        .finally(() => {
+          //Perform action in always
+        });
+    }
   }
 }
 </script>

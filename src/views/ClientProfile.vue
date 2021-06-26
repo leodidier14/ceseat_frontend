@@ -247,17 +247,23 @@ export default class ClientProfile extends Vue {
   }
 
   public deleteAccount(): void {
-    axios
-      .delete("/client/id")
-      .then((res: any) => {
-        //Perform Success Action
-      })
-      .catch((error: any) => {
-        // error.response.status Check status code
-      })
-      .finally(() => {
-        //Perform action in always
-      });
+    if (
+      confirm(
+        "Etes-vous sûr de vouloir supprimer votre compte de manière définitive ?"
+      )
+    ) {
+      axios
+        .delete("/client/id")
+        .then((res: any) => {
+          //Perform Success Action
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+        })
+        .finally(() => {
+          //Perform action in always
+        });
+    }
   }
 }
 </script>

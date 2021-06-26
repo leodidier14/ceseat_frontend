@@ -4,6 +4,8 @@
     <v-data-table
       :headers="headers"
       :items="orders"
+      :header-props="headerProps"
+      :footer-props="footerProps"
       :items-per-page="5"
       class="elevation-1 pt-5"
       lang="fr"
@@ -29,6 +31,7 @@
               En cours de livraison
             </span>
             <span v-else-if="row.item.status == 'delivered'">Livrée</span>
+            <span v-else-if="row.item.status == 'denied'">Refusée</span>
           </td>
 
           <td>{{ row.item.date }}</td>
@@ -53,7 +56,9 @@
               small
               color="red"
               @click="deleteOrder(row.item)"
-              v-if="row.item.status == 'delivered'"
+              v-if="
+                row.item.status == 'delivered' || row.item.status == 'denied'
+              "
             >
               <v-icon dark>mdi-delete</v-icon>
             </v-btn>
@@ -135,6 +140,14 @@ import { Orders } from "@/shims-tsx";
 export default class ClientOrders extends Vue {
   private dialog: boolean = false;
   private currentDialogItem: any = [];
+
+  private headerProps: object = {
+    sortByText: "Trier par",
+  };
+  private footerProps: object = {
+    "items-per-page-text": "Commandes par page",
+  };
+
   private headers: object = [
     {
       text: "Numéro de commande",
@@ -220,7 +233,7 @@ export default class ClientOrders extends Vue {
       price: "20.00",
       date: "14h45 17/03/21",
       comment: "Ajoutez des cornichons",
-      status: "realization",
+      status: "denied",
       articles: [
         {
           name: "menu",
@@ -242,9 +255,17 @@ export default class ClientOrders extends Vue {
   }
 
   public deleteOrder(item: Orders.ClientOrder) {
-    const index = this.orders.indexOf(item);
-    this.orders.splice(index, 1);
-    //axios delete
+    if (
+      confirm(
+        "Etes-vous sûr de vouloir supprimer la commande '" +
+          item.number +
+          "' de l'historique ?"
+      )
+    ) {
+      const index = this.orders.indexOf(item);
+      this.orders.splice(index, 1);
+      //axios delete
+    }
   }
 }
 </script>

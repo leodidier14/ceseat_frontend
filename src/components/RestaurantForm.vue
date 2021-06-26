@@ -391,17 +391,23 @@ export default class RestaurantForm extends Vue {
   }
 
   public deleteRestaurant(): void {
-    axios
-      .delete("/restaurant/id")
-      .then((res: any) => {
-        //Perform Success Action
-      })
-      .catch((error: any) => {
-        // error.response.status Check status code
-      })
-      .finally(() => {
-        //Perform action in always
-      });
+    if (
+      confirm(
+        "Etes-vous sûr de vouloir supprimer votre restaurant de manière définitive ?"
+      )
+    ) {
+      axios
+        .delete("/restaurant/id")
+        .then((res: any) => {
+          //Perform Success Action
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+        })
+        .finally(() => {
+          //Perform action in always
+        });
+    }
   }
 }
 </script>

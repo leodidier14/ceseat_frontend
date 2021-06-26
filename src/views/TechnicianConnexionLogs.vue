@@ -7,6 +7,8 @@
       :headers="headers"
       :items="logs"
       :items-per-page="5"
+      :header-props="headerProps"
+      :footer-props="footerProps"
       class="elevation-1 pt-5"
       lang="fr"
     >
@@ -44,6 +46,14 @@ import { Logs } from "@/shims-tsx";
 export default class TechnicianConnexionLogs extends Vue {
   private dialog: boolean = false;
   private currentDialogItem: any = [];
+
+  private headerProps: object = {
+    sortByText: "Trier par",
+  };
+  private footerProps: object = {
+    "items-per-page-text": "Logs par page",
+  };
+
   private headers: object = [
     {
       text: "Date et heure",
@@ -69,12 +79,19 @@ export default class TechnicianConnexionLogs extends Vue {
       idUser: 2,
       state: false,
     },
+    {
+      time: "25/06/2021 18h13",
+      idUser: 2,
+      state: false,
+    },
   ];
 
   public deleteLog(item: Logs.connexionLogs) {
-    const index = this.logs.indexOf(item);
-    this.logs.splice(index, 1);
-    //axios delete
+    if (confirm("Etes-vous sûr de vouloir supprimer ce log ?")) {
+      const index = this.logs.indexOf(item);
+      this.logs.splice(index, 1);
+      //axios delete
+    }
   }
 }
 </script>

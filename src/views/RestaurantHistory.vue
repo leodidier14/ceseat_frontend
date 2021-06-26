@@ -1,9 +1,13 @@
 <template>
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
-    <h3 class="text-center pt-5" style="font-weight: normal">Historique</h3>
+    <h3 class="text-center pt-5" style="font-weight: normal">
+      Historique des commandes
+    </h3>
     <v-data-table
       :headers="headers"
       :items="getOrdersHistory()"
+      :header-props="headerProps"
+      :footer-props="footerProps"
       :items-per-page="5"
       class="elevation-1 pt-5"
       lang="fr"
@@ -13,6 +17,10 @@
         <tr>
           <td>{{ row.item.number }}</td>
           <td>{{ row.item.date }}</td>
+          <td>
+            <span v-if="row.item.status == 'delivered'">Livrée</span
+            ><span v-if="row.item.status == 'denied'">Refusée</span>
+          </td>
           <td>{{ row.item.clientName }}</td>
           <td>{{ row.item.deliveryManName }}</td>
           <td>{{ row.item.price }}€</td>
@@ -115,6 +123,14 @@ import { Orders } from "@/shims-tsx";
 export default class RestaurantHistory extends Vue {
   private dialog: boolean = false;
   private currentDialogItem: any = [];
+
+  private headerProps: object = {
+    sortByText: "Trier par",
+  };
+  private footerProps: object = {
+    "items-per-page-text": "Commandes par page",
+  };
+
   private headers: object = [
     {
       text: "Numéro de commande",
@@ -123,6 +139,10 @@ export default class RestaurantHistory extends Vue {
     {
       text: "Date",
       value: "date",
+    },
+    {
+      text: "Status",
+      value: "status",
     },
     {
       text: "Client",
@@ -196,7 +216,7 @@ export default class RestaurantHistory extends Vue {
       price: "20.00",
       date: "14h45 17/03/21",
       comment: "Ajoutez des cornichons",
-      status: "delivered",
+      status: "denied",
       articles: [
         {
           name: "menu",
@@ -213,7 +233,9 @@ export default class RestaurantHistory extends Vue {
   ];
 
   getOrdersHistory() {
-    return this.orders.filter((i) => i.status === "delivered");
+    return this.orders.filter(
+      (i) => i.status === "delivered" || i.status === "denied"
+    );
   }
 
   public showDialog(item: Orders.RestaurantOrder) {
@@ -222,9 +244,17 @@ export default class RestaurantHistory extends Vue {
   }
 
   public deleteOrder(item: Orders.RestaurantOrder) {
-    const index = this.orders.indexOf(item);
-    this.orders.splice(index, 1);
-    //axios delete
+    if (
+      confirm(
+        "Etes-vous sûr de vouloir supprimer la commande '" +
+          item.number +
+          "' de l'historique ?"
+      )
+    ) {
+      const index = this.orders.indexOf(item);
+      this.orders.splice(index, 1);
+      //axios delete
+    }
   }
 }
 </script>

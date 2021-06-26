@@ -4,6 +4,8 @@
     <v-data-table
       :headers="headers"
       :items="components"
+      :header-props="headerProps"
+      :footer-props="footerProps"
       :items-per-page="5"
       class="elevation-1 pt-5"
       lang="fr"
@@ -48,6 +50,13 @@ import { Components } from "@/shims-tsx";
 
 @Component
 export default class DeveloperMicroservices extends Vue {
+  private headerProps: object = {
+    sortByText: "Trier par",
+  };
+  private footerProps: object = {
+    "items-per-page-text": "Composants par page",
+  };
+
   private headers: object = [
     {
       text: "Nom",

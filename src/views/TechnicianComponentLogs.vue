@@ -6,6 +6,8 @@
     <v-data-table
       :headers="headers"
       :items="logs"
+      :header-props="headerProps"
+      :footer-props="footerProps"
       :items-per-page="5"
       class="elevation-1 pt-5"
       lang="fr"
@@ -42,6 +44,14 @@ import { Logs } from "@/shims-tsx";
 export default class TechnicianConnexionLogs extends Vue {
   private dialog: boolean = false;
   private currentDialogItem: any = [];
+
+  private headerProps: object = {
+    sortByText: "Trier par",
+  };
+  private footerProps: object = {
+    "items-per-page-text": "Logs par page",
+  };
+
   private headers: object = [
     {
       text: "Date et heure",
@@ -75,9 +85,11 @@ export default class TechnicianConnexionLogs extends Vue {
   ];
 
   public deleteLog(item: Logs.componentLogs) {
-    const index = this.logs.indexOf(item);
-    this.logs.splice(index, 1);
-    //axios delete
+    if (confirm("Etes-vous sûr de vouloir supprimer ce log ?")) {
+      const index = this.logs.indexOf(item);
+      this.logs.splice(index, 1);
+      //axios delete
+    }
   }
 }
 </script>
