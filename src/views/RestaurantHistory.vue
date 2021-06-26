@@ -166,15 +166,20 @@ export default class RestaurantHistory extends Vue {
     },
   ];
 
-  private orders: Array<Orders.RestaurantOrder> = [
+  private orders: Array<Orders.Order> = [
     {
       number: "Commande1",
-      clientName: "Léo DIDIER",
+      clientName: "Leo Didier",
+      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
+      clientPhone: "0633589362",
+      restaurantName: "MacDo",
+      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
       deliveryManName: "Romain Kauf",
-      price: "10.00",
+      deliveryManId: 0,
+      price: 10.0,
       comment: "Ajoutez des cornichons",
       status: "delivered",
-      date: "14h45 24/06/21",
+      date: "04/03/2021 18h30",
       articles: [
         {
           name: "menu",
@@ -186,53 +191,29 @@ export default class RestaurantHistory extends Vue {
           quantity: 1,
         },
         {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
+          name: "menu",
           description: "",
           image: "",
           type: "Menu",
           restaurant: "",
+          price: 10,
+          quantity: 1,
         },
       ],
     },
     {
       number: "Commande2",
-      clientName: "Léo DIDIER",
+      clientName: "Leo Didier",
+      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
+      clientPhone: "0633589362",
+      restaurantName: "MacDo",
+      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
       deliveryManName: "Romain Kauf",
-      price: "20.00",
-      date: "14h45 16/04/21",
-      comment: "Ajoutez des cornichons",
-      status: "realization",
-      articles: [
-        {
-          name: "menu",
-          description: "",
-          image: "",
-          type: "Menu",
-          restaurant: "",
-          price: 10,
-          quantity: 1,
-        },
-        {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
-          description: "",
-          image: "",
-          type: "Menu",
-          restaurant: "",
-        },
-      ],
-    },
-    {
-      number: "Commande3",
-      clientName: "Léo DIDIER",
-      deliveryManName: "Romain Kauf",
-      price: "20.00",
-      date: "14h45 17/03/21",
+      deliveryManId: 0,
+      price: 10.0,
       comment: "Ajoutez des cornichons",
       status: "denied",
+      date: "04/03/2021 18h30",
       articles: [
         {
           name: "menu",
@@ -244,16 +225,16 @@ export default class RestaurantHistory extends Vue {
           quantity: 1,
         },
         {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
+          name: "menu",
           description: "",
           image: "",
           type: "Menu",
           restaurant: "",
+          price: 10,
+          quantity: 1,
         },
       ],
-    },
+    }
   ];
 
   getOrdersHistory() {
@@ -262,12 +243,12 @@ export default class RestaurantHistory extends Vue {
     );
   }
 
-  public showDialog(item: Orders.RestaurantOrder) {
+  public showDialog(item: Orders.Order) {
     this.dialog = true;
     this.currentDialogItem = item;
   }
 
-  public deleteOrder(item: Orders.RestaurantOrder) {
+  public deleteOrder(item: Orders.Order) {
     if (
       confirm(
         "Etes-vous sûr de vouloir supprimer la commande '" +

@@ -183,78 +183,117 @@ export default class ClientOrders extends Vue {
     },
   ];
 
-  private orders: Array<Orders.ClientOrder> = [
+  private orders: Array<Orders.Order> = [
     {
       number: "Commande1",
+      clientName: "Leo Didier",
+      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
+      clientPhone: "0633589362",
       restaurantName: "MacDo",
+      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
       deliveryManName: "Romain Kauf",
-      price: "10.00",
+      deliveryManId: 1,
+      price: 10.0,
       comment: "Ajoutez des cornichons",
       status: "pendingRealization",
-      date: "14h45 24/06/21",
+      date: "04/03/2021 18h30",
       articles: [
         {
           name: "menu",
+          description: "",
+          image: "",
+          type: "Menu",
+          restaurant: "",
           price: 10,
           quantity: 1,
         },
         {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
+          name: "menu",
+          description: "",
+          image: "",
+          type: "Menu",
+          restaurant: "",
+          price: 10,
+          quantity: 1,
         },
       ],
     },
     {
       number: "Commande2",
-      restaurantName: "Burger King",
+      clientName: "Leo Didier",
+      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
+      clientPhone: "0633589362",
+      restaurantName: "MacDo",
+      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
       deliveryManName: "Romain Kauf",
-      price: "20.00",
-      date: "14h45 16/04/21",
+      deliveryManId: 1,
+      price: 10.0,
       comment: "Ajoutez des cornichons",
       status: "delivered",
+      date: "04/03/2021 18h30",
       articles: [
         {
           name: "menu",
+          description: "",
+          image: "",
+          type: "Menu",
+          restaurant: "",
           price: 10,
           quantity: 1,
         },
         {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
+          name: "menu",
+          description: "",
+          image: "",
+          type: "Menu",
+          restaurant: "",
+          price: 10,
+          quantity: 1,
         },
       ],
     },
     {
       number: "Commande3",
-      restaurantName: "Sushi world",
+      clientName: "Leo Didier",
+      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
+      clientPhone: "0633589362",
+      restaurantName: "MacDo",
+      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
       deliveryManName: "Romain Kauf",
-      price: "20.00",
-      date: "14h45 17/03/21",
+      deliveryManId: 1,
+      price: 10.0,
       comment: "Ajoutez des cornichons",
       status: "denied",
+      date: "04/03/2021 18h30",
       articles: [
         {
           name: "menu",
+          description: "",
+          image: "",
+          type: "Menu",
+          restaurant: "",
           price: 10,
           quantity: 1,
         },
         {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
+          name: "menu",
+          description: "",
+          image: "",
+          type: "Menu",
+          restaurant: "",
+          price: 10,
+          quantity: 1,
         },
       ],
-    },
+    }
   ];
 
-  public showDialog(item: Orders.ClientOrder) {
+  public showDialog(item: Orders.Order) {
     this.dialog = true;
     this.currentDialogItem = item;
   }
 
-  public deleteOrder(item: Orders.ClientOrder) {
+  public deleteOrder(item: Orders.Order) {
     if (
       confirm(
         "Etes-vous sûr de vouloir supprimer la commande '" +

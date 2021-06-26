@@ -42,39 +42,20 @@ namespace Restaurants {
 }
 
 namespace Orders {
-  interface RestaurantOrder {
+  interface Order {
     number: string,
     clientName: string,
+    clientAddress: string,
+    clientPhone: string,
+    restaurantName: string,
+    restaurantAddress: string,
     deliveryManName: string,
-    price: float,
+    deliveryManId: number,
+    price: number,
     comment: string,
     status: string,
     articles: Array<Articles.Article>,
-    date: string,
-  }
-
-  interface DeliveryManOrder {
-    number: string,
-    clientName: string,
-    clientAddress: object,
-    clientPhone: string,
-    restaurantName: string,
-    restaurantAddress: object,
-    deliveryManId : number,
-    comment: string,
-    status: string,
-    date: string,
-  }
-
-  interface ClientOrder {
-    number: string,
-    restaurantName: string,
-    deliveryManName: string,
-    price: float,
-    comment: string,
-    status: string,
-    articles: Array<object>,
-    date: string,
+    date: string
   }
 }
 

@@ -149,7 +149,7 @@ import { Orders } from "@/shims-tsx";
 @Component
 export default class RestaurantOrderCard extends Vue {
   @Prop({ required: true })
-  private order!: Orders.RestaurantOrder;
+  private order!: Orders.Order;
 
   @Prop({
     default: "restaurant",

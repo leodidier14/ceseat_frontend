@@ -135,7 +135,7 @@ import { Orders } from "@/shims-tsx";
 @Component
 export default class DeliveryManOrderCard extends Vue {
   @Prop({ required: true })
-  private order!: Orders.DeliveryManOrder;
+  private order!: Orders.Order;
 
   @Prop({
     default: "pendingValidation",

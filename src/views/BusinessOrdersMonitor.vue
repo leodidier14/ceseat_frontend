@@ -75,7 +75,7 @@
                 cardType="business"
                 class="business-order-card"
                 :order="order"
-                v-for="order in getPendingRealizationOrders()"
+                v-for="order in getPendingDeliveryOrders()"
                 :key="order.number"
               />
             </div> </v-card
@@ -96,7 +96,7 @@
                 cardType="business"
                 class="business-order-card"
                 :order="order"
-                v-for="order in getRealizationOrders()"
+                v-for="order in getDeliveryOrders()"
                 :key="order.number"
               /></div></v-card
         ></v-col>
@@ -117,15 +117,20 @@ import { Orders } from "@/shims-tsx";
 })
 export default class BusinessOrdersMonitor extends Vue {
   //'pendingRealization','realization','pendingDelivery','delivery','delivered'
-  private orders: Array<Orders.RestaurantOrder> = [
+  private orders: Array<Orders.Order> = [
     {
       number: "Commande1",
-      clientName: "Léo DIDIER",
+      clientName: "Leo Didier",
+      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
+      clientPhone: "0633589362",
+      restaurantName: "MacDo",
+      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
       deliveryManName: "Romain Kauf",
-      price: "10.00",
+      deliveryManId: 0,
+      price: 20.0,
       comment: "Ajoutez des cornichons",
       status: "pendingRealization",
-      date: "14h45 26/06/21",
+      date: "04/03/2021 18h30",
       articles: [
         {
           name: "menu",
@@ -137,24 +142,29 @@ export default class BusinessOrdersMonitor extends Vue {
           quantity: 1,
         },
         {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
+          name: "menu",
           description: "",
           image: "",
           type: "Menu",
           restaurant: "",
+          price: 10,
+          quantity: 1,
         },
       ],
     },
     {
       number: "Commande2",
-      clientName: "Léo DIDIER",
+      clientName: "Leo Didier",
+      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
+      clientPhone: "0633589362",
+      restaurantName: "MacDo",
+      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
       deliveryManName: "Romain Kauf",
-      price: "10.00",
+      deliveryManId: 1,
+      price: 20.0,
       comment: "Ajoutez des cornichons",
       status: "realization",
-      date: "14h45 26/06/21",
+      date: "04/03/2021 18h30",
       articles: [
         {
           name: "menu",
@@ -166,24 +176,29 @@ export default class BusinessOrdersMonitor extends Vue {
           quantity: 1,
         },
         {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
+          name: "menu",
           description: "",
           image: "",
           type: "Menu",
           restaurant: "",
+          price: 10,
+          quantity: 1,
         },
       ],
     },
     {
       number: "Commande3",
-      clientName: "Léo DIDIER",
+      clientName: "Leo Didier",
+      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
+      clientPhone: "0633589362",
+      restaurantName: "MacDo",
+      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
       deliveryManName: "Romain Kauf",
-      price: "10.00",
+      deliveryManId: 1,
+      price: 20.0,
       comment: "Ajoutez des cornichons",
-      status: "realization",
-      date: "14h45 26/06/21",
+      status: "pendingDelivery",
+      date: "04/03/2021 18h30",
       articles: [
         {
           name: "menu",
@@ -195,53 +210,29 @@ export default class BusinessOrdersMonitor extends Vue {
           quantity: 1,
         },
         {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
+          name: "menu",
           description: "",
           image: "",
           type: "Menu",
           restaurant: "",
+          price: 10,
+          quantity: 1,
         },
       ],
     },
     {
       number: "Commande4",
-      clientName: "Léo DIDIER",
+      clientName: "Leo Didier",
+      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
+      clientPhone: "0633589362",
+      restaurantName: "MacDo",
+      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
       deliveryManName: "Romain Kauf",
-      price: "10.00",
-      comment: "Ajoutez des cornichons",
-      status: "pendingDelivery",
-      date: "14h45 26/06/21",
-      articles: [
-        {
-          name: "menu",
-          description: "",
-          image: "",
-          type: "Menu",
-          restaurant: "",
-          price: 10,
-          quantity: 1,
-        },
-        {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
-          description: "",
-          image: "",
-          type: "Menu",
-          restaurant: "",
-        },
-      ],
-    },
-    {
-      number: "Commande5",
-      clientName: "Léo DIDIER",
-      deliveryManName: "Romain Kauf",
-      price: "10.00",
+      deliveryManId: 1,
+      price: 20.0,
       comment: "Ajoutez des cornichons",
       status: "delivery",
-      date: "14h45 26/06/21",
+      date: "04/03/2021 18h30",
       articles: [
         {
           name: "menu",
@@ -253,30 +244,24 @@ export default class BusinessOrdersMonitor extends Vue {
           quantity: 1,
         },
         {
-          name: "Hamburger",
-          quantity: 2,
-          price: 2,
+          name: "menu",
           description: "",
           image: "",
           type: "Menu",
           restaurant: "",
+          price: 10,
+          quantity: 1,
         },
       ],
-    },
+    }
   ];
 
   get totalPrice() {
     let total: number = 0;
-    this.orders.forEach((order: Orders.RestaurantOrder) =>
-      order.articles.forEach(
-        (article) => (total += article.price * article.quantity)
-      )
+    this.orders.forEach((order: Orders.Order) =>
+      total += order.price
     );
     return total;
-  }
-
-  getPendingValidationOrders() {
-    return this.orders.filter((i) => i.status === "pendingValidation");
   }
 
   getPendingRealizationOrders() {
@@ -289,6 +274,10 @@ export default class BusinessOrdersMonitor extends Vue {
 
   getPendingDeliveryOrders() {
     return this.orders.filter((i) => i.status === "pendingDelivery");
+  }
+
+  getDeliveryOrders() {
+    return this.orders.filter((i) => i.status === "delivery");
   }
 }
 </script>
