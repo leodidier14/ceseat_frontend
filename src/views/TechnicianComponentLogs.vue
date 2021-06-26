@@ -16,6 +16,7 @@
       <template v-slot:item="row">
         <tr>
           <td>{{ row.item.time }}</td>
+          <td>{{ row.item.type }}</td>
           <td>{{ row.item.name }}</td>
           <td>{{ row.item.version }}</td>
           <td>{{ row.item.idUser }}</td>
@@ -58,6 +59,10 @@ export default class TechnicianConnexionLogs extends Vue {
       value: "time",
     },
     {
+      text: "Type",
+      value: "type",
+    },
+    {
       text: "Nom du composant",
       value: "name",
     },
@@ -79,6 +84,7 @@ export default class TechnicianConnexionLogs extends Vue {
     {
       time: "25/06/2021 18h13",
       idUser: 2,
+      type: "npm",
       name: "Button",
       version: "1.0.1",
     },

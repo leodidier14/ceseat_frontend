@@ -27,18 +27,29 @@
               <v-container>
                 <v-row>
                   <v-col cols="12">
+                    <v-select
+                      v-model="component.type"
+                      :items="types"
+                      label="Type"
+                      :rules="[rules.required]"
+                      required
+                      color="#CA6B3E"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12">
                     <v-text-field
                       v-model="component.name"
                       label="Nom"
                       :rules="[rules.required]"
                       required
+                      color="#CA6B3E"
                     ></v-text-field>
                   </v-col>
 
                   <v-col cols="12">
                     <v-textarea
                       v-model="component.description"
-                      color="teal"
+                      color="#CA6B3E"
                       :rules="[rules.required]"
                     >
                       <template v-slot:label>
@@ -51,6 +62,7 @@
                     <v-text-field
                       v-model="component.version"
                       label="Version"
+                      color="#CA6B3E"
                       :rules="[rules.required]"
                       required
                     ></v-text-field>
@@ -60,6 +72,7 @@
                       v-model="component.documentationLink"
                       label="Lien documentation"
                       :rules="[rules.required]"
+                      color="#CA6B3E"
                       required
                     ></v-text-field>
                   </v-col>
@@ -67,6 +80,7 @@
                     <v-text-field
                       v-model="component.downloadLink"
                       label="Lien téléchargement"
+                      color="#CA6B3E"
                       :rules="[rules.required]"
                       required
                     ></v-text-field>
@@ -97,6 +111,7 @@
       <template slot="no-data">Désolé, pas de composants disponibles</template>
       <template v-slot:item="row">
         <tr>
+          <td>{{ row.item.type }}</td>
           <td>{{ row.item.name }}</td>
           <td>{{ row.item.description }}</td>
           <td>{{ row.item.version }}</td>
@@ -158,6 +173,10 @@ export default class TechnicianComponents extends Vue {
 
   private headers: object = [
     {
+      text: "Type",
+      value: "type",
+    },
+    {
       text: "Nom",
       value: "name",
     },
@@ -185,7 +204,10 @@ export default class TechnicianComponents extends Vue {
     },
   ];
 
+  private types: Array<string> = ["npm", "Micro-service"];
+
   private component: Components.component = {
+    type: "",
     name: "",
     version: "",
     description: "",
@@ -195,6 +217,7 @@ export default class TechnicianComponents extends Vue {
 
   private components: Array<Components.component> = [
     {
+      type: "npm",
       name: "API de commandes",
       version: "1.0.0",
       description: "Fonctionnalités pour faire des commandes",
@@ -202,6 +225,7 @@ export default class TechnicianComponents extends Vue {
       downloadLink: "https://github.com/leodidier14",
     },
     {
+      type: "Micro-service",
       name: "API de connection",
       version: "1.0.0",
       description: "Fonctionnalités pour connecter un utilisateur",
@@ -232,6 +256,7 @@ export default class TechnicianComponents extends Vue {
     ) {
       this.components.push(JSON.parse(JSON.stringify(this.component)));
       this.component = {
+        type: "",
         name: "",
         version: "",
         description: "",

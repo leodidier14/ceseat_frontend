@@ -64,6 +64,7 @@ namespace Components {
   {
     name: string,
     description: string,
+    type: string,
     version: string,
     documentationLink: string,
     downloadLink: string
@@ -77,6 +78,7 @@ namespace Logs {
     state: boolean,
   }
   interface componentLogs {
+    type: string,
     time: string,
     idUser: number,
     name: string,

@@ -1,6 +1,8 @@
 <template>
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
-    <h3 class="text-center pt-5" style="font-weight: normal">Micro-services</h3>
+    <h3 class="text-center pt-5" style="font-weight: normal">
+      Composants disponibles
+    </h3>
     <v-data-table
       :headers="headers"
       :items="components"
@@ -13,6 +15,7 @@
       <template slot="no-data">Désolé, pas de composants disponibles</template>
       <template v-slot:item="row">
         <tr>
+          <td>{{ row.item.type }}</td>
           <td>{{ row.item.name }}</td>
           <td>{{ row.item.description }}</td>
           <td>{{ row.item.version }}</td>
@@ -49,7 +52,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { Components } from "@/shims-tsx";
 
 @Component
-export default class DeveloperMicroservices extends Vue {
+export default class DeveloperComponent extends Vue {
   private headerProps: object = {
     sortByText: "Trier par",
   };
@@ -58,6 +61,10 @@ export default class DeveloperMicroservices extends Vue {
   };
 
   private headers: object = [
+    {
+      text: "Type",
+      value: "type",
+    },
     {
       text: "Nom",
       value: "name",
@@ -84,13 +91,15 @@ export default class DeveloperMicroservices extends Vue {
 
   private components: Array<Components.component> = [
     {
-      name: "API de commandes",
+      type: "npm",
+      name: "Button",
       version: "1.0.0",
-      description: "Fonctionnalités pour faire des commandes",
+      description: "Button pour faire des commandes",
       documentationLink: "https://github.com/leodidier14",
       downloadLink: "https://github.com/leodidier14",
     },
     {
+      type: "Micro-service",
       name: "API de connection",
       version: "1.0.0",
       description: "Fonctionnalités pour connecter un utilisateur",

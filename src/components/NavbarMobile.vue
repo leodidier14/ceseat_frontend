@@ -114,17 +114,10 @@
                         ></router-link
                       >
                       <router-link
-                        to="/developer-npm"
+                        to="/developer-components"
                         class="router-mobile-link text-center mr-2"
                         ><span @click="dialog = false"
-                          >Composants npm</span
-                        ></router-link
-                      >
-                      <router-link
-                        to="/developer-microservices"
-                        class="router-mobile-link text-center mr-2"
-                        ><span @click="dialog = false"
-                          >Micro-services</span
+                          >Composants</span
                         ></router-link
                       >
                       <router-link

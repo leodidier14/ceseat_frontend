@@ -67,12 +67,7 @@
           <router-link to="/developer-profile">Mon profil</router-link>
         </v-list-item>
         <v-list-item>
-          <router-link to="/developer-npm">Composants npm</router-link>
-        </v-list-item>
-        <v-list-item>
-          <router-link to="/developer-microservices"
-            >Micro-services</router-link
-          >
+          <router-link to="/developer-components">Composants</router-link>
         </v-list-item>
         <v-list-item>
           <router-link to="/developer-logout">Se déconnecter</router-link>
