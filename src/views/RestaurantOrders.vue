@@ -5,7 +5,7 @@
     width="80%"
     height="100%"
   >
-    <h3 class="text-center pt-5">Commandes</h3>
+    <h3 class="text-center pt-5">Les commandes du restaurant</h3>
     <v-container class="restaurant-orders-container">
       <v-row class="restaurant-orders-row pt-5">
         <v-col cols="12" class="pb-5">
@@ -14,9 +14,11 @@
             elevation="10"
             width="100%"
             height="100%"
-            color="#FFF5F0"
+            color="#CA6B3E"
           >
-            <h4 class="text-center py-2">Nouvelles commandes</h4>
+            <h4 class="text-center py-2" style="color: white">
+              Nouvelles commandes
+            </h4>
             <div class="flex-container">
               <RestaurantOrderCard
                 class="restaurant-order-card"
@@ -33,9 +35,11 @@
             elevation="10"
             width="97%"
             height="100%"
-            color="#FFF5F0"
+            color="#CA6B3E"
           >
-            <h4 class="text-center mt-2 py-2">En attentes</h4>
+            <h4 class="text-center mt-2 py-2" style="color: white">
+              En attentes
+            </h4>
             <div class="flex-container">
               <RestaurantOrderCard
                 class="restaurant-order-card"
@@ -51,9 +55,9 @@
             elevation="10"
             width="97%"
             height="100%"
-            color="#FFF5F0"
+            color="#CA6B3E"
           >
-            <h4 class="text-center mt-2 py-2">En cours</h4>
+            <h4 class="text-center mt-2 py-2" style="color: white">En cours</h4>
             <div class="flex-container">
               <RestaurantOrderCard
                 class="restaurant-order-card"
@@ -68,9 +72,9 @@
             elevation="10"
             width="97%"
             height="100%"
-            color="#FFF5F0"
+            color="#CA6B3E"
           >
-            <h4 class="text-center mt-2 py-2">Prêtes</h4>
+            <h4 class="text-center mt-2 py-2" style="color: white">Prêtes</h4>
             <div class="flex-container">
               <RestaurantOrderCard
                 class="restaurant-order-card"

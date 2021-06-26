@@ -5,7 +5,7 @@
     width="80%"
     height="100%"
   >
-    <h3 class="text-center pt-5">Commandes</h3>
+    <h3 class="text-center pt-5">Mes commandes</h3>
     <v-container class="deliveryman-orders-container">
       <v-row class="deliveryman-orders-row pt-5">
         <v-col cols="12" class="pb-5">
@@ -14,9 +14,11 @@
             elevation="10"
             width="100%"
             height="100%"
-            color="#FFF5F0"
+            color="#CA6B3E"
           >
-            <h4 class="text-center py-2">Nouvelles commandes</h4>
+            <h4 class="text-center py-2" style="color: white">
+              Nouvelles commandes
+            </h4>
             <div class="flex-container">
               <DeliveryManOrderCard
                 class="restaurant-order-card"
@@ -34,9 +36,11 @@
             elevation="10"
             width="100%"
             height="100%"
-            color="#FFF5F0"
+            color="#CA6B3E"
           >
-            <h4 class="text-center py-2">Commande à livrer</h4>
+            <h4 class="text-center py-2" style="color: white">
+              Commande à livrer
+            </h4>
             <div class="flex-container">
               <DeliveryManOrderCard
                 class="restaurant-order-card"
