@@ -200,6 +200,13 @@
                           >Historique</span
                         ></router-link
                       >
+                      <router-link
+                        to="/restaurant-stats"
+                        class="router-mobile-link text-center"
+                        ><span @click="dialog = false"
+                          >Statistiques</span
+                        ></router-link
+                      >
                     </v-list>
                   </v-menu>
                 </v-list-item-content>

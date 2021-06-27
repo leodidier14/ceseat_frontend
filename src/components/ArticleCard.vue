@@ -11,7 +11,7 @@
             class="ml-2 mt-5"
             v-text="Number.parseFloat(getCardItem.price).toFixed(2) + ' €'"
           ></span>
-          <span class="ml-10 mt-5" v-if="type != 'restaurant'">
+          <span class="ml-10 mt-5" v-if="type != 'restaurant' && type != 'stats'">
             <v-btn
               fab
               icon
@@ -90,7 +90,7 @@ export default class ArticleCard extends Vue {
   @Prop({
     default: "customer",
     validator: (value: string) =>
-      ["customer", "cart", "restaurant"].includes(value),
+      ["customer", "cart", "restaurant", "stats"].includes(value),
   })
   private type!: string;
 

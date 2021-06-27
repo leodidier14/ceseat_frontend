@@ -113,6 +113,9 @@
         <v-list-item>
           <router-link to="/restaurant-history">Historique</router-link>
         </v-list-item>
+        <v-list-item>
+          <router-link to="/restaurant-stats">Statistiques</router-link>
+        </v-list-item>
       </v-list>
     </v-menu>
     <v-menu offset-y>
