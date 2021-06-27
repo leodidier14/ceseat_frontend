@@ -215,28 +215,46 @@ export default class TechnicianComponents extends Vue {
     downloadLink: "",
   };
 
-  private components: Array<Components.component> = [
-    {
-      type: "npm",
-      name: "API de commandes",
-      version: "1.0.0",
-      description: "Fonctionnalités pour faire des commandes",
-      documentationLink: "https://github.com/leodidier14",
-      downloadLink: "https://github.com/leodidier14",
-    },
-    {
-      type: "Micro-service",
-      name: "API de connection",
-      version: "1.0.0",
-      description: "Fonctionnalités pour connecter un utilisateur",
-      documentationLink: "https://github.com/leodidier14",
-      downloadLink: "https://github.com/leodidier14",
-    },
-  ];
+  private components: Array<Components.component> = []
+  //   {
+  //     type: "npm",
+  //     name: "API de commandes",
+  //     version: "1.0.0",
+  //     description: "Fonctionnalités pour faire des commandes",
+  //     documentationLink: "https://github.com/leodidier14",
+  //     downloadLink: "https://github.com/leodidier14",
+  //   },
+  //   {
+  //     type: "Micro-service",
+  //     name: "API de connection",
+  //     version: "1.0.0",
+  //     description: "Fonctionnalités pour connecter un utilisateur",
+  //     documentationLink: "https://github.com/leodidier14",
+  //     downloadLink: "https://github.com/leodidier14",
+  //   },
+  // ];
 
   private rules = {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
+
+  private apiGetRoute: string = "api/components/";
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute)
+      .then((res: any) => {
+        //Perform Success Action
+        this.components = res;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
 
   public deleteComponent(item: Components.component) {
     if (
@@ -244,9 +262,22 @@ export default class TechnicianComponents extends Vue {
         "Etes-vous sûr de vouloir supprimer le composant '" + item.name + "' ?"
       )
     ) {
-      const index = this.components.indexOf(item);
-      this.components.splice(index, 1);
+      // const index = this.components.indexOf(item);
+      // this.components.splice(index, 1);
       //axios delete
+      axios
+        .delete(this.apiGetRoute)
+        .then((res: any) => {
+          //Perform Success Action
+          this.components = res;
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+          //this.$router.go(0);
+        })
+        .finally(() => {
+          //Perform action in always
+        });
     }
   }
 
@@ -254,19 +285,20 @@ export default class TechnicianComponents extends Vue {
     if (
       (this.$refs.componentForm as Vue & { validate: () => boolean }).validate()
     ) {
-      this.components.push(JSON.parse(JSON.stringify(this.component)));
-      this.component = {
-        type: "",
-        name: "",
-        version: "",
-        description: "",
-        documentationLink: "",
-        downloadLink: "",
-      };
-      this.dialog = false;
+      // this.components.push(JSON.parse(JSON.stringify(this.component)));
+      // this.component = {
+      //   type: "",
+      //   name: "",
+      //   version: "",
+      //   description: "",
+      //   documentationLink: "",
+      //   downloadLink: "",
+      // };
+      // this.dialog = false;
       axios
-        .post("/addcomponent", this.component)
+        .post(this.apiGetRoute, this.component)
         .then((res: any) => {
+          this.$router.go(0);
           //Perform Success Action
         })
         .catch((error: any) => {
