@@ -95,3 +95,13 @@ namespace Logs {
     version: string,
   }
 }
+
+namespace Stats {
+  interface microserviceRequest {
+    id: number,
+    date: string,
+    name: string,
+    description: string,
+    requestNumber: number,
+  }
+}

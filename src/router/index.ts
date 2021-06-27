@@ -32,62 +32,40 @@ const routes: Array<RouteConfig> = [
   {
     path: '/client-orders',
     name: 'ClientOrders',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/ClientOrders.vue')
+    component: () => import('@/views/ClientOrders.vue')
   },
   {
     path: '/technician-components',
     name: 'TechnicianComponents',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/TechnicianComponents.vue')
+    component: () => import('@/views/TechnicianComponents.vue')
   },
   {
     path: '/technician-connexion-logs',
     name: 'TechnicianConnexionLogs',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/TechnicianConnexionLogs.vue')
+    component: () => import('@/views/TechnicianConnexionLogs.vue')
   },
   {
     path: '/technician-components-logs',
     name: 'TechnicianComponentLogs',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/TechnicianComponentLogs.vue')
+    component: () => import('@/views/TechnicianComponentLogs.vue')
   },
   {
     path: '/developer-register',
     name: 'DeveloperRegister',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/DeveloperRegister.vue')
-   
-  },
+    component: () => import('@/views/DeveloperRegister.vue')
 
+  },
   {
     path: '/developer-profile',
     name: 'DeveloperProfile',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/DeveloperProfile.vue')
+    component: () => import('@/views/DeveloperProfile.vue')
   },
   {
     path: '/developer-components',
     name: 'DeveloperComponents',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/DeveloperComponents.vue')
+    component: () => import('@/views/DeveloperComponents.vue')
   },
-  
+
   {
     path: '/restaurant-register',
     name: 'RestaurantRegister',
@@ -123,7 +101,7 @@ const routes: Array<RouteConfig> = [
 
     component: () => import('@/views/RestaurantsList.vue')
   },
-  
+
   {
     path: '/restaurant-orders',
     name: 'RestaurantOrders',
@@ -133,9 +111,15 @@ const routes: Array<RouteConfig> = [
   {
     path: '/restaurant-history',
     name: 'RestaurantHistory',
-    
+
     component: () => import('@/views/RestaurantHistory.vue')
-    },
+  },
+  {
+    path: '/restaurant-stats',
+    name: 'RestaurantStats',
+
+    component: () => import('@/views/RestaurantStats.vue')
+  },
   {
     path: '/customer-menu',
     name: 'CustomerMenu',
@@ -156,6 +140,11 @@ const routes: Array<RouteConfig> = [
     path: '/business-orders-monitor/:restaurantId',
     name: 'BusinessOrdersMonitor',
     component: () => import('@/views/BusinessOrdersMonitor.vue')
+  },
+  {
+    path: '/business-stats',
+    name: 'BusinessStats',
+    component: () => import('@/views/BusinessStats.vue')
   },
 ]
 
