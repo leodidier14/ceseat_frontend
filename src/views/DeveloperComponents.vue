@@ -50,6 +50,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Components } from "@/shims-tsx";
+import axios from "axios";
 
 @Component
 export default class DeveloperComponent extends Vue {
@@ -89,23 +90,42 @@ export default class DeveloperComponent extends Vue {
     },
   ];
 
-  private components: Array<Components.component> = [
-    {
-      type: "npm",
-      name: "Button",
-      version: "1.0.0",
-      description: "Button pour faire des commandes",
-      documentationLink: "https://github.com/leodidier14",
-      downloadLink: "https://github.com/leodidier14",
-    },
-    {
-      type: "Micro-service",
-      name: "API de connection",
-      version: "1.0.0",
-      description: "Fonctionnalités pour connecter un utilisateur",
-      documentationLink: "https://github.com/leodidier14",
-      downloadLink: "https://github.com/leodidier14",
-    },
-  ];
+  private components: Array<Components.component> = [];
+
+  private apiGetRoute: string = "api/components/";
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute)
+      .then((res: any) => {
+        //Perform Success Action
+        this.components = res;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
+
+  //   {
+  //     type: "npm",
+  //     name: "Button",
+  //     version: "1.0.0",
+  //     description: "Button pour faire des commandes",
+  //     documentationLink: "https://github.com/leodidier14",
+  //     downloadLink: "https://github.com/leodidier14",
+  //   },
+  //   {
+  //     type: "Micro-service",
+  //     name: "API de connection",
+  //     version: "1.0.0",
+  //     description: "Fonctionnalités pour connecter un utilisateur",
+  //     documentationLink: "https://github.com/leodidier14",
+  //     downloadLink: "https://github.com/leodidier14",
+  //   },
+  // ];
 }
 </script>
