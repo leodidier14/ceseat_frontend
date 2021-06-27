@@ -22,7 +22,7 @@
     >
       <v-text-field
         class="textfield mx-auto"
-        v-model="email"
+        v-model="login.email"
         :rules="emailRules"
         label="E-mail"
         color="#CA6B3E"
@@ -34,6 +34,7 @@
         :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="[rules.required]"
         :type="showPassword ? 'text' : 'password'"
+        v-model="login.password"
         name="passwordInput"
         label="Mot de passe"
         color="#CA6B3E"
@@ -98,7 +99,7 @@ export default class DeveloperLogin extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiSubmitRoute: string = "api/developer-login";
+  private apiSubmitRoute: string = "http://localhost:3000/dev-login";
 
   //api call to post data
   public submitForm(): void {
@@ -108,12 +109,15 @@ export default class DeveloperLogin extends Vue {
       axios
         .post(this.apiSubmitRoute, this.login)
         .then((res: any) => {
+          localStorage.setItem('token','Bearer ' + res.data.token)
+
+          localStorage.setItem('devId',res.data.id)
           //Perform Success Action
-          this.$router.push({ name: "DeveloperComponents" });
+         // this.$router.push({ name: "DeveloperComponents" });
         })
         .catch((error: any) => {
           // error.response.status Check status code
-          this.$router.go(0);
+         // this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always

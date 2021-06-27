@@ -22,7 +22,7 @@
     >
       <v-text-field
         class="textfield mx-auto"
-        v-model="email"
+        v-model="login.email"
         :rules="emailRules"
         label="E-mail"
         color="#CA6B3E"
@@ -34,6 +34,7 @@
         :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="[rules.required]"
         :type="showPassword ? 'text' : 'password'"
+        v-model="login.password"
         name="passwordInput"
         label="Mot de passe"
         color="#CA6B3E"
@@ -98,7 +99,7 @@ export default class ClientLogin extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiSubmitRoute: string = "api/client-login";
+  private apiSubmitRoute: string = "http://localhost:3000/login";
 
   //api call to post data
   public submitForm(): void {
@@ -108,12 +109,18 @@ export default class ClientLogin extends Vue {
       axios
         .post(this.apiSubmitRoute, this.login)
         .then((res: any) => {
+          console.log(res)
           //Perform Success Action
           this.$router.push({ name: "RestaurantsList" });
+          localStorage.setItem('token','Bearer ' + res.data.token)
+          localStorage.setItem('userId',res.data.userId)
+          localStorage.setItem(res.data.role.type,res.data.role.id)
+
         })
         .catch((error: any) => {
+          console.log(error)
           // error.response.status Check status code
-          this.$router.go(0);
+          //this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always

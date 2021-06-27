@@ -109,7 +109,6 @@ export default class DeveloperRegister extends Vue {
   private valid: boolean = true;
 
   private devRegister = {
-    accountType: "developper",
     email: "",
     password: "",
     confirmedPassword: "",
@@ -147,7 +146,11 @@ export default class DeveloperRegister extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiSubmitRoute: string = "api/developer-register";
+  private apiSubmitRoute: string = "http://localhost:3000/dev/";
+  private apiGettRoute: string = "http://localhost:3000/dev/"+localStorage.getItem('devId');
+  private apiDeleteRoute: string = "http://localhost:3000/dev/"+localStorage.getItem('devId');
+  private apiUpdateRoute: string = "http://localhost:3000/dev/"+localStorage.getItem('devId');
+
 
   //api call to post data
   public submitForm(): void {
@@ -159,12 +162,12 @@ export default class DeveloperRegister extends Vue {
       axios
         .post(this.apiSubmitRoute, this.devRegister)
         .then((res: any) => {
-          //Perform Success Action
           this.$router.push({ name: "DeveloperLogin" });
         })
         .catch((error: any) => {
+          console.log(error)
           // error.response.status Check status code
-          this.$router.go(0);
+          //this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always

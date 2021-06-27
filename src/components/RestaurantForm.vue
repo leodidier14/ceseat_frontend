@@ -45,7 +45,7 @@
               class="input-field mx-auto"
               color="#CA6B3E"
               label="Numéro de siret"
-              v-model="restaurant.siretNumber"
+              v-model="restaurant.siret"
               :rules="[rules.required]"
               required
             />
@@ -70,7 +70,7 @@
               class="input-field mx-auto"
               color="#CA6B3E"
               label="Image"
-              v-model="restaurant.image"
+              v-model="restaurant.pictureLink"
               :rules="[rules.required]"
               required
             />
@@ -126,7 +126,7 @@
                 class="half-input-field"
                 color="#CA6B3E"
                 label="Type"
-                v-model="restaurant.country"
+                v-model="restaurant.type"
                 :items="types"
                 :rules="[rules.required]"
                 required
@@ -144,7 +144,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="restaurant.openTime"
+                      v-model="restaurant.openingTime"
                       label="Ouverture"
                       prepend-icon="mdi-clock-time-four-outline"
                       v-bind="attrs"
@@ -155,7 +155,7 @@
                   </template>
                   <v-time-picker
                     v-if="dialogOpenTime"
-                    v-model="restaurant.openTime"
+                    v-model="restaurant.openingTime"
                     full-width
                     format="24hr"
                     color="#CA6B3E"
@@ -167,7 +167,7 @@
                     <v-btn
                       text
                       color="#CA6B3E"
-                      @click="$refs.dialogOpen.save(restaurant.openTime)"
+                      @click="$refs.dialogOpen.save(restaurant.openingTime)"
                     >
                       OK
                     </v-btn>
@@ -186,7 +186,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="restaurant.closeTime"
+                      v-model="restaurant.closingTime"
                       label="Fermeture"
                       prepend-icon="mdi-clock-time-four-outline"
                       v-bind="attrs"
@@ -197,7 +197,7 @@
                   </template>
                   <v-time-picker
                     v-if="dialogCloseTime"
-                    v-model="restaurant.closeTime"
+                    v-model="restaurant.closingTime"
                     full-width
                     format="24hr"
                     color="#CA6B3E"
@@ -213,7 +213,7 @@
                     <v-btn
                       text
                       color="#CA6B3E"
-                      @click="$refs.dialogClose.save(restaurant.closeTime)"
+                      @click="$refs.dialogClose.save(restaurant.closingTime)"
                     >
                       OK
                     </v-btn>
@@ -314,14 +314,14 @@ export default class RestaurantForm extends Vue {
   private restaurant = {
     name: "",
     email: "",
-    siretNumber: "",
+    siret: "",
     phoneNumber: "",
     website: "",
     description: "",
     type: "",
-    openTime: "",
-    closeTime: "",
-    image: "",
+    openingTime: "",
+    closingTime: "",
+    pictureLink: "",
     address: "",
     city: "",
     zipCode: "",
@@ -362,33 +362,90 @@ export default class RestaurantForm extends Vue {
 
   private types = ["Hamburger", "Japonais", "Kebab"];
 
+  private apiSubmitRoute: string = "http://localhost:3000/restaurant";
+  private apiGetRoute: string = "http://localhost:3000/restaurant/"+localStorage.getItem('restaurantId');
+  private apiDeleteRoute: string = "http://localhost:3000/restaurant/"+localStorage.getItem('restaurantId');
+  private apiUpdateRoute: string = "http://localhost:3000/restaurant/"+localStorage.getItem('restaurantId');
+
+
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
+      .then((res: any) => {
+        console.log(res.data)
+        //Perform Success Action
+        this.restaurant = res.data;
+      })
+      .catch((error: any) => {
+        console.log(error)
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
+
+
   //api call to post data
   public submitForm(): void {
-    let route = "";
-    if (this.formType == "register") {
-      route = "/restaurant";
-    } else {
-      route = "/restaurant/id";
+    if(this.formType == "register"){
+      if (
+          (
+            this.$refs.restaurantForm as Vue & { validate: () => boolean }
+          ).validate() 
+          ) {
+              axios
+                .post(this.apiSubmitRoute, this.restaurant,{
+                  headers:{
+                    Authorization: localStorage.getItem('token')
+                  }
+                })
+                .then((res: any) => {
+                  localStorage.setItem('restaurantId',res.data.id)
+                  console.log(res)
+                  //Perform Success Action
+                })
+                .catch((error: any) => {
+                  console.log(error)
+                  // error.response.status Check status code
+                })
+                .finally(() => {
+                  //Perform action in always
+                });
+            }
+      } else {
+        if (
+            (
+              this.$refs.restaurantForm as Vue & { validate: () => boolean }
+            ).validate() 
+            ) {
+                axios
+                  .put(this.apiUpdateRoute, this.restaurant,{
+                    headers:{
+                      Authorization: localStorage.getItem('token')
+                    }
+                  })
+                  .then((res: any) => {
+                    console.log(res)
+                    //Perform Success Action
+                  })
+                  .catch((error: any) => {
+                    console.log(error)
+                    // error.response.status Check status code
+                  })
+                  .finally(() => {
+                    //Perform action in always
+                  });
+            }
     }
-
-    if (
-      (
-        this.$refs.restaurantForm as Vue & { validate: () => boolean }
-      ).validate()
-    ) {
-      axios
-        .post(route, this.restaurant)
-        .then((res: any) => {
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
-    }
-  }
+  } 
+      
 
   public deleteRestaurant(): void {
     if (
@@ -397,8 +454,13 @@ export default class RestaurantForm extends Vue {
       )
     ) {
       axios
-        .delete("/restaurant/id")
+        .delete(this.apiDeleteRoute,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
         .then((res: any) => {
+          localStorage.removeItem('restaurantId')
           //Perform Success Action
         })
         .catch((error: any) => {
