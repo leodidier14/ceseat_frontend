@@ -14,9 +14,9 @@
       <v-btn elevation="2" rounded small class="info-restaurant">{{
         restaurant.city
       }}</v-btn>
-      <v-btn elevation="2" rounded small class="info-restaurant">{{
-        restaurant.schedule
-      }}</v-btn>
+      <v-btn elevation="2" rounded small class="info-restaurant"
+        >{{ restaurant.openingTime }} - {{ restaurant.closingTime }}</v-btn
+      >
       <v-btn elevation="2" rounded small class="info-restaurant">{{
         restaurant.type
       }}</v-btn>

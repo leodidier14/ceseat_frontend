@@ -298,6 +298,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
+import { Restaurants } from "@/shims-tsx";
 
 @Component
 export default class RestaurantForm extends Vue {
@@ -311,7 +312,8 @@ export default class RestaurantForm extends Vue {
   private dialogOpenTime: boolean = false;
   private dialogCloseTime: boolean = false;
 
-  private restaurant = {
+  private restaurant: Restaurants.Restaurant = {
+    id: 0,
     name: "",
     email: "",
     siretNumber: "",
@@ -319,8 +321,8 @@ export default class RestaurantForm extends Vue {
     website: "",
     description: "",
     type: "",
-    openTime: "",
-    closeTime: "",
+    openingTime: "",
+    closingTime: "",
     image: "",
     address: "",
     city: "",
@@ -364,29 +366,16 @@ export default class RestaurantForm extends Vue {
 
   //api call to post data
   public submitForm(): void {
-    let route = "";
-    if (this.formType == "register") {
-      route = "/restaurant";
-    } else {
-      route = "/restaurant/id";
-    }
-
     if (
       (
         this.$refs.restaurantForm as Vue & { validate: () => boolean }
       ).validate()
     ) {
-      axios
-        .post(route, this.restaurant)
-        .then((res: any) => {
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+      if (this.formType == "register") {
+        this.$root.$emit("create-restaurant", this.restaurant);
+      } else {
+        this.$root.$emit("update-restaurant", this.restaurant);
+      }
     }
   }
 
@@ -396,17 +385,7 @@ export default class RestaurantForm extends Vue {
         "Etes-vous sûr de vouloir supprimer votre restaurant de manière définitive ?"
       )
     ) {
-      axios
-        .delete("/restaurant/id")
-        .then((res: any) => {
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+      this.$root.$emit("delete-restaurant", this.restaurant.id);
     }
   }
 }

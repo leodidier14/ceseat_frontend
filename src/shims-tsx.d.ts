@@ -34,10 +34,20 @@ namespace Restaurants {
   interface Restaurant {
     id: number,
     name: string,
-    city: string,
+    email: string,
+    siretNumber: string,
+    phoneNumber: string,
+    website: string,
+    description: string,
     type: string,
-    schedule: string,
-    image: string
+    openingTime: string,
+    closingTime: string,
+    image: string,
+    address: string,
+    city: string,
+    zipCode: string,
+    country: string,
+    sponsorshipLink: string,
   }
 }
 
