@@ -91,7 +91,9 @@
         v-for="restaurant in resultQuery"
         :key="restaurant.id"
       >
-        <Restaurant :restaurant="restaurant" />
+        <router-link :to="'/customer-menu/' + restaurant.id" tag="v-btn">
+          <Restaurant :restaurant="restaurant" />
+        </router-link>
       </div>
     </div>
   </v-card>
@@ -146,7 +148,7 @@ export default class RestaurantsList extends Vue {
     },
 
     {
-      id: 4,
+      id: 2,
       name: "Sushi World",
       email: "",
       siretNumber: "",
@@ -166,7 +168,7 @@ export default class RestaurantsList extends Vue {
     },
 
     {
-      id: 2,
+      id: 3,
       name: "Burger King",
       email: "",
       siretNumber: "",
@@ -186,7 +188,7 @@ export default class RestaurantsList extends Vue {
     },
 
     {
-      id: 3,
+      id: 4,
       name: "KFC",
       email: "",
       siretNumber: "",

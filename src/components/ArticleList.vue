@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
     <div id="banner">
-      <h2 class="ml-10" id="title" v-text="currentRestaurant"></h2>
+      <h2 class="ml-10" id="title" v-text="restaurantId"></h2>
       <span class="mr-10" id="add-buttons" v-if="menuType == 'restaurant'">
         <AddArticle />
         <AddMenu />
@@ -74,8 +74,11 @@ export default class ArticleChoice extends Vue {
   @Prop({ required: true })
   private menus!: Array<Articles.Menu>;
 
+  @Prop({required: true})
+  private restaurantId!: number;
+
   private currentType: string = "";
-  private currentRestaurant: string = "McDonald's";
+  // private currentRestaurant: string = "McDonald's";
 
   // private articles: Array<Articles.Article> = [
   //   {
