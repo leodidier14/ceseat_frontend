@@ -248,32 +248,17 @@ export default class RestaurantStats extends Vue {
   private meanArticlesByOrder: number = 0;
   private meanPriceByOrder: number = 0;
 
-  private apiGetPopularArticles: string = "api/restaurant-stats/";
+  private apiGetRestaurantStats: string = "api/restaurant-stats/";
 
   mounted() {
     axios
-      .get(this.apiGetPopularArticles)
+      .get(this.apiGetRestaurantStats)
       .then((res: any) => {
         //Perform Success Action
         this.articles = res.articles;
         this.menus = res.menus;
         this.meanArticlesByOrder = res.meanArticlesByOrder;
         this.meanPriceByOrder = res.meanPriceByOrder;
-      })
-      .catch((error: any) => {
-        // error.response.status Check status code
-        //this.$router.go(0);
-      })
-      .finally(() => {
-        //Perform action in always
-      });
-
-    axios
-      .get(this.apiGetPopularArticles)
-      .then((res: any) => {
-        //Perform Success Action
-        this.articles = res.articles;
-        this.menus = res.menus;
       })
       .catch((error: any) => {
         // error.response.status Check status code
