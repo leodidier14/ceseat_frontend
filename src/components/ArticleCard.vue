@@ -11,7 +11,10 @@
             class="ml-2 mt-5"
             v-text="Number.parseFloat(getCardItem.price).toFixed(2) + ' €'"
           ></span>
-          <span class="ml-10 mt-5" v-if="type != 'restaurant' && type != 'stats'">
+          <span
+            class="ml-10 mt-5"
+            v-if="type != 'restaurant' && type != 'stats'"
+          >
             <v-btn
               fab
               icon
@@ -50,9 +53,19 @@
           </v-btn>
 
           <span v-if="type == 'restaurant'">
-            <AddArticle v-if="article != null" mode="edit" :article="JSON.parse(JSON.stringify(article))"/>
-            <AddMenu v-if="menu != null" mode="edit" :menu="JSON.parse(JSON.stringify(menu))"/>
-            <v-icon class="ml-5 mt-5" color="red" @click="deleteArticle()">mdi-delete</v-icon>
+            <AddArticle
+              v-if="article != null"
+              mode="edit"
+              :article="JSON.parse(JSON.stringify(article))"
+            />
+            <AddMenu
+              v-if="menu != null"
+              mode="edit"
+              :menu="JSON.parse(JSON.stringify(menu))"
+            />
+            <v-icon class="ml-5 mt-5" color="red" @click="deleteArticle()"
+              >mdi-delete</v-icon
+            >
           </span>
         </v-card-actions>
       </div>
@@ -69,14 +82,14 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { Articles } from "@/shims-tsx";
 import { getModule } from "vuex-module-decorators";
 import CartModule from "@/store/cart";
-import AddMenu from "@/components/AddMenu.vue"
-import AddArticle from "@/components/AddArticle.vue"
+import AddMenu from "@/components/AddMenu.vue";
+import AddArticle from "@/components/AddArticle.vue";
 
 @Component({
   components: {
     AddMenu,
-    AddArticle
-  }
+    AddArticle,
+  },
 })
 export default class ArticleCard extends Vue {
   private cartModule = getModule(CartModule, this.$store);
@@ -99,19 +112,28 @@ export default class ArticleCard extends Vue {
   }
 
   deleteArticle() {
-    if(this.article) {
-      if(confirm("Etes-vous sûr de vouloir supprimer cet article : " + this.article.name)) {
+    if (this.article) {
+      if (
+        confirm(
+          "Etes-vous sûr de vouloir supprimer cet article : " +
+            this.article.name
+        )
+      ) {
         this.$root.$emit("delete-article", this.article);
       }
     } else {
-      if(confirm("Etes-vous sûr de vouloir supprimer ce menu : " + this.menu.name)) {
+      if (
+        confirm(
+          "Etes-vous sûr de vouloir supprimer ce menu : " + this.menu.name
+        )
+      ) {
         this.$root.$emit("delete-menu", this.menu);
       }
     }
   }
 
   addtoCart() {
-    if(this.article) {
+    if (this.article) {
       this.cartModule.addArticle(this.article).then(() => {
         this.getCardItem.quantity = 1;
       });
@@ -124,21 +146,25 @@ export default class ArticleCard extends Vue {
 
   incrementQuantity() {
     this.getCardItem.quantity++;
-    if(this.article) {
-      this.cartModule.incrementArticleQuantity(this.article);
-    } else {
-      this.cartModule.incrementMenuQuantity(this.menu);
+    if (this.type == "cart") {
+      if (this.article) {
+        this.cartModule.incrementArticleQuantity(this.article);
+      } else {
+        this.cartModule.incrementMenuQuantity(this.menu);
+      }
     }
   }
 
   decrementQuantity() {
     this.getCardItem.quantity--;
-    if(this.article != null) {
-      this.cartModule.decrementArticleQuantity(this.article);
-    } else {
-      this.cartModule.decrementMenuQuantity(this.menu);
+    if (this.type == "cart") {
+      if (this.article != null) {
+        this.cartModule.decrementArticleQuantity(this.article);
+      } else {
+        this.cartModule.decrementMenuQuantity(this.menu);
+      }
     }
-   }
+  }
 }
 </script>
 

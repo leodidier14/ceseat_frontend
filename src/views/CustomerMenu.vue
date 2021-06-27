@@ -20,48 +20,52 @@ export default class CustomerMenu extends Vue {
 
   private apiGetRoute: string = "api/cutomer/menu"
 
-  private articles: Array<Articles.Article> = []
+  // private articles: Array<Articles.Article> = []
   private menus: Array<Articles.Menu> = []
 
-  // private articles: Array<Articles.Article> = [
-  //   {
-  //     name: "Tripple Cheese",
-  //     description:
-  //       "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
-  //     type: "Burger",
-  //     price: 5.0,
-  //     quantity: 1,
-  //     image: require("../assets/triple_cheese.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     name: "CBO",
-  //     description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-  //     type: "Burger",
-  //     price: 6.2,
-  //     quantity: 1,
-  //     image: require("../assets/CBO.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     name: "Coca Cola",
-  //     description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-  //     type: "Boisson",
-  //     price: 3.5,
-  //     quantity: 1,
-  //     image: require("../assets/coca_sans_sucre.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     name: "Frite",
-  //     description: "Une portion de frite pour accompagner ton plat.",
-  //     type: "Accompagnement",
-  //     price: 2.5,
-  //     quantity: 1,
-  //     image: require("../assets/frites.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  // ];
+  private articles: Array<Articles.Article> = [
+    {
+      id: 1,
+      name: "Tripple Cheese",
+      description:
+        "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
+      type: "Burger",
+      price: 5.0,
+      quantity: 1,
+      image: require("../assets/triple_cheese.png"),
+      restaurant: "McDonald's",
+    },
+    {
+      id: 2,
+      name: "CBO",
+      description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
+      type: "Burger",
+      price: 6.2,
+      quantity: 1,
+      image: require("../assets/CBO.png"),
+      restaurant: "McDonald's",
+    },
+    {
+      id: 3,
+      name: "Coca Cola",
+      description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
+      type: "Boisson",
+      price: 3.5,
+      quantity: 1,
+      image: require("../assets/coca_sans_sucre.png"),
+      restaurant: "McDonald's",
+    },
+    {
+      id: 4,
+      name: "Frite",
+      description: "Une portion de frite pour accompagner ton plat.",
+      type: "Accompagnement",
+      price: 2.5,
+      quantity: 1,
+      image: require("../assets/frites.png"),
+      restaurant: "McDonald's",
+    },
+  ];
 
   mounted() {
     axios
