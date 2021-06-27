@@ -106,7 +106,7 @@ export default class Cart extends VuexModule {
 
     @Action({rawError: true})
     public async incrementMenuQuantity(menu: Articles.Menu): Promise<Array<Articles.Menu>> {
-        await this.INCREMENT_ARTICLE_QUANTITY(JSON.parse(JSON.stringify(menu)));
+        await this.INCREMENT_MENU_QUANTITY(JSON.parse(JSON.stringify(menu)));
         return this.menus;
     }
 
