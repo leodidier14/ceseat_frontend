@@ -90,6 +90,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import axios from "axios";
 import RestaurantOrderCard from "@/components/RestaurantOrderCard.vue";
 import { Orders } from "@/shims-tsx";
 
@@ -269,8 +270,42 @@ export default class RestaurantsOrders extends Vue {
           quantity: 1,
         },
       ],
-    }
+    },
   ];
+
+  private apiPutRoute: string = "api/orders/id";
+  private apiGetRoute: string = "api/orders/";
+
+  public putStatus(): void {
+    axios
+      .post(this.apiPutRoute, { status: "" })
+      .then((res: any) => {
+        //Perform Success Action
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute)
+      .then((res: any) => {
+        //Perform Success Action
+        this.orders = res;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
 
   getPendingValidationOrders() {
     return this.orders.filter((i) => i.status === "pendingValidation");

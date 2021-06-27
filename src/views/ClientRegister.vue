@@ -167,6 +167,8 @@ export default class ClientRegister extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
+  private apiSubmitRoute: string = "api/client-register";
+
   //api call to post data
   public submitForm(): void {
     if (
@@ -175,12 +177,14 @@ export default class ClientRegister extends Vue {
       ).validate()
     ) {
       axios
-        .post("/client", this.clientRegister)
+        .post(this.apiSubmitRoute, this.clientRegister)
         .then((res: any) => {
           //Perform Success Action
+          this.$router.push({ name: "ClientLogin" });
         })
         .catch((error: any) => {
           // error.response.status Check status code
+          this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always

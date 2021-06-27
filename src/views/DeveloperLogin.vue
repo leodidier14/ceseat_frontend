@@ -98,18 +98,22 @@ export default class DeveloperLogin extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
+  private apiSubmitRoute: string = "api/developer-login";
+
   //api call to post data
   public submitForm(): void {
     if (
       (this.$refs.loginForm as Vue & { validate: () => boolean }).validate()
     ) {
       axios
-        .post("/register", this.login)
+        .post(this.apiSubmitRoute, this.login)
         .then((res: any) => {
           //Perform Success Action
+          this.$router.push({ name: "DeveloperComponents" });
         })
         .catch((error: any) => {
           // error.response.status Check status code
+          this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always

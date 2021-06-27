@@ -94,6 +94,7 @@ export default class DeveloperProfile extends Vue {
   private valid: boolean = true;
 
   private devProfile = {
+    id: 1,
     accountType: "developper",
     email: "",
     password: "",
@@ -132,26 +133,11 @@ export default class DeveloperProfile extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
+  private apiDeleteRoute: string = "api/developer/id";
+  private apiSubmitRoute: string = "api/developer/id";
+  private apiGetRoute: string = "api/developer/id";
+
   //api call to post data
-  public submitForm(): void {
-    if (
-      (
-        this.$refs.devProfileForm as Vue & { validate: () => boolean }
-      ).validate()
-    ) {
-      axios
-        .post("/developper/id", this.devProfile)
-        .then((res: any) => {
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
-    }
-  }
 
   public deleteAccount(): void {
     if (
@@ -160,17 +146,57 @@ export default class DeveloperProfile extends Vue {
       )
     ) {
       axios
-        .delete("/developper/id")
+        .delete(this.apiDeleteRoute)
         .then((res: any) => {
           //Perform Success Action
+          this.$router.push({ name: "DeveloperRegister" });
         })
         .catch((error: any) => {
           // error.response.status Check status code
+          this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always
         });
     }
+  }
+
+  public submitForm(): void {
+    if (
+      (
+        this.$refs.devProfileForm as Vue & { validate: () => boolean }
+      ).validate()
+    ) {
+      axios
+        .post(this.apiSubmitRoute, this.devProfile)
+        .then((res: any) => {
+          //Perform Success Action
+          this.$router.go(0);
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+          this.$router.go(0);
+        })
+        .finally(() => {
+          //Perform action in always
+        });
+    }
+  }
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute)
+      .then((res: any) => {
+        //Perform Success Action
+        this.devProfile = res;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
   }
 }
 </script>

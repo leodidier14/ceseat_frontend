@@ -147,6 +147,8 @@ export default class DeveloperRegister extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
+  private apiSubmitRoute: string = "api/developer-register";
+
   //api call to post data
   public submitForm(): void {
     if (
@@ -155,12 +157,14 @@ export default class DeveloperRegister extends Vue {
       ).validate()
     ) {
       axios
-        .post("/developper", this.devRegister)
+        .post(this.apiSubmitRoute, this.devRegister)
         .then((res: any) => {
           //Perform Success Action
+          this.$router.push({ name: "DeveloperLogin" });
         })
         .catch((error: any) => {
           // error.response.status Check status code
+          this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always

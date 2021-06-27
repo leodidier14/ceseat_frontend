@@ -117,6 +117,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import axios from "axios";
 import { Orders } from "@/shims-tsx";
 
 @Component
@@ -234,8 +235,55 @@ export default class RestaurantHistory extends Vue {
           quantity: 1,
         },
       ],
-    }
+    },
   ];
+
+  private apiDeleteRoute: string = "api/orders/id";
+  private apiGetRoute: string = "api/orders/";
+
+  //api call to post data
+
+  public deleteOrder(item: Orders.Order) {
+    if (
+      confirm(
+        "Etes-vous sûr de vouloir supprimer la commande '" +
+          item.number +
+          "' de l'historique ?"
+      )
+    ) {
+      //axios delete
+      axios
+        .delete(this.apiDeleteRoute)
+        .then((res: any) => {
+          //Perform Success Action
+          const index = this.orders.indexOf(item);
+          this.orders.splice(index, 1);
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+          this.$router.go(0);
+        })
+        .finally(() => {
+          //Perform action in always
+        });
+    }
+  }
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute)
+      .then((res: any) => {
+        //Perform Success Action
+        this.orders = res;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
 
   getOrdersHistory() {
     return this.orders.filter(
@@ -246,20 +294,6 @@ export default class RestaurantHistory extends Vue {
   public showDialog(item: Orders.Order) {
     this.dialog = true;
     this.currentDialogItem = item;
-  }
-
-  public deleteOrder(item: Orders.Order) {
-    if (
-      confirm(
-        "Etes-vous sûr de vouloir supprimer la commande '" +
-          item.number +
-          "' de l'historique ?"
-      )
-    ) {
-      const index = this.orders.indexOf(item);
-      this.orders.splice(index, 1);
-      //axios delete
-    }
   }
 }
 </script>

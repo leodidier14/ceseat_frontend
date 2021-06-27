@@ -99,8 +99,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import axios from "axios";
 import Restaurant from "@/components/Restaurant.vue";
 import { Restaurants } from "@/shims-tsx";
+
 @Component({
   components: {
     Restaurant,
@@ -160,6 +162,26 @@ export default class RestaurantsList extends Vue {
         "https://www.elma-food.com/wp-content/uploads/2019/12/shutterstock_1120332020-DPI.jpg",
     },
   ];
+
+  private apiGetRoute: string = "api/restaurant/";
+
+  //api call to post data
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute)
+      .then((res: any) => {
+        //Perform Success Action
+        this.restaurants = res;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
 
   get resultQuery(): Array<Restaurants.Restaurant> {
     return getBySchedule(

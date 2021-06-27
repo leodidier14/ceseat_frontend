@@ -34,7 +34,7 @@
               class="input-field mx-auto"
               color="#CA6B3E"
               label="Nouveau mot de passe"
-              v-model="clientProfile.password"
+              v-model="clientProfile.newPassword"
               :rules="passwordRules"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPassword ? 'text' : 'password'"
@@ -167,8 +167,9 @@ export default class ClientProfile extends Vue {
   private valid: boolean = true;
 
   private clientProfile = {
+    id: "",
     email: "",
-    password: "",
+    newPassword: "",
     confirmedPassword: "",
     phoneNumber: "",
     lastName: "",
@@ -198,7 +199,7 @@ export default class ClientProfile extends Vue {
     (confirmedPassword: string) =>
       !!confirmedPassword || "Confirmation de mot de passe obligatoire.",
     (confirmedPassword: string) =>
-      this.clientProfile.password == confirmedPassword ||
+      this.clientProfile.newPassword == confirmedPassword ||
       "Les mots de passes doivent être identiques",
   ];
 
@@ -225,26 +226,11 @@ export default class ClientProfile extends Vue {
 
   private countries = ["France"];
 
+  private apiDeleteRoute: string = "api/client/id";
+  private apiSubmitRoute: string = "api/client/id";
+  private apiGetRoute: string = "api/client/id";
+
   //api call to post data
-  public submitForm(): void {
-    if (
-      (
-        this.$refs.clientProfileForm as Vue & { validate: () => boolean }
-      ).validate()
-    ) {
-      axios
-        .post("/client/id", this.clientProfile)
-        .then((res: any) => {
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
-    }
-  }
 
   public deleteAccount(): void {
     if (
@@ -253,17 +239,57 @@ export default class ClientProfile extends Vue {
       )
     ) {
       axios
-        .delete("/client/id")
+        .delete(this.apiDeleteRoute)
         .then((res: any) => {
           //Perform Success Action
+          this.$router.push({ name: "ClientRegister" });
         })
         .catch((error: any) => {
           // error.response.status Check status code
+          this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always
         });
     }
+  }
+
+  public submitForm(): void {
+    if (
+      (
+        this.$refs.clientProfileForm as Vue & { validate: () => boolean }
+      ).validate()
+    ) {
+      axios
+        .put(this.apiSubmitRoute, this.clientProfile)
+        .then((res: any) => {
+          //Perform Success Action
+          this.$router.go(0);
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+          this.$router.go(0);
+        })
+        .finally(() => {
+          //Perform action in always
+        });
+    }
+  }
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute)
+      .then((res: any) => {
+        //Perform Success Action
+        this.clientProfile = res;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
   }
 }
 </script>
