@@ -37,7 +37,7 @@
               Articles en moyenne par Commande
             </h4>
             <div class="number-stats-container">
-              <h4 class="number-stat">{{ nbArticleByOrder }}</h4>
+              <h4 class="number-stat">{{ meanArticlesByOrder }}</h4>
             </div>
           </v-card>
         </v-col>
@@ -89,6 +89,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ArticleCard from "@/components/ArticleCard.vue";
 import { Articles } from "@/shims-tsx";
+import axios from "axios";
 
 @Component({
   components: {
@@ -96,161 +97,200 @@ import { Articles } from "@/shims-tsx";
   },
 })
 export default class RestaurantStats extends Vue {
-  private menus: Array<Articles.Menu> = [
-    {
-      name: "Menu 1",
-      description: "Une menu complet.",
-      articles: [
-        {
-          name: "CBO",
-          description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-          type: "Burger",
-          price: 6.2,
-          quantity: 1,
-          image: require("../assets/CBO.png"),
-          restaurant: "McDonald's",
-        },
-        {
-          name: "Coca Cola",
-          description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-          type: "Boisson",
-          price: 3.5,
-          quantity: 1,
-          image: require("../assets/coca_sans_sucre.png"),
-          restaurant: "McDonald's",
-        },
-        {
-          name: "Frite",
-          description: "Une portion de frite pour accompagner ton plat.",
-          type: "Accompagnement",
-          price: 2.5,
-          quantity: 1,
-          image: require("../assets/frites.png"),
-          restaurant: "McDonald's",
-        },
-      ],
-      type: "Menu",
-      price: 10.5,
-      quantity: 1,
-      image: require("../assets/frites.png"),
-      restaurant: "McDonald's",
-    },
-    {
-      name: "Menu 2",
-      description: "Une menu complet.",
-      articles: [
-        {
-          name: "CBO",
-          description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-          type: "Burger",
-          price: 6.2,
-          quantity: 1,
-          image: require("../assets/CBO.png"),
-          restaurant: "McDonald's",
-        },
-        {
-          name: "Coca Cola",
-          description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-          type: "Boisson",
-          price: 3.5,
-          quantity: 1,
-          image: require("../assets/coca_sans_sucre.png"),
-          restaurant: "McDonald's",
-        },
-        {
-          name: "Frite",
-          description: "Une portion de frite pour accompagner ton plat.",
-          type: "Accompagnement",
-          price: 2.5,
-          quantity: 1,
-          image: require("../assets/frites.png"),
-          restaurant: "McDonald's",
-        },
-      ],
-      type: "Menu",
-      price: 10.5,
-      quantity: 1,
-      image: require("../assets/frites.png"),
-      restaurant: "McDonald's",
-    },
-    {
-      name: "Menu 3",
-      description: "Une menu complet.",
-      articles: [
-        {
-          name: "CBO",
-          description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-          type: "Burger",
-          price: 6.2,
-          quantity: 1,
-          image: require("../assets/CBO.png"),
-          restaurant: "McDonald's",
-        },
-        {
-          name: "Coca Cola",
-          description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-          type: "Boisson",
-          price: 3.5,
-          quantity: 1,
-          image: require("../assets/coca_sans_sucre.png"),
-          restaurant: "McDonald's",
-        },
-        {
-          name: "Frite",
-          description: "Une portion de frite pour accompagner ton plat.",
-          type: "Accompagnement",
-          price: 2.5,
-          quantity: 1,
-          image: require("../assets/frites.png"),
-          restaurant: "McDonald's",
-        },
-      ],
-      type: "Menu",
-      price: 10.5,
-      quantity: 1,
-      image: require("../assets/frites.png"),
-      restaurant: "McDonald's",
-    },
-  ];
+  private menus: Array<Articles.Menu> = [];
+  //   {
+  //     name: "Menu 1",
+  //     description: "Une menu complet.",
+  //     articles: [
+  //       {
+  //         name: "CBO",
+  //         description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
+  //         type: "Burger",
+  //         price: 6.2,
+  //         quantity: 1,
+  //         image: require("../assets/CBO.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //       {
+  //         name: "Coca Cola",
+  //         description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
+  //         type: "Boisson",
+  //         price: 3.5,
+  //         quantity: 1,
+  //         image: require("../assets/coca_sans_sucre.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //       {
+  //         name: "Frite",
+  //         description: "Une portion de frite pour accompagner ton plat.",
+  //         type: "Accompagnement",
+  //         price: 2.5,
+  //         quantity: 1,
+  //         image: require("../assets/frites.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //     ],
+  //     type: "Menu",
+  //     price: 10.5,
+  //     quantity: 1,
+  //     image: require("../assets/frites.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  //   {
+  //     name: "Menu 2",
+  //     description: "Une menu complet.",
+  //     articles: [
+  //       {
+  //         name: "CBO",
+  //         description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
+  //         type: "Burger",
+  //         price: 6.2,
+  //         quantity: 1,
+  //         image: require("../assets/CBO.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //       {
+  //         name: "Coca Cola",
+  //         description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
+  //         type: "Boisson",
+  //         price: 3.5,
+  //         quantity: 1,
+  //         image: require("../assets/coca_sans_sucre.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //       {
+  //         name: "Frite",
+  //         description: "Une portion de frite pour accompagner ton plat.",
+  //         type: "Accompagnement",
+  //         price: 2.5,
+  //         quantity: 1,
+  //         image: require("../assets/frites.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //     ],
+  //     type: "Menu",
+  //     price: 10.5,
+  //     quantity: 1,
+  //     image: require("../assets/frites.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  //   {
+  //     name: "Menu 3",
+  //     description: "Une menu complet.",
+  //     articles: [
+  //       {
+  //         name: "CBO",
+  //         description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
+  //         type: "Burger",
+  //         price: 6.2,
+  //         quantity: 1,
+  //         image: require("../assets/CBO.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //       {
+  //         name: "Coca Cola",
+  //         description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
+  //         type: "Boisson",
+  //         price: 3.5,
+  //         quantity: 1,
+  //         image: require("../assets/coca_sans_sucre.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //       {
+  //         name: "Frite",
+  //         description: "Une portion de frite pour accompagner ton plat.",
+  //         type: "Accompagnement",
+  //         price: 2.5,
+  //         quantity: 1,
+  //         image: require("../assets/frites.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //     ],
+  //     type: "Menu",
+  //     price: 10.5,
+  //     quantity: 1,
+  //     image: require("../assets/frites.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  // ];
 
-  private articles: Array<Articles.Article> = [
-    {
-      name: "Tripple Cheese",
-      description:
-        "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
-      type: "Burger",
-      price: 5.0,
-      quantity: 1,
-      image: require("../assets/triple_cheese.png"),
-      restaurant: "McDonald's",
-    },
-    {
-      name: "CBO",
-      description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-      type: "Burger",
-      price: 6.2,
-      quantity: 1,
-      image: require("../assets/CBO.png"),
-      restaurant: "McDonald's",
-    },
-    {
-      name: "Coca Cola",
-      description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-      type: "Boisson",
-      price: 3.5,
-      quantity: 1,
-      image: require("../assets/coca_sans_sucre.png"),
-      restaurant: "McDonald's",
-    },
-  ];
+  private articles: Array<Articles.Article> = [];
+  //   {
+  //     name: "Tripple Cheese",
+  //     description:
+  //       "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
+  //     type: "Burger",
+  //     price: 5.0,
+  //     quantity: 1,
+  //     image: require("../assets/triple_cheese.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  //   {
+  //     name: "CBO",
+  //     description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
+  //     type: "Burger",
+  //     price: 6.2,
+  //     quantity: 1,
+  //     image: require("../assets/CBO.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  //   {
+  //     name: "Coca Cola",
+  //     description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
+  //     type: "Boisson",
+  //     price: 3.5,
+  //     quantity: 1,
+  //     image: require("../assets/coca_sans_sucre.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  // ];
 
-  get nbArticleByOrder() {
-    return 5;
+  private meanArticlesByOrder: number = 0;
+  private meanPriceByOrder: number = 0;
+
+  private apiGetPopularArticles: string = "api/restaurant-stats/";
+
+  mounted() {
+    axios
+      .get(this.apiGetPopularArticles)
+      .then((res: any) => {
+        //Perform Success Action
+        this.articles = res.articles;
+        this.menus = res.menus;
+        this.meanArticlesByOrder = res.meanArticlesByOrder;
+        this.meanPriceByOrder = res.meanPriceByOrder;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+
+    axios
+      .get(this.apiGetPopularArticles)
+      .then((res: any) => {
+        //Perform Success Action
+        this.articles = res.articles;
+        this.menus = res.menus;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
   }
 
-  get meanPriceByOrder() {
-    return 10.5;
-  }
+  // get nbArticleByOrder() {
+  //   return 5;
+  // }
+
+  // get meanPriceByOrder() {
+  //   return 10.5;
+  // }
 }
 </script>
 
