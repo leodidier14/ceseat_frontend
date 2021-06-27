@@ -71,6 +71,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
+import { DeliveryMen } from "@/shims-tsx";
 
 @Component
 export default class DeliveryManForm extends Vue {
@@ -79,7 +80,7 @@ export default class DeliveryManForm extends Vue {
 
   private valid: boolean = true;
 
-  private deliveryMan = {
+  private deliveryMan: DeliveryMen.DeliveryMan = {
     siretNumber: "",
     sponsorshipLink: "https://vuetifyjs.com/en/api/v-text-field/#props",
   };
@@ -91,29 +92,16 @@ export default class DeliveryManForm extends Vue {
 
   //api call to post data
   public submitForm(): void {
-    let route = "";
-    if (this.formType == "register") {
-      route = "/delivery-man";
-    } else {
-      route = "/delivery-man/id";
-    }
-
     if (
       (
         this.$refs.deliverymanForm as Vue & { validate: () => boolean }
       ).validate()
     ) {
-      axios
-        .post(route, this.deliveryMan)
-        .then((res: any) => {
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+      if (this.formType == "register") {
+        this.$root.$emit("create-delivery-man", this.deliveryMan);
+      } else {
+        this.$root.$emit("update-delivery-man", this.deliveryMan);
+      }
     }
   }
 
@@ -123,17 +111,7 @@ export default class DeliveryManForm extends Vue {
         "Etes-vous sûr de vouloir supprimer votre status de livreur de manière définitive ?"
       )
     ) {
-      axios
-        .delete("/delivery-man/id")
-        .then((res: any) => {
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+      this.$root.$emit("delete-delivery-man", this.deliveryMan.siretNumber);
     }
   }
 }
