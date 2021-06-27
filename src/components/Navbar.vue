@@ -28,6 +28,13 @@
             >Suivi de commandes</router-link
           >
         </v-list-item>
+        <v-list-item>
+          <router-link
+            to="/business-stats"
+            class="router-mobile-link text-center mr-2"
+            >Statistiques</router-link
+          >
+        </v-list-item>
       </v-list>
     </v-menu>
     <v-menu offset-y>

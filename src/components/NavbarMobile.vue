@@ -59,6 +59,13 @@
                           >Suivi de commandes</span
                         ></router-link
                       >
+                      <router-link
+                        to="/business-stats"
+                        class="router-mobile-link text-center mr-2"
+                        ><span @click="dialog = false"
+                          >Statistiques</span
+                        ></router-link
+                      >
                     </v-list>
                   </v-menu>
                 </v-list-item-content>
