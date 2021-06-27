@@ -1,13 +1,93 @@
 <template>
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
-    <v-container class="restaurant-stats-container">
-      <v-row class="restaurant-stats-row">
-        <v-col cols="12" md="8">
+    <h3 class="text-center pt-5" style="font-weight: normal">
+      Stats du restaurant
+    </h3>
+    <v-container style="height: 100%">
+      <v-row style="height: 40%">
+        <v-col cols="12" md="8" style="height: 100%">
           <v-card
             class="mx-auto"
             elevation="10"
             width="100%"
-            height="50%"
+            height="100%"
+            color="#CA6B3E"
+          >
+            <h4 class="text-center py-2" style="color: white">
+              Menus Populaires
+            </h4>
+            <div class="card-container">
+              <ArticleCard
+                class="article-card"
+                v-for="menu in menus"
+                :key="menu.name"
+                :menu="menu"
+                type="stats"
+              >
+                <template v-slot:article-image>
+                  <v-img :src="menu.image"></v-img>
+                </template>
+              </ArticleCard>
+            </div>
+          </v-card>
+        </v-col>
+        <v-col class="nb-col" cols="12" md="4" style="height: 50%">
+          <v-card class="mx-auto" elevation="10" width="100%" color="#CA6B3E">
+            <h4 class="text-center py-2" style="color: white">
+              Articles en moyenne par Commande
+            </h4>
+            <div class="number-stats-container">
+              <h4 class="number-stat">{{ nbArticleByOrder }}</h4>
+            </div>
+          </v-card>
+        </v-col>
+
+        <v-col cols="12" md="8" style="height: 100%">
+          <v-card
+            class="mx-auto"
+            elevation="10"
+            width="100%"
+            height="100%"
+            color="#CA6B3E"
+          >
+            <h4 class="text-center py-2" style="color: white">
+              Menus Populaires
+            </h4>
+            <div class="card-container">
+              <ArticleCard
+                class="article-card"
+                v-for="menu in menus"
+                :key="menu.name"
+                :menu="menu"
+                type="stats"
+              >
+                <template v-slot:article-image>
+                  <v-img :src="menu.image"></v-img>
+                </template>
+              </ArticleCard>
+            </div>
+          </v-card>
+        </v-col>
+        <v-col class="nb-col" cols="12" md="4" style="height: 50%">
+          <v-card class="mx-auto" elevation="10" width="100%" color="#CA6B3E">
+            <h4 class="text-center mt-2 py-2" style="color: white">
+              Prix moyen par commande
+            </h4>
+            <div class="number-stats-container">
+              <h4 class="number-stat">
+                {{ Number.parseFloat(meanPriceByOrder).toFixed(2) }} €
+              </h4>
+            </div></v-card
+          >
+        </v-col>
+        <!-- <v-container class="restaurant-stats-container" style="height: 100%">
+      <v-row class="restaurant-stats-row" style="height: 100%">
+        <v-col cols="12" md="8" style="height: 40%">
+          <v-card
+            class="mx-auto"
+            elevation="10"
+            width="100%"
+            height="100%"
             color="#CA6B3E"
           >
             <h4 class="text-center py-2" style="color: white">
@@ -28,30 +108,23 @@
             </div>
           </v-card>
         </v-col>
-        <v-col cols="12" md="4">
-          <v-card
-            class="mx-auto"
-            elevation="10"
-            width="100%"
-            height="50%"
-            color="#CA6B3E"
-          >
+        <v-col cols="12" md="4" style="height: 40%">
+          <v-card class="mx-auto" elevation="10" width="100%" color="#CA6B3E">
             <h4 class="text-center py-2" style="color: white">
-              Articles par Commande
+              Articles en moyenne par Commande
             </h4>
-            <div class="number-stats-container mt-5">
-              <h1 class="number-stat">{{ nbArticleByOrder }}</h1>
-              <h3 class="number-subtitle">Articles en moyenne par commande.</h3>
+            <div class="number-stats-container">
+              <h4 class="number-stat">{{ nbArticleByOrder }}</h4>
             </div>
           </v-card></v-col
         >
 
-        <v-col cols="12" md="8" class="pb-5">
+        <v-col cols="12" md="8" class="pb-5" style="height: 40%">
           <v-card
             class="mx-auto"
             elevation="10"
             width="100%"
-            height="50%"
+            height="100%"
             color="#CA6B3E"
           >
             <h4 class="text-center mt-2 py-2" style="color: white">
@@ -71,24 +144,20 @@
               </ArticleCard>
             </div> </v-card
         ></v-col>
-        <v-col cols="12" md="4" class="pb-5">
-          <v-card
-            class="mx-auto"
-            elevation="10"
-            width="100%"
-            height="50%"
-            color="#CA6B3E"
-          >
+        <v-col cols="12" md="4" class="pb-5" style="height: 40%">
+          <v-card class="mx-auto" elevation="10" width="100%" color="#CA6B3E">
             <h4 class="text-center mt-2 py-2" style="color: white">
               Prix moyen par commande
             </h4>
-            <div class="number-stats-container mt-5">
-              <h1 class="number-stat">
+            <div class="number-stats-container">
+              <h4 class="number-stat">
                 {{ Number.parseFloat(meanPriceByOrder).toFixed(2) }} €
-              </h1>
+              </h4>
             </div></v-card
           ></v-col
         >
+      </v-row>
+    </v-container> -->
       </v-row>
     </v-container>
   </v-card>
@@ -269,12 +338,6 @@ h4 {
   font-weight: normal;
 }
 
-#header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
 /* .article-card {
     width: 100% !important;
 } */
@@ -292,12 +355,9 @@ h4 {
   height: 50%;
 }
 
-.flex-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  overflow-y: auto;
+.card-container {
   height: 80%;
+  overflow-y: auto;
 }
 
 .number-stats-container {
@@ -308,7 +368,7 @@ h4 {
 }
 
 .number-stat {
-  font-size: 5em;
+  font-size: 4em;
   color: white;
 }
 
@@ -320,8 +380,11 @@ h4 {
   .number-stat {
     font-size: 3em;
   }
-  .number-subtitle {
-    font-size: 15px;
+}
+
+@media screen and (max-width: 960px) {
+  .nb-col {
+    height: 30% !important;
   }
 }
 </style>
