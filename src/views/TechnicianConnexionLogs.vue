@@ -87,7 +87,7 @@ export default class TechnicianConnexionLogs extends Vue {
     },
   ];
 
-  private apiGetRoute: string = "api/logs/";
+  private apiGetRoute: string = "api/connexion-logs/";
 
   mounted() {
     axios
