@@ -81,6 +81,7 @@ export default class DeliveryManForm extends Vue {
   private valid: boolean = true;
 
   private deliveryMan: DeliveryMen.DeliveryMan = {
+    id: 0,
     siretNumber: "",
     sponsorshipLink: "https://vuetifyjs.com/en/api/v-text-field/#props",
   };

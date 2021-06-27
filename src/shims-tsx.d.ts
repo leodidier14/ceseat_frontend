@@ -17,6 +17,7 @@ declare global {
 namespace Articles {
 
   interface Article {
+    id: number,
     name: string,
     description: string,
     type: string
@@ -54,6 +55,7 @@ namespace Restaurants {
 
 namespace DeliveryMen {
   interface DeliveryMan {
+    id: number,
     siretNumber: string,
     sponsorshipLink: string,
   }
@@ -80,6 +82,7 @@ namespace Orders {
 namespace Components {
   interface component
   {
+    id: number,
     name: string,
     description: string,
     type: string,

@@ -175,6 +175,7 @@ export default class AddMenu extends Vue {
 
   private articles: Array<Articles.Article> = [
     {
+      id: 1,
       name: "Tripple Cheese",
       description:
         "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
@@ -185,6 +186,7 @@ export default class AddMenu extends Vue {
       restaurant: "McDonald's",
     },
     {
+      id: 2,
       name: "CBO",
       description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
       type: "Burger",
@@ -194,6 +196,7 @@ export default class AddMenu extends Vue {
       restaurant: "McDonald's",
     },
     {
+      id: 3,
       name: "Coca Cola",
       description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
       type: "Boisson",
@@ -203,6 +206,7 @@ export default class AddMenu extends Vue {
       restaurant: "McDonald's",
     },
     {
+      id: 4,
       name: "Frite",
       description: "Une portion de frite pour accompagner ton plat.",
       type: "Accompagnement",

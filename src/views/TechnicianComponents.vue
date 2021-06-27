@@ -207,6 +207,7 @@ export default class TechnicianComponents extends Vue {
   private types: Array<string> = ["npm", "Micro-service"];
 
   private component: Components.component = {
+    id: 0,
     type: "",
     name: "",
     version: "",

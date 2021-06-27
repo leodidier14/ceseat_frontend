@@ -18,6 +18,7 @@ export default class DeliveryManProfile extends Vue {
   private apiRootRoute = "api/delivery-man/";
 
   private deliveryMan: DeliveryMen.DeliveryMan = {
+    id: 0,
     siretNumber: "",
     sponsorshipLink: "",
   };
