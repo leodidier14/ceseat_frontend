@@ -20,7 +20,11 @@
                   rounded
                   small
                   style="color: #ca6b3e"
-                  v-if="order.status == 'pendingValidation' && cardType == 'restaurant'"
+                  v-if="
+                    order.status == 'pendingValidation' &&
+                    cardType == 'restaurant'
+                  "
+                  @click="declineOrder()"
                 >
                   Refuser
                 </v-btn>
@@ -33,7 +37,11 @@
                   rounded
                   small
                   style="color: white"
-                  v-if="order.status == 'pendingValidation' && cardType == 'restaurant'"
+                  v-if="
+                    order.status == 'pendingValidation' &&
+                    cardType == 'restaurant'
+                  "
+                  @click="acceptOrder()"
                 >
                   Accepter
                 </v-btn>
@@ -43,7 +51,11 @@
                   rounded
                   small
                   style="color: white"
-                  v-else-if="order.status == 'pendingRealization' && cardType == 'restaurant'"
+                  v-else-if="
+                    order.status == 'pendingRealization' &&
+                    cardType == 'restaurant'
+                  "
+                  @click="prepareOrder()"
                 >
                   Préparer
                 </v-btn>
@@ -53,7 +65,10 @@
                   rounded
                   small
                   style="color: white"
-                  v-else-if="order.status == 'realization' && cardType == 'restaurant'"
+                  v-else-if="
+                    order.status == 'realization' && cardType == 'restaurant'
+                  "
+                  @click="ready()"
                 >
                   Prête
                 </v-btn>
@@ -63,7 +78,11 @@
                   rounded
                   small
                   style="color: white"
-                  v-else-if="order.status == 'pendingDelivery' && cardType == 'restaurant'"
+                  v-else-if="
+                    order.status == 'pendingDelivery' &&
+                    cardType == 'restaurant'
+                  "
+                  @click="deliver()"
                 >
                   Restituée
                 </v-btn>
@@ -73,7 +92,9 @@
                   rounded
                   small
                   style="color: white"
-                  v-else-if="order.status == 'delivery' && cardType == 'restaurant'"
+                  v-else-if="
+                    order.status == 'delivery' && cardType == 'restaurant'
+                  "
                 >
                   Livraison...
                 </v-btn>
@@ -158,6 +179,26 @@ export default class RestaurantOrderCard extends Vue {
   private cardType!: string;
 
   private dialog: boolean = false;
+
+  private declineOrder() {
+    this.$root.$emit("update-order-status", "denied");
+  }
+
+  private acceptOrder() {
+    this.$root.$emit("update-order-status", "pendingRealization");
+  }
+
+  private prepareOrder() {
+    this.$root.$emit("update-order-status", "realization");
+  }
+
+  private ready() {
+    this.$root.$emit("update-order-status", "pendingDelivery");
+  }
+
+  private deliver() {
+    this.$root.$emit("update-order-status", "delivery");
+  }
 }
 </script>
 
