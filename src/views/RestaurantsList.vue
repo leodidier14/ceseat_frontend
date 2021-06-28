@@ -163,13 +163,17 @@ export default class RestaurantsList extends Vue {
     },
   ];
 
-  private apiGetRoute: string = "api/restaurant/";
+  private apiGetRoute: string = "http://localhost:3000/board";
 
   //api call to post data
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
       .then((res: any) => {
         //Perform Success Action
         this.restaurants = res;
