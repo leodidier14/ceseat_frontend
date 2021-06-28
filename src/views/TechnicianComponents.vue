@@ -207,6 +207,7 @@ export default class TechnicianComponents extends Vue {
   private types: Array<string> = ["npm", "Micro-service"];
 
   private component: Components.component = {
+    id: 0,
     type: "",
     name: "",
     version: "",
@@ -217,6 +218,7 @@ export default class TechnicianComponents extends Vue {
 
   private components: Array<Components.component> = [
     {
+      id: 1,
       type: "npm",
       name: "API de commandes",
       version: "1.0.0",
@@ -225,6 +227,7 @@ export default class TechnicianComponents extends Vue {
       downloadLink: "https://github.com/leodidier14",
     },
     {
+      id: 1,
       type: "Micro-service",
       name: "API de connection",
       version: "1.0.0",
@@ -256,6 +259,7 @@ export default class TechnicianComponents extends Vue {
     ) {
       this.components.push(JSON.parse(JSON.stringify(this.component)));
       this.component = {
+        id: 1,
         type: "",
         name: "",
         version: "",

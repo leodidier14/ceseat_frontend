@@ -62,6 +62,7 @@ namespace Orders {
 namespace Components {
   interface component
   {
+    id: number,
     name: string,
     description: string,
     type: string,
@@ -73,11 +74,13 @@ namespace Components {
 
 namespace Logs {
   interface connexionLogs {
+    id: number,
     time: string,
     idUser: number,
     state: boolean,
   }
   interface componentLogs {
+    id: number,
     type: string,
     time: string,
     idUser: number,

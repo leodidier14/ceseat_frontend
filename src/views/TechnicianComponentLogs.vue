@@ -82,6 +82,7 @@ export default class TechnicianConnexionLogs extends Vue {
 
   private logs: Array<Logs.componentLogs> = [
     {
+      id: 1,
       time: "25/06/2021 18h13",
       idUser: 2,
       type: "npm",

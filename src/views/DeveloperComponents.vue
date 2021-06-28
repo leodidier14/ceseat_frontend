@@ -91,6 +91,7 @@ export default class DeveloperComponent extends Vue {
 
   private components: Array<Components.component> = [
     {
+      id: 1,
       type: "npm",
       name: "Button",
       version: "1.0.0",
@@ -99,6 +100,7 @@ export default class DeveloperComponent extends Vue {
       downloadLink: "https://github.com/leodidier14",
     },
     {
+      id: 2,
       type: "Micro-service",
       name: "API de connection",
       version: "1.0.0",
