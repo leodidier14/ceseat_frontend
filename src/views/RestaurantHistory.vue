@@ -183,6 +183,7 @@ export default class RestaurantHistory extends Vue {
       date: "04/03/2021 18h30",
       articles: [
         {
+          id: 4,
           name: "menu",
           description: "",
           image: "",
@@ -192,6 +193,7 @@ export default class RestaurantHistory extends Vue {
           quantity: 1,
         },
         {
+          id: 3,
           name: "menu",
           description: "",
           image: "",
@@ -217,6 +219,7 @@ export default class RestaurantHistory extends Vue {
       date: "04/03/2021 18h30",
       articles: [
         {
+          id: 1,
           name: "menu",
           description: "",
           image: "",
@@ -226,6 +229,7 @@ export default class RestaurantHistory extends Vue {
           quantity: 1,
         },
         {
+          id: 2,
           name: "menu",
           description: "",
           image: "",

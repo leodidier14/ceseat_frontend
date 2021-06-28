@@ -25,6 +25,7 @@
                       order.status == 'realization') &&
                     order.deliveryManId == 0
                   "
+                  @click="declineOrder()"
                 >
                   Refuser
                 </v-btn>
@@ -42,6 +43,7 @@
                       order.status == 'realization') &&
                     order.deliveryManId == 0
                   "
+                  @click="acceptOrder()"
                 >
                   Accepter
                 </v-btn>
@@ -52,6 +54,7 @@
                   small
                   style="color: white"
                   v-else
+                  @click="delivered()"
                 >
                   Restituée
                 </v-btn>
@@ -150,6 +153,18 @@ export default class DeliveryManOrderCard extends Vue {
   private status!: string;
 
   private dialog: boolean = false;
+
+  private declineOrder() {
+    this.$root.$emit("update-order-status", "denied");
+  }
+
+  private acceptOrder() {
+    this.$root.$emit("update-order-status", "delivery");
+  }
+
+  private delivered() {
+    this.$root.$emit("update-order-status", "delivered");
+  }
 }
 </script>
 

@@ -298,6 +298,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
+import { Restaurants } from "@/shims-tsx";
 
 @Component
 export default class RestaurantForm extends Vue {
@@ -311,7 +312,8 @@ export default class RestaurantForm extends Vue {
   private dialogOpenTime: boolean = false;
   private dialogCloseTime: boolean = false;
 
-  private restaurant = {
+  private restaurant: Restaurants.Restaurant = {
+    id: 0,
     name: "",
     email: "",
     siret: "",
@@ -363,26 +365,27 @@ export default class RestaurantForm extends Vue {
   private types = ["Hamburger", "Japonais", "Kebab"];
 
   private apiSubmitRoute: string = "http://localhost:3000/restaurant";
-  private apiGetRoute: string = "http://localhost:3000/restaurant/"+localStorage.getItem('restaurantId');
-  private apiDeleteRoute: string = "http://localhost:3000/restaurant/"+localStorage.getItem('restaurantId');
-  private apiUpdateRoute: string = "http://localhost:3000/restaurant/"+localStorage.getItem('restaurantId');
-
-
+  private apiGetRoute: string =
+    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
+  private apiDeleteRoute: string =
+    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
+  private apiUpdateRoute: string =
+    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
 
   mounted() {
     axios
-      .get(this.apiGetRoute,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
       })
       .then((res: any) => {
-        console.log(res.data)
+        console.log(res.data);
         //Perform Success Action
         this.restaurant = res.data;
       })
       .catch((error: any) => {
-        console.log(error)
+        console.log(error);
         // error.response.status Check status code
         //this.$router.go(0);
       })
@@ -391,61 +394,59 @@ export default class RestaurantForm extends Vue {
       });
   }
 
-
   //api call to post data
   public submitForm(): void {
-    if(this.formType == "register"){
+    if (this.formType == "register") {
       if (
-          (
-            this.$refs.restaurantForm as Vue & { validate: () => boolean }
-          ).validate() 
-          ) {
-              axios
-                .post(this.apiSubmitRoute, this.restaurant,{
-                  headers:{
-                    Authorization: localStorage.getItem('token')
-                  }
-                })
-                .then((res: any) => {
-                  localStorage.setItem('restaurantId',res.data.id)
-                  console.log(res)
-                  //Perform Success Action
-                })
-                .catch((error: any) => {
-                  console.log(error)
-                  // error.response.status Check status code
-                })
-                .finally(() => {
-                  //Perform action in always
-                });
-            }
-      } else {
-        if (
-            (
-              this.$refs.restaurantForm as Vue & { validate: () => boolean }
-            ).validate() 
-            ) {
-                axios
-                  .put(this.apiUpdateRoute, this.restaurant,{
-                    headers:{
-                      Authorization: localStorage.getItem('token')
-                    }
-                  })
-                  .then((res: any) => {
-                    console.log(res)
-                    //Perform Success Action
-                  })
-                  .catch((error: any) => {
-                    console.log(error)
-                    // error.response.status Check status code
-                  })
-                  .finally(() => {
-                    //Perform action in always
-                  });
-            }
+        (
+          this.$refs.restaurantForm as Vue & { validate: () => boolean }
+        ).validate()
+      ) {
+        axios
+          .post(this.apiSubmitRoute, this.restaurant, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res: any) => {
+            localStorage.setItem("restaurantId", res.data.id);
+            console.log(res);
+            //Perform Success Action
+          })
+          .catch((error: any) => {
+            console.log(error);
+            // error.response.status Check status code
+          })
+          .finally(() => {
+            //Perform action in always
+          });
+      }
+    } else {
+      if (
+        (
+          this.$refs.restaurantForm as Vue & { validate: () => boolean }
+        ).validate()
+      ) {
+        axios
+          .put(this.apiUpdateRoute, this.restaurant, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res: any) => {
+            console.log(res);
+            //Perform Success Action
+          })
+          .catch((error: any) => {
+            console.log(error);
+            // error.response.status Check status code
+          })
+          .finally(() => {
+            //Perform action in always
+          });
+      }
     }
-  } 
-      
+  }
 
   public deleteRestaurant(): void {
     if (
@@ -454,13 +455,13 @@ export default class RestaurantForm extends Vue {
       )
     ) {
       axios
-        .delete(this.apiDeleteRoute,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
-      })
+        .delete(this.apiDeleteRoute, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
         .then((res: any) => {
-          localStorage.removeItem('restaurantId')
+          localStorage.removeItem("restaurantId");
           //Perform Success Action
         })
         .catch((error: any) => {

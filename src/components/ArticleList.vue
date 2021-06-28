@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
     <div id="banner">
-      <h2 class="ml-10" id="title" v-text="currentRestaurant"></h2>
+      <h2 class="ml-10" id="title" v-text="restaurantId"></h2>
       <span class="mr-10" id="add-buttons" v-if="menuType == 'restaurant'">
         <AddArticle />
         <AddMenu />
@@ -68,113 +68,123 @@ export default class ArticleChoice extends Vue {
   })
   menuType!: string;
 
+  @Prop({ required: true })
+  private articles!: Array<Articles.Article>;
+
+  @Prop({ required: true })
+  private menus!: Array<Articles.Menu>;
+
+  @Prop({required: true})
+  private restaurantId!: number;
+
   private currentType: string = "";
-  private currentRestaurant: string = "McDonald's";
+  // private currentRestaurant: string = "McDonald's";
 
-  private articles: Array<Articles.Article> = [
-    {
-      name: "Tripple Cheese",
-      description:
-        "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
-      type: "Burger",
-      price: 5.0,
-      quantity: 1,
-      image: require("../assets/triple_cheese.png"),
-      restaurant: "McDonald's",
-    },
-    {
-      name: "CBO",
-      description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-      type: "Burger",
-      price: 6.2,
-      quantity: 1,
-      image: require("../assets/CBO.png"),
-      restaurant: "McDonald's",
-    },
-    {
-      name: "Coca Cola",
-      description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-      type: "Boisson",
-      price: 3.5,
-      quantity: 1,
-      image: require("../assets/coca_sans_sucre.png"),
-      restaurant: "McDonald's",
-    },
-    {
-      name: "Frite",
-      description: "Une portion de frite pour accompagner ton plat.",
-      type: "Accompagnement",
-      price: 2.5,
-      quantity: 1,
-      image: require("../assets/frites.png"),
-      restaurant: "McDonald's",
-    },
-  ];
+  // private articles: Array<Articles.Article> = [
+  //   {
+  //     name: "Tripple Cheese",
+  //     description:
+  //       "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
+  //     type: "Burger",
+  //     price: 5.0,
+  //     quantity: 1,
+  //     image: require("../assets/triple_cheese.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  //   {
+  //     name: "CBO",
+  //     description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
+  //     type: "Burger",
+  //     price: 6.2,
+  //     quantity: 1,
+  //     image: require("../assets/CBO.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  //   {
+  //     name: "Coca Cola",
+  //     description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
+  //     type: "Boisson",
+  //     price: 3.5,
+  //     quantity: 1,
+  //     image: require("../assets/coca_sans_sucre.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  //   {
+  //     name: "Frite",
+  //     description: "Une portion de frite pour accompagner ton plat.",
+  //     type: "Accompagnement",
+  //     price: 2.5,
+  //     quantity: 1,
+  //     image: require("../assets/frites.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  // ];
 
-  private menus: Array<Articles.Menu> = [
-    {
-      name: "Menu 1",
-      description: "Une menu complet.",
-      articles: [
-        {
-          name: "CBO",
-          description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-          type: "Burger",
-          price: 6.2,
-          quantity: 1,
-          image: require("../assets/CBO.png"),
-          restaurant: "McDonald's",
-        },
-        {
-          name: "Coca Cola",
-          description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-          type: "Boisson",
-          price: 3.5,
-          quantity: 1,
-          image: require("../assets/coca_sans_sucre.png"),
-          restaurant: "McDonald's",
-        },
-        {
-          name: "Frite",
-          description: "Une portion de frite pour accompagner ton plat.",
-          type: "Accompagnement",
-          price: 2.5,
-          quantity: 1,
-          image: require("../assets/frites.png"),
-          restaurant: "McDonald's",
-        },
-      ],
-      type: "Menu",
-      price: 10.5,
-      quantity: 1,
-      image: require("../assets/frites.png"),
-      restaurant: "McDonald's",
-    },
-  ];
+  // private menus: Array<Articles.Menu> = [
+  //   {
+  //     name: "Menu 1",
+  //     description: "Une menu complet.",
+  //     articles: [
+  //       {
+  //         name: "CBO",
+  //         description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
+  //         type: "Burger",
+  //         price: 6.2,
+  //         quantity: 1,
+  //         image: require("../assets/CBO.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //       {
+  //         name: "Coca Cola",
+  //         description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
+  //         type: "Boisson",
+  //         price: 3.5,
+  //         quantity: 1,
+  //         image: require("../assets/coca_sans_sucre.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //       {
+  //         name: "Frite",
+  //         description: "Une portion de frite pour accompagner ton plat.",
+  //         type: "Accompagnement",
+  //         price: 2.5,
+  //         quantity: 1,
+  //         image: require("../assets/frites.png"),
+  //         restaurant: "McDonald's",
+  //       },
+  //     ],
+  //     type: "Menu",
+  //     price: 10.5,
+  //     quantity: 1,
+  //     image: require("../assets/frites.png"),
+  //     restaurant: "McDonald's",
+  //   },
+  // ];
 
   mounted() {
-    this.$root.$on("add-article", (article: Articles.Article) => {
-      this.articles.push(article);
-    });
 
-    this.$root.$on("add-menu", (menu: Articles.Menu) => {
-      let existingMenu: Articles.Menu = this.menus.filter(
-        (previousMenu: Articles.Menu) => previousMenu.name == menu.name
-      )[0];
-      if (existingMenu != null) {
-        this.menus.splice(this.menus.indexOf(existingMenu), 1, menu);
-      } else {
-        this.menus.push(menu);
-      }
-    });
+    // this.$root.$on("add-article", (article: Articles.Article) => {
+    //   this.articles.push(article);
+    // });
 
-    this.$root.$on("delete-article", (article: Articles.Article) => {
-      this.articles.splice(this.articles.indexOf(article), 1);
-    });
+    // this.$root.$on("add-menu", (menu: Articles.Menu) => {
+    //   let existingMenu: Articles.Menu = this.menus.filter(
+    //     (previousMenu: Articles.Menu) => previousMenu.name == menu.name
+    //   )[0];
+    //   if (existingMenu != null) {
+    //     this.menus.splice(this.menus.indexOf(existingMenu), 1, menu);
+    //   } else {
+    //     this.menus.push(menu);
+    //   }
+    // });
 
-    this.$root.$on("delete-menu", (menu: Articles.Menu) => {
-      this.menus.splice(this.menus.indexOf(menu), 1);
-    });
+    // this.$root.$on("delete-article", (article: Articles.Article) => {
+    //   this.articles.splice(this.articles.indexOf(article), 1);
+    // });
+
+    // this.$root.$on("delete-menu", (menu: Articles.Menu) => {
+    //   this.menus.splice(this.menus.indexOf(menu), 1);
+    // });
   }
 
   get getArticleTypeMap(): Map<string, Array<Articles.Article>> {

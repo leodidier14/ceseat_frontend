@@ -40,6 +40,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Logs } from "@/shims-tsx";
+import axios from "axios";
 
 @Component
 export default class TechnicianConnexionLogs extends Vue {
@@ -80,22 +81,52 @@ export default class TechnicianConnexionLogs extends Vue {
     },
   ];
 
-  private logs: Array<Logs.componentLogs> = [
-    {
-      id: 1,
-      time: "25/06/2021 18h13",
-      idUser: 2,
-      type: "npm",
-      name: "Button",
-      version: "1.0.1",
-    },
-  ];
+  private logs: Array<Logs.componentLogs> = [];
+  //   {
+  //     time: "25/06/2021 18h13",
+  //     idUser: 2,
+  //     type: "npm",
+  //     name: "Button",
+  //     version: "1.0.1",
+  //   },
+  // ];
+
+  private apiGetRoute: string = "api/components-logs/";
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute)
+      .then((res: any) => {
+        //Perform Success Action
+        this.logs = res;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
 
   public deleteLog(item: Logs.componentLogs) {
     if (confirm("Etes-vous sûr de vouloir supprimer ce log ?")) {
-      const index = this.logs.indexOf(item);
-      this.logs.splice(index, 1);
+      // const index = this.logs.indexOf(item);
+      // this.logs.splice(index, 1);
       //axios delete
+      axios
+        .delete(this.apiGetRoute)
+        .then((res: any) => {
+          //Perform Success Action
+          this.logs = res;
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+          //this.$router.go(0);
+        })
+        .finally(() => {
+          //Perform action in always
+        });
     }
   }
 }

@@ -28,6 +28,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Stats } from "@/shims-tsx";
+import axios from "axios";
 
 @Component
 export default class BusinessStats extends Vue {
@@ -60,14 +61,32 @@ export default class BusinessStats extends Vue {
     },
   ];
 
-  private stats: Array<Stats.microserviceRequest> = [
-    {
-      id: 1,
-      date: "25/06/2021",
-      name: "API Auth",
-      description: "API de connexion pour le client",
-      requestNumber: 15,
-    },
-  ];
+  private stats: Array<Stats.microserviceRequest> = [];
+  //   {
+  //     id: 1,
+  //     date: "25/06/2021",
+  //     name: "API Auth",
+  //     description: "API de connexion pour le client",
+  //     requestNumber: 15,
+  //   },
+  // ];
+
+  private apiGetBusinessStats: string = "api/business-stats/";
+
+  mounted() {
+    axios
+      .get(this.apiGetBusinessStats)
+      .then((res: any) => {
+        //Perform Success Action
+        this.stats = res.stats
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
 }
 </script>

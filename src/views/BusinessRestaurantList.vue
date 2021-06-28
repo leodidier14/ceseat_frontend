@@ -34,9 +34,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Restaurants } from "@/shims-tsx";
+import axios from "axios";
 
 @Component
 export default class BusinessRestaurantList extends Vue {
+  private apiGetRoute: string = "api/restaurant/";
+  
   private headerProps: object = {
     sortByText: "Trier par",
   };
@@ -62,23 +65,62 @@ export default class BusinessRestaurantList extends Vue {
     },
   ];
 
-  private restaurants: Array<Restaurants.Restaurant> = [
-    {
-      id: 1,
-      name: "McDonald's",
-      city: "Strasbourg",
-      type: "Snack",
-      schedule: "",
-      image: "",
-    },
-    {
-      id: 2,
-      name: "Sushi World",
-      city: "Bagdad",
-      type: "Japonais",
-      schedule: "",
-      image: "",
-    },
-  ];
+  private restaurants: Array<Restaurants.Restaurant> = [];
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute)
+      .then((res: any) => {
+        //Perform Success Action
+        this.restaurants = res;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
+
+  // private restaurants: Array<Restaurants.Restaurant> = [
+  //   {
+  //     id: 1,
+  //     name: "McDonald's",
+  //     email: "",
+  //     siretNumber: "",
+  //     phoneNumber: "",
+  //     website: "",
+  //     description: "",
+  //     type: "Snack",
+  //     openingTime: "",
+  //     closingTime: "",
+  //     image: "",
+  //     address: "",
+  //     city: "Strasbourg",
+  //     zipCode: "",
+  //     country: "",
+  //     sponsorshipLink: "",
+  //   },
+
+  //   {
+  //     id: 2,
+  //     name: "Sushi World",
+  //     email: "",
+  //     siretNumber: "",
+  //     phoneNumber: "",
+  //     website: "",
+  //     description: "",
+  //     type: "Japonais",
+  //     openingTime: "",
+  //     closingTime: "",
+  //     image: "",
+  //     address: "",
+  //     city: "Bagdad",
+  //     zipCode: "",
+  //     country: "",
+  //     sponsorshipLink: "",
+  //   },
+  // ];
 }
 </script>

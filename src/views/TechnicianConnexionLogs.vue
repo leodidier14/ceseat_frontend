@@ -41,6 +41,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Logs } from "@/shims-tsx";
+import axios from "axios";
 
 @Component
 export default class TechnicianConnexionLogs extends Vue {
@@ -88,11 +89,42 @@ export default class TechnicianConnexionLogs extends Vue {
     },
   ];
 
+  private apiGetRoute: string = "api/connexion-logs/";
+
+  mounted() {
+    axios
+      .get(this.apiGetRoute)
+      .then((res: any) => {
+        //Perform Success Action
+        this.logs = res;
+      })
+      .catch((error: any) => {
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
+
   public deleteLog(item: Logs.connexionLogs) {
     if (confirm("Etes-vous sûr de vouloir supprimer ce log ?")) {
-      const index = this.logs.indexOf(item);
-      this.logs.splice(index, 1);
+      // const index = this.logs.indexOf(item);
+      // this.logs.splice(index, 1);
       //axios delete
+      axios
+        .delete(this.apiGetRoute)
+        .then((res: any) => {
+          //Perform Success Action
+          this.logs = res;
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+          //this.$router.go(0);
+        })
+        .finally(() => {
+          //Perform action in always
+        });
     }
   }
 }

@@ -71,6 +71,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
+import { DeliveryMen } from "@/shims-tsx";
 
 @Component
 export default class DeliveryManForm extends Vue {
@@ -90,24 +91,30 @@ export default class DeliveryManForm extends Vue {
   };
 
   private apiSubmitRoute: string = "http://localhost:3000/deliveryman";
-  private apiGetRoute: string = "http://localhost:3000/deliveryman/"+localStorage.getItem('deliverymanId');
-  private apiDeleteRoute: string = "http://localhost:3000/deliveryman/"+localStorage.getItem('deliverymanId');
-  private apiUpdateRoute: string = "http://localhost:3000/deliveryman/"+localStorage.getItem('deliverymanId');
+  private apiGetRoute: string =
+    "http://localhost:3000/deliveryman/" +
+    localStorage.getItem("deliverymanId");
+  private apiDeleteRoute: string =
+    "http://localhost:3000/deliveryman/" +
+    localStorage.getItem("deliverymanId");
+  private apiUpdateRoute: string =
+    "http://localhost:3000/deliveryman/" +
+    localStorage.getItem("deliverymanId");
 
-   mounted() {
+  mounted() {
     axios
-      .get(this.apiGetRoute,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
       })
       .then((res: any) => {
-        console.log(res.data)
+        console.log(res.data);
         //Perform Success Action
         this.deliveryMan = res.data;
       })
       .catch((error: any) => {
-        console.log(error)
+        console.log(error);
         // error.response.status Check status code
         //this.$router.go(0);
       })
@@ -116,58 +123,55 @@ export default class DeliveryManForm extends Vue {
       });
   }
 
-
   //api call to post data
   public submitForm(): void {
     if (this.formType == "register") {
       if (
-      (
-        this.$refs.deliverymanForm as Vue & { validate: () => boolean }
-      ).validate()
-    ) {
-      axios
-        .post(this.apiSubmitRoute, this.deliveryMan,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
-      })
-        .then((res: any) => {
-          console.log(res)
-          localStorage.setItem('deliverymanId',res.data.id)
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
-    }
+        (
+          this.$refs.deliverymanForm as Vue & { validate: () => boolean }
+        ).validate()
+      ) {
+        axios
+          .post(this.apiSubmitRoute, this.deliveryMan, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res: any) => {
+            console.log(res);
+            localStorage.setItem("deliverymanId", res.data.id);
+            //Perform Success Action
+          })
+          .catch((error: any) => {
+            // error.response.status Check status code
+          })
+          .finally(() => {
+            //Perform action in always
+          });
+      }
     } else {
       if (
-      (
-        this.$refs.deliverymanForm as Vue & { validate: () => boolean }
-      ).validate()
-    ) {
-      axios
-        .put(this.apiUpdateRoute, this.deliveryMan,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
-      })
-        .then((res: any) => {
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+        (
+          this.$refs.deliverymanForm as Vue & { validate: () => boolean }
+        ).validate()
+      ) {
+        axios
+          .put(this.apiUpdateRoute, this.deliveryMan, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res: any) => {
+            //Perform Success Action
+          })
+          .catch((error: any) => {
+            // error.response.status Check status code
+          })
+          .finally(() => {
+            //Perform action in always
+          });
+      }
     }
-    }
-
-    
   }
 
   public deleteDeliveryMan(): void {
@@ -177,13 +181,13 @@ export default class DeliveryManForm extends Vue {
       )
     ) {
       axios
-        .delete(this.apiDeleteRoute,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
-      })
+        .delete(this.apiDeleteRoute, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
         .then((res: any) => {
-          localStorage.removeItem('deliverymanId')
+          localStorage.removeItem("deliverymanId");
           //Perform Success Action
         })
         .catch((error: any) => {

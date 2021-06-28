@@ -91,7 +91,9 @@
         v-for="restaurant in resultQuery"
         :key="restaurant.id"
       >
-        <Restaurant :restaurant="restaurant" />
+        <router-link :to="'/customer-menu/' + restaurant.id" tag="v-btn">
+          <Restaurant :restaurant="restaurant" />
+        </router-link>
       </div>
     </div>
   </v-card>
@@ -128,38 +130,81 @@ export default class RestaurantsList extends Vue {
     {
       id: 1,
       name: "MacDo",
-      city: "Strasbourg",
-      schedule: "12h-22h",
+      email: "",
+      siretNumber: "",
+      phoneNumber: "",
+      website: "",
+      description: "",
       type: "Snack",
+      openingTime: "12h",
+      closingTime: "22h",
       image:
         "https://media.gqmagazine.fr/photos/5f45086a03a812dcf4928d85/master/pass/McDo-Nouveau-Plat.jpg",
+      address: "",
+      city: "Strasbourg",
+      zipCode: "",
+      country: "",
+      sponsorshipLink: "",
     },
-    {
-      id: 4,
-      name: "Sushi world",
-      city: "Marseille",
-      schedule: "12h-22h",
-      type: "Japonais",
-      image:
-        "https://www.grand-roissy-tourisme.com/wp-content/uploads/wpetourisme/6823824-diaporama.jpg",
-    },
+
     {
       id: 2,
-      name: "Burger King",
-      city: "Paris",
-      schedule: "15h-22h",
-      type: "Snack",
+      name: "Sushi World",
+      email: "",
+      siretNumber: "",
+      phoneNumber: "",
+      website: "",
+      description: "",
+      type: "Japonais",
+      openingTime: "12h",
+      closingTime: "22h",
       image:
-        "http://codingmatters.org/wp20-04/wp-content/uploads/2020/11/NHNH2EHT35GN3EJSHZSAABZWAE.jpg",
+        "https://www.grand-roissy-tourisme.com/wp-content/uploads/wpetourisme/6823824-diaporama.jpg",
+      address: "",
+      city: "Marseille",
+      zipCode: "",
+      country: "",
+      sponsorshipLink: "",
     },
+
     {
       id: 3,
-      name: "KFC",
-      city: "Lyon",
-      schedule: "12h-22h",
+      name: "Burger King",
+      email: "",
+      siretNumber: "",
+      phoneNumber: "",
+      website: "",
+      description: "",
       type: "Snack",
+      openingTime: "15h",
+      closingTime: "22h",
+      image:
+        "http://codingmatters.org/wp20-04/wp-content/uploads/2020/11/NHNH2EHT35GN3EJSHZSAABZWAE.jpg",
+      address: "",
+      city: "Paris",
+      zipCode: "",
+      country: "",
+      sponsorshipLink: "",
+    },
+
+    {
+      id: 4,
+      name: "KFC",
+      email: "",
+      siretNumber: "",
+      phoneNumber: "",
+      website: "",
+      description: "",
+      type: "Snack",
+      openingTime: "12h",
+      closingTime: "22h",
       image:
         "https://www.elma-food.com/wp-content/uploads/2019/12/shutterstock_1120332020-DPI.jpg",
+      address: "",
+      city: "Lyon",
+      zipCode: "",
+      country: "",
+      sponsorshipLink: "",
     },
   ];
 

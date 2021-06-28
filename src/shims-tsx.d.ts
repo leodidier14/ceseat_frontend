@@ -1,4 +1,5 @@
 import Vue, { VNode } from 'vue'
+import { namespace } from 'vuex-class'
 
 declare global {
   namespace JSX {
@@ -16,6 +17,7 @@ declare global {
 namespace Articles {
 
   interface Article {
+    id: number,
     name: string,
     description: string,
     type: string
@@ -34,10 +36,28 @@ namespace Restaurants {
   interface Restaurant {
     id: number,
     name: string,
-    city: string,
+    email: string,
+    siretNumber: string,
+    phoneNumber: string,
+    website: string,
+    description: string,
     type: string,
-    schedule: string,
-    image: string
+    openingTime: string,
+    closingTime: string,
+    image: string,
+    address: string,
+    city: string,
+    zipCode: string,
+    country: string,
+    sponsorshipLink: string,
+  }
+}
+
+namespace DeliveryMen {
+  interface DeliveryMan {
+    id: number,
+    siretNumber: string,
+    sponsorshipLink: string,
   }
 }
 
