@@ -167,7 +167,6 @@ export default class ClientProfile extends Vue {
   private valid: boolean = true;
 
   private clientProfile = {
-    id: "",
     email: "",
     newPassword: "",
     confirmedPassword: "",
@@ -189,18 +188,15 @@ export default class ClientProfile extends Vue {
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
   );
   private passwordRules = [
-    (password: string) => !!password || "Le mot de passe est obligatoire.",
-    (password: string) =>
+    /*(password: string) =>
       this.strongRegex.test(password) ||
-      "Le mot de passe doit contenir au moins 8 caractères (dont : 1 majuscule, 1 minuscule, 1 caractère spécial, 1 chiffre) .",
+      "Le mot de passe doit contenir au moins 8 caractères (dont : 1 majuscule, 1 minuscule, 1 caractère spécial, 1 chiffre) .",*/
   ];
 
   private confirmedPasswordRules = [
-    (confirmedPassword: string) =>
-      !!confirmedPassword || "Confirmation de mot de passe obligatoire.",
-    (confirmedPassword: string) =>
+    /*(confirmedPassword: string) =>
       this.clientProfile.newPassword == confirmedPassword ||
-      "Les mots de passes doivent être identiques",
+      "Les mots de passes doivent être identiques",*/
   ];
 
   private phoneNumberRules = [
@@ -226,9 +222,9 @@ export default class ClientProfile extends Vue {
 
   private countries = ["France"];
 
-  private apiDeleteRoute: string = "api/client/id";
-  private apiSubmitRoute: string = "api/client/id";
-  private apiGetRoute: string = "api/client/id";
+  private apiDeleteRoute: string = "http://localhost:3000/user/"+ localStorage.getItem('userId');
+  private apiSubmitRoute: string = "http://localhost:3000/user/"+ localStorage.getItem('userId');
+  private apiGetRoute: string = "http://localhost:3000/user/"+ localStorage.getItem('userId');
 
   //api call to post data
 
@@ -239,7 +235,11 @@ export default class ClientProfile extends Vue {
       )
     ) {
       axios
-        .delete(this.apiDeleteRoute)
+        .delete(this.apiDeleteRoute,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
         .then((res: any) => {
           //Perform Success Action
           this.$router.push({ name: "ClientRegister" });
@@ -261,12 +261,18 @@ export default class ClientProfile extends Vue {
       ).validate()
     ) {
       axios
-        .put(this.apiSubmitRoute, this.clientProfile)
+        .put(this.apiSubmitRoute, this.clientProfile,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
         .then((res: any) => {
+          console.log(res)
           //Perform Success Action
           this.$router.go(0);
         })
         .catch((error: any) => {
+          console.log(error)
           // error.response.status Check status code
           this.$router.go(0);
         })
@@ -278,12 +284,19 @@ export default class ClientProfile extends Vue {
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
       .then((res: any) => {
+        console.log(res.data)
+
         //Perform Success Action
-        this.clientProfile = res;
+        this.clientProfile = res.data;
       })
       .catch((error: any) => {
+        console.log(error)
         // error.response.status Check status code
         //this.$router.go(0);
       })

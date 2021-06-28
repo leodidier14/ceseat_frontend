@@ -4,6 +4,7 @@ import router from './router'
 import {cart_store} from './store/index'
 import vuetify from './plugins/vuetify'
 
+
 Vue.config.productionTip = false
 
 new Vue({

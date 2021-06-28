@@ -77,7 +77,7 @@
           <router-link to="/developer-components">Composants</router-link>
         </v-list-item>
         <v-list-item>
-          <router-link to="/developer-logout">Se déconnecter</router-link>
+          <v-btn @click="devLogout" >Se déconnecter</v-btn>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -134,7 +134,7 @@
           <router-link to="/client-profile">Mon profil</router-link>
         </v-list-item>
         <v-list-item>
-          <router-link to="/logout">Se déconnecter</router-link>
+          <v-btn @click="logout">Se déconnecter</v-btn>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -145,6 +145,7 @@
  <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ShoppingCart from "@/components/ShoppingCart.vue";
+import axios from "axios";
 
 @Component({
   components: {
@@ -153,6 +154,58 @@ import ShoppingCart from "@/components/ShoppingCart.vue";
 })
 export default class Navbar extends Vue {
   private name: string = "Navbar";
+
+  private apilogout: string = "http://localhost:3000/logout";
+  private apiDevlogout: string = "http://localhost:3000/dev-logout";
+
+
+  public logout() : void {
+    axios
+        .post(this.apilogout,'',{headers : {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              Authorization: localStorage.getItem('token')
+          }})
+        .then((res: any) => {
+          //Perform Success Action
+          console.log(res)
+          localStorage.removeItem('token')
+          localStorage.removeItem('userId')
+          this.$router.push({ name: "ClientLogin" });
+        })
+        .catch((error: any) => {
+          console.log(error)
+          // error.response.status Check status code
+          //this.$router.go(0);
+        })
+        .finally(() => {
+          //Perform action in always
+        });
+  }
+
+  public devLogout() : void {
+    axios
+        .post(this.apiDevlogout,'',{headers : {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              Authorization: localStorage.getItem('token')
+          }})
+        .then((res: any) => {
+          //Perform Success Action
+          console.log(res)
+          localStorage.removeItem('token')
+          localStorage.removeItem('devId')
+          this.$router.push({ name: "DeveloperLogin" });
+        })
+        .catch((error: any) => {
+          console.log(error)
+          // error.response.status Check status code
+          //this.$router.go(0);
+        })
+        .finally(() => {
+          //Perform action in always
+        });
+  }
 }
 </script>
 

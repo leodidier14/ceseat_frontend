@@ -95,7 +95,6 @@ export default class DeveloperProfile extends Vue {
 
   private devProfile = {
     id: 1,
-    accountType: "developper",
     email: "",
     password: "",
     confirmedPassword: "",
@@ -110,18 +109,18 @@ export default class DeveloperProfile extends Vue {
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
   );
   private passwordRules = [
-    (password: string) => !!password || "Le mot de passe est obligatoire.",
+    /*(password: string) => !!password || "Le mot de passe est obligatoire.",
     (password: string) =>
       this.strongRegex.test(password) ||
-      "Le mot de passe doit contenir au moins 8 caractères (dont : 1 majuscule, 1 minuscule, 1 caractère spécial, 1 chiffre) .",
+      "Le mot de passe doit contenir au moins 8 caractères (dont : 1 majuscule, 1 minuscule, 1 caractère spécial, 1 chiffre) .",*/
   ];
 
   private confirmedPasswordRules = [
-    (confirmedPassword: string) =>
+    /*(confirmedPassword: string) =>
       !!confirmedPassword || "Confirmation de mot de passe obligatoire.",
     (confirmedPassword: string) =>
       this.devProfile.password == confirmedPassword ||
-      "Les mots de passes doivent être identiques",
+      "Les mots de passes doivent être identiques",*/
   ];
 
   private emailRules = [
@@ -133,9 +132,9 @@ export default class DeveloperProfile extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiDeleteRoute: string = "api/developer/id";
-  private apiSubmitRoute: string = "api/developer/id";
-  private apiGetRoute: string = "api/developer/id";
+  private apiDeleteRoute: string = "http://localhost:3000/dev/"+ localStorage.getItem('devId');
+  private apiSubmitRoute: string = "http://localhost:3000/dev/"+ localStorage.getItem('devId');
+  private apiGetRoute: string = "http://localhost:3000/dev/"+ localStorage.getItem('devId');
 
   //api call to post data
 
@@ -146,7 +145,11 @@ export default class DeveloperProfile extends Vue {
       )
     ) {
       axios
-        .delete(this.apiDeleteRoute)
+        .delete(this.apiDeleteRoute,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
         .then((res: any) => {
           //Perform Success Action
           this.$router.push({ name: "DeveloperRegister" });
@@ -168,7 +171,11 @@ export default class DeveloperProfile extends Vue {
       ).validate()
     ) {
       axios
-        .post(this.apiSubmitRoute, this.devProfile)
+        .put(this.apiSubmitRoute, this.devProfile,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
         .then((res: any) => {
           //Perform Success Action
           this.$router.go(0);
@@ -185,10 +192,14 @@ export default class DeveloperProfile extends Vue {
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
       .then((res: any) => {
         //Perform Success Action
-        this.devProfile = res;
+        this.devProfile = res.data;
       })
       .catch((error: any) => {
         // error.response.status Check status code

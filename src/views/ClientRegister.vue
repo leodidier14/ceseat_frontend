@@ -115,12 +115,12 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 
+
 @Component
 export default class ClientRegister extends Vue {
   private valid: boolean = true;
 
   private clientRegister = {
-    accountType: "Client",
     email: "",
     password: "",
     confirmedPassword: "",
@@ -167,7 +167,7 @@ export default class ClientRegister extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiSubmitRoute: string = "api/client-register";
+  private apiSubmitRoute: string = "http://localhost:3000/user";
 
   //api call to post data
   public submitForm(): void {
@@ -177,14 +177,19 @@ export default class ClientRegister extends Vue {
       ).validate()
     ) {
       axios
-        .post(this.apiSubmitRoute, this.clientRegister)
+        .post(this.apiSubmitRoute, this.clientRegister,{headers : {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+          }})
         .then((res: any) => {
           //Perform Success Action
+          console.log(res)
           this.$router.push({ name: "ClientLogin" });
         })
         .catch((error: any) => {
+          console.log(error)
           // error.response.status Check status code
-          this.$router.go(0);
+          //this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always
