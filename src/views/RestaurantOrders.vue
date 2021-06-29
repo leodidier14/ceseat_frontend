@@ -19,7 +19,7 @@
             <h4 class="text-center py-2" style="color: white">
               Nouvelles commandes
             </h4>
-            <div class="flex-container">
+            <div class="flex-container" v-if="getOrdersLength()">
               <RestaurantOrderCard
                 class="restaurant-order-card"
                 :order="order"
@@ -40,7 +40,7 @@
             <h4 class="text-center mt-2 py-2" style="color: white">
               En attentes
             </h4>
-            <div class="flex-container">
+            <div class="flex-container" v-if="getOrdersLength()">
               <RestaurantOrderCard
                 class="restaurant-order-card"
                 :order="order"
@@ -58,7 +58,7 @@
             color="#CA6B3E"
           >
             <h4 class="text-center mt-2 py-2" style="color: white">En cours</h4>
-            <div class="flex-container">
+            <div class="flex-container" v-if="getOrdersLength()">
               <RestaurantOrderCard
                 class="restaurant-order-card"
                 :order="order"
@@ -75,7 +75,7 @@
             color="#CA6B3E"
           >
             <h4 class="text-center mt-2 py-2" style="color: white">Prêtes</h4>
-            <div class="flex-container">
+            <div class="flex-container" v-if="getOrdersLength()">
               <RestaurantOrderCard
                 class="restaurant-order-card"
                 :order="order"
@@ -95,6 +95,7 @@ import RestaurantOrderCard from "@/components/RestaurantOrderCard.vue";
 import { Orders } from "@/shims-tsx";
 import { getModule } from "vuex-module-decorators";
 import User from "@/store/user";
+import mqtt from "mqtt";
 
 @Component({
   components: {
@@ -189,6 +190,10 @@ export default class RestaurantsOrders extends Vue {
     return this.orders.filter(
       (i) => i.status === "pendingDelivery" || i.status === "delivery"
     );
+  }
+
+  getOrdersLength() {
+    return this.orders.length > 0;
   }
 }
 </script>

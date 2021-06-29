@@ -30,7 +30,7 @@
             <h4 class="text-center py-2" style="color: white">
               Nouvelles commandes
             </h4>
-            <div class="flex-container">
+            <div class="flex-container" v-if="getOrdersLength()">
               <DeliveryManOrderCard
                 class="restaurant-order-card"
                 :order="order"
@@ -52,7 +52,8 @@
             <h4 class="text-center py-2" style="color: white">
               Commande à livrer
             </h4>
-            <div class="flex-container">
+
+            <div class="flex-container" v-if="getOrdersLength()">
               <DeliveryManOrderCard
                 class="restaurant-order-card"
                 :order="order"
@@ -153,6 +154,10 @@ export default class RestaurantsOrders extends Vue {
       this.orders.filter((i) => i.deliveryManId != 0)[0].restaurantAddress[0]
     );
     return this.orders.filter((i) => i.deliveryManId != 0);
+  }
+
+  getOrdersLength() {
+    return this.orders.length > 0;
   }
 }
 </script>

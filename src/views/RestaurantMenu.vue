@@ -98,8 +98,7 @@ export default class RestaurantMenu extends Vue {
 
   private addArticle(article: Articles.Article) {
     let existingArticle: Articles.Article = this.articles.filter(
-      (previousArticle: Articles.Article) =>
-        previousArticle.name == article.name
+      (previousArticle: Articles.Article) => previousArticle.id == article.id
     )[0];
     if (existingArticle != null) {
       axios
