@@ -77,9 +77,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component
 export default class ClientLogin extends Vue {
+  private userModule = getModule(User, this.$store);
   private valid: boolean = true;
 
   private login = {
@@ -109,16 +112,20 @@ export default class ClientLogin extends Vue {
       axios
         .post(this.apiSubmitRoute, this.login)
         .then((res: any) => {
-          console.log(res)
+          console.log(res);
           //Perform Success Action
-          this.$router.push({ name: "RestaurantsList" });
-          localStorage.setItem('token','Bearer ' + res.data.token)
-          localStorage.setItem('userId',res.data.userId)
-          localStorage.setItem(res.data.role.type,res.data.role.id)
 
+          this.userModule.set_token("Bearer " + res.data.token);
+          this.userModule.set_userId(res.data.userId);
+          this.userModule.set_roleType(res.data.role.type);
+          this.userModule.set_roleId(res.data.role.id);
+          // localStorage.setItem("token", "Bearer " + res.data.token);
+          // localStorage.setItem("userId", res.data.userId);
+          // localStorage.setItem(res.data.role.type, res.data.role.id);
+          this.$router.push({ name: "RestaurantsList" });
         })
         .catch((error: any) => {
-          console.log(error)
+          console.log(error);
           // error.response.status Check status code
           //this.$router.go(0);
         })

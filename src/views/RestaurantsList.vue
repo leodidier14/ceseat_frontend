@@ -91,7 +91,12 @@
         v-for="restaurant in resultQuery"
         :key="restaurant.id"
       >
-        <router-link :to="{name:'CustomerMenu',params:{id:restaurant.id,name:restaurant.name}}" tag="v-btn">
+        <router-link
+          :to="{
+            name: 'CustomerMenu',
+            params: { id: restaurant.id, name: restaurant.name },
+          }"
+        >
           <Restaurant :restaurant="restaurant" />
         </router-link>
       </div>
@@ -104,6 +109,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 import Restaurant from "@/components/Restaurant.vue";
 import { Restaurants } from "@/shims-tsx";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component({
   components: {
@@ -111,6 +118,7 @@ import { Restaurants } from "@/shims-tsx";
   },
 })
 export default class RestaurantsList extends Vue {
+  private userModule = getModule(User, this.$store);
   private dialog: boolean = false;
 
   private searchName: string = "";
@@ -126,8 +134,7 @@ export default class RestaurantsList extends Vue {
   ];
   private schedule: Array<string> = ["Tous", "Ouverts", "Fermés"];
 
-  private restaurants: Array<Restaurants.Restaurant> = [
-  ];
+  private restaurants: Array<Restaurants.Restaurant> = [];
 
   private apiGetRoute: string = "http://localhost:3000/restaurants";
 
@@ -135,18 +142,18 @@ export default class RestaurantsList extends Vue {
 
   mounted() {
     axios
-      .get(this.apiGetRoute,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: this.userModule.token,
+        },
       })
       .then((res: any) => {
-        console.log(res)
+        console.log(res);
         //Perform Success Action
         this.restaurants = res.data;
       })
       .catch((error: any) => {
-        console.log(error)
+        console.log(error);
         // error.response.status Check status code
         //this.$router.go(0);
       })

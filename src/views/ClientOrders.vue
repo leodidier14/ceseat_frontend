@@ -136,14 +136,17 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Orders } from "@/shims-tsx";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component
 export default class ClientOrders extends Vue {
+  private userModule = getModule(User, this.$store);
   private dialog: boolean = false;
   private currentDialogItem: any = [];
 
   private apiGetRoute: string =
-    "http://localhost:3000/order/user/" + localStorage.getItem("userId");
+    "http://localhost:3000/order/user/" + this.userModule.userId;
   private apiDeleteRoute: string = "http://localhost:3000/order/user/";
 
   private headerProps: object = {
@@ -194,7 +197,7 @@ export default class ClientOrders extends Vue {
     axios
       .get(this.apiGetRoute, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: this.userModule.token,
         },
       })
       .then((res: any) => {
@@ -226,11 +229,12 @@ export default class ClientOrders extends Vue {
       axios
         .delete(this.apiDeleteRoute + item.number, {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: this.userModule.token,
           },
         })
         .then((res: any) => {
-          // this.orders = res;
+          const index = this.orders.indexOf(item);
+          this.orders.splice(index, 1);
         })
         .catch((error: any) => {
           //this.$router.go(0);

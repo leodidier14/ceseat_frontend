@@ -14,7 +14,7 @@
       </v-btn>
     </router-link>
     <v-spacer></v-spacer>
-    <v-menu offset-y>
+    <v-menu offset-y v-if="this.userModule.roleType == 'businessman'">
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Commercial</span></v-btn
@@ -37,7 +37,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu offset-y>
+    <v-menu offset-y v-if="this.userModule.roleType == 'technician'">
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Technicien</span></v-btn
@@ -63,7 +63,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu offset-y>
+    <v-menu offset-y v-if="this.userModule.roleType == 'dev'">
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Développeur</span></v-btn
@@ -77,11 +77,11 @@
           <router-link to="/developer-components">Composants</router-link>
         </v-list-item>
         <v-list-item>
-          <v-btn @click="devLogout" >Se déconnecter</v-btn>
+          <v-btn @click="devLogout">Se déconnecter</v-btn>
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu offset-y>
+    <v-menu offset-y v-if="this.userModule.roleType == 'deliveryman'">
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Livreur</span></v-btn
@@ -96,7 +96,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu offset-y>
+    <v-menu offset-y v-if="this.userModule.roleType == 'restaurant'">
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Mon restaurant</span></v-btn
@@ -120,7 +120,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu offset-y>
+    <v-menu offset-y v-if="this.userModule.userId != null">
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Mon compte</span></v-btn
@@ -146,6 +146,8 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ShoppingCart from "@/components/ShoppingCart.vue";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component({
   components: {
@@ -155,56 +157,60 @@ import axios from "axios";
 export default class Navbar extends Vue {
   private name: string = "Navbar";
 
+  private userModule = getModule(User, this.$store);
+
   private apilogout: string = "http://localhost:3000/logout";
   private apiDevlogout: string = "http://localhost:3000/dev-logout";
 
-
-  public logout() : void {
+  public logout(): void {
     axios
-        .post(this.apilogout,'',{headers : {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-              Authorization: localStorage.getItem('token')
-          }})
-        .then((res: any) => {
-          //Perform Success Action
-          console.log(res)
-          localStorage.removeItem('token')
-          localStorage.removeItem('userId')
-          this.$router.push({ name: "ClientLogin" });
-        })
-        .catch((error: any) => {
-          console.log(error)
-          // error.response.status Check status code
-          //this.$router.go(0);
-        })
-        .finally(() => {
-          //Perform action in always
+      .post(this.apilogout, "", {
+        headers: {
+          Authorization: this.userModule.token,
+        },
+      })
+      .then((res: any) => {
+        //Perform Success Action
+        console.log(res);
+        this.userModule.set_token("").then((token: string) => {
+          localStorage.clear();
+          window.location.href = "http://localhost:8080/client-login";
         });
+
+        // this.$router.push({ name: "ClientLogin" });
+      })
+      .catch((error: any) => {
+        console.log(error);
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
   }
 
-  public devLogout() : void {
+  public devLogout(): void {
     axios
-        .post(this.apiDevlogout,'',{headers : {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-              Authorization: localStorage.getItem('token')
-          }})
-        .then((res: any) => {
-          //Perform Success Action
-          console.log(res)
-          localStorage.removeItem('token')
-          localStorage.removeItem('devId')
-          this.$router.push({ name: "DeveloperLogin" });
-        })
-        .catch((error: any) => {
-          console.log(error)
-          // error.response.status Check status code
-          //this.$router.go(0);
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+      .post(this.apiDevlogout, "", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res: any) => {
+        //Perform Success Action
+        console.log(res);
+        localStorage.removeItem("token");
+        localStorage.removeItem("devId");
+        this.$router.push({ name: "DeveloperLogin" });
+      })
+      .catch((error: any) => {
+        console.log(error);
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
   }
 }
 </script>

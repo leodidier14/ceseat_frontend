@@ -125,9 +125,12 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 import { Orders } from "@/shims-tsx";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component
 export default class RestaurantHistory extends Vue {
+  private userModule = getModule(User, this.$store);
   private dialog: boolean = false;
   private currentDialogItem: any = [];
 
@@ -179,7 +182,7 @@ export default class RestaurantHistory extends Vue {
     "http://localhost:3000/order/restaurant/ordershistory/";
   private apiGetRoute: string =
     "http://localhost:3000/order/restaurant/ordershistory/" +
-    localStorage.getItem("restaurantId");
+    this.userModule.roleId;
 
   //api call to post data
 
@@ -195,7 +198,7 @@ export default class RestaurantHistory extends Vue {
       axios
         .delete(this.apiDeleteRoute + item.number, {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: this.userModule.token,
           },
         })
         .then((res: any) => {
@@ -205,7 +208,7 @@ export default class RestaurantHistory extends Vue {
         })
         .catch((error: any) => {
           // error.response.status Check status code
-          this.$router.go(0);
+          //this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always
@@ -217,7 +220,7 @@ export default class RestaurantHistory extends Vue {
     axios
       .get(this.apiGetRoute, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: this.userModule.token,
         },
       })
       .then((res: any) => {

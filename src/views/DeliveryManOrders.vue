@@ -72,6 +72,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import DeliveryManOrderCard from "@/components/DeliveryManOrderCard.vue";
 import { Orders } from "@/shims-tsx";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component({
   components: {
@@ -79,25 +81,28 @@ import axios from "axios";
   },
 })
 export default class RestaurantsOrders extends Vue {
+  private userModule = getModule(User, this.$store);
   private deliveryManState: boolean = true;
   private orders: Array<Orders.Order> = [];
 
   private apiPutRoute: string =
     "http://localhost:3000/orders/statement/delivered";
   private apiGetRoute: string =
-    "http://localhost:3000/order/deliveryman/" +
-    localStorage.getItem("deliverymanId");
+    "http://localhost:3000/order/deliveryman/" + this.userModule.roleId;
 
   mounted() {
     axios
       .get(this.apiGetRoute, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: this.userModule.token,
         },
       })
       .then((res: any) => {
         //Perform Success Action
-        this.orders = res.data;
+        console.log(res);
+        if (res.data != "") {
+          this.orders = res.data;
+        }
       })
       .catch((error: any) => {
         // error.response.status Check status code
@@ -114,9 +119,17 @@ export default class RestaurantsOrders extends Vue {
 
   private putStatus(status: string) {
     axios
-      .post(this.apiPutRoute, { status: status })
+      .post(
+        this.apiPutRoute,
+        { status: status },
+        {
+          headers: {
+            Authorization: this.userModule.token,
+          },
+        }
+      )
       .then((res: any) => {
-        this.orders = res;
+        this.$router.go(0);
       })
       .catch((error: any) => {
         // error.response.status Check status code

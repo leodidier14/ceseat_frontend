@@ -1,157 +1,302 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
+import Vue from "vue";
+import VueRouter, { RouteConfig } from "vue-router";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
+
+function isAuthenticated() {
+  if (localStorage.getItem("token")) {
+    // router.push({ name: "ClientLogin" });
+    return true;
+  }
+}
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/',
-    name: 'RestaurantsList',
-    component: () => import('@/views/RestaurantsList.vue')
+    path: "/",
+    name: "RestaurantsList",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/RestaurantsList.vue"),
   },
   {
-    path: '/client-login',
-    name: 'ClientLogin',
-    component: () => import('@/views/ClientLogin.vue')
+    path: "/client-login",
+    name: "ClientLogin",
+    component: () => import("@/views/ClientLogin.vue"),
   },
   {
-    path: '/developer-login',
-    name: 'DeveloperLogin',
-    component: () => import('@/views/DeveloperLogin.vue')
+    path: "/developer-login",
+    name: "DeveloperLogin",
+    component: () => import("@/views/DeveloperLogin.vue"),
   },
   {
-    path: '/client-register',
-    name: 'ClientRegister',
-    component: () => import('@/views/ClientRegister.vue')
+    path: "/client-register",
+    name: "ClientRegister",
+    component: () => import("@/views/ClientRegister.vue"),
   },
   {
-    path: '/client-profile',
-    name: 'ClientProfile',
-    component: () => import('@/views/ClientProfile.vue')
+    path: "/client-profile",
+    name: "ClientProfile",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/ClientProfile.vue"),
   },
   {
-    path: '/client-orders',
-    name: 'ClientOrders',
-    component: () => import('@/views/ClientOrders.vue')
+    path: "/client-orders",
+    name: "ClientOrders",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/ClientOrders.vue"),
   },
   {
-    path: '/technician-components',
-    name: 'TechnicianComponents',
-    component: () => import('@/views/TechnicianComponents.vue')
+    path: "/technician-components",
+    name: "TechnicianComponents",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/TechnicianComponents.vue"),
   },
   {
-    path: '/technician-connexion-logs',
-    name: 'TechnicianConnexionLogs',
-    component: () => import('@/views/TechnicianConnexionLogs.vue')
+    path: "/technician-connexion-logs",
+    name: "TechnicianConnexionLogs",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/TechnicianConnexionLogs.vue"),
   },
   {
-    path: '/technician-components-logs',
-    name: 'TechnicianComponentLogs',
-    component: () => import('@/views/TechnicianComponentLogs.vue')
+    path: "/technician-components-logs",
+    name: "TechnicianComponentLogs",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/TechnicianComponentLogs.vue"),
   },
   {
-    path: '/developer-register',
-    name: 'DeveloperRegister',
-    component: () => import('@/views/DeveloperRegister.vue')
-
+    path: "/developer-register",
+    name: "DeveloperRegister",
+    component: () => import("@/views/DeveloperRegister.vue"),
   },
   {
-    path: '/developer-profile',
-    name: 'DeveloperProfile',
-    component: () => import('@/views/DeveloperProfile.vue')
+    path: "/developer-profile",
+    name: "DeveloperProfile",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/DeveloperProfile.vue"),
   },
   {
-    path: '/developer-components',
-    name: 'DeveloperComponents',
-    component: () => import('@/views/DeveloperComponents.vue')
-  },
-
-  {
-    path: '/restaurant-register',
-    name: 'RestaurantRegister',
-    component: () => import('@/views/RestaurantRegister.vue')
-  },
-
-  {
-    path: '/restaurant-profile',
-    name: 'RestaurantProfile',
-    component: () => import('@/views/RestaurantProfile.vue')
-  },
-
-  {
-    path: '/deliveryman-register',
-    name: 'DeliveryManRegister',
-    component: () => import('@/views/DeliveryManRegister.vue')
-  },
-
-  {
-    path: '/deliveryman-profile',
-    name: 'DeliveryManProfile',
-    component: () => import('@/views/DeliveryManProfile.vue')
-  },
-  {
-    path: '/deliveryman-orders',
-    name: 'DeliveryManOrders',
-
-    component: () => import('@/views/DeliveryManOrders.vue')
-  },
-  {
-    path: '/restaurants-list',
-    name: 'RestaurantsList',
-
-    component: () => import('@/views/RestaurantsList.vue')
-  },
-
-  {
-    path: '/restaurant-orders',
-    name: 'RestaurantOrders',
-
-    component: () => import('@/views/RestaurantOrders.vue')
-  },
-  {
-    path: '/restaurant-history',
-    name: 'RestaurantHistory',
-
-    component: () => import('@/views/RestaurantHistory.vue')
-  },
-  {
-    path: '/restaurant-stats',
-    name: 'RestaurantStats',
-
-    component: () => import('@/views/RestaurantStats.vue')
-  },
-  {
-    path: '/customer-menu',
-    name: 'CustomerMenu',
-    component: () => import('../views/CustomerMenu.vue')
+    path: "/developer-components",
+    name: "DeveloperComponents",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/DeveloperComponents.vue"),
   },
 
   {
-    path: '/restaurant-menu',
-    name: 'RestaurantMenu',
-    component: () => import('@/views/RestaurantMenu.vue')
+    path: "/restaurant-register",
+    name: "RestaurantRegister",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/RestaurantRegister.vue"),
+  },
+
+  {
+    path: "/restaurant-profile",
+    name: "RestaurantProfile",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/RestaurantProfile.vue"),
+  },
+
+  {
+    path: "/deliveryman-register",
+    name: "DeliveryManRegister",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/DeliveryManRegister.vue"),
+  },
+
+  {
+    path: "/deliveryman-profile",
+    name: "DeliveryManProfile",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/DeliveryManProfile.vue"),
   },
   {
-    path: '/business-orders-monitor',
-    name: 'BusinessRestaurantList',
-    component: () => import('@/views/BusinessRestaurantList.vue')
+    path: "/deliveryman-orders",
+    name: "DeliveryManOrders",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/DeliveryManOrders.vue"),
+  },
+
+  {
+    path: "/restaurant-orders",
+    name: "RestaurantOrders",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/RestaurantOrders.vue"),
   },
   {
-    path: '/business-orders-monitor/:restaurantId',
-    name: 'BusinessOrdersMonitor',
-    component: () => import('@/views/BusinessOrdersMonitor.vue')
+    path: "/restaurant-history",
+    name: "RestaurantHistory",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/RestaurantHistory.vue"),
   },
   {
-    path: '/business-stats',
-    name: 'BusinessStats',
-    component: () => import('@/views/BusinessStats.vue')
+    path: "/restaurant-stats",
+    name: "RestaurantStats",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/RestaurantStats.vue"),
   },
-]
+  {
+    path: "/customer-menu",
+    name: "CustomerMenu",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("../views/CustomerMenu.vue"),
+  },
+
+  {
+    path: "/restaurant-menu",
+    name: "RestaurantMenu",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/RestaurantMenu.vue"),
+  },
+  {
+    path: "/business-orders-monitor",
+    name: "BusinessRestaurantList",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/BusinessRestaurantList.vue"),
+  },
+  {
+    path: "/business-orders-monitor/:restaurantId",
+    name: "BusinessOrdersMonitor",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/BusinessOrdersMonitor.vue"),
+  },
+  {
+    path: "/business-stats",
+    name: "BusinessStats",
+    // beforeEnter(to, from, next) {
+    //   if (isAuthenticated()) {
+    //     next();
+    //   } else {
+    //     router.push({ name: "ClientLogin" });
+    //   }
+    // },
+    component: () => import("@/views/BusinessStats.vue"),
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

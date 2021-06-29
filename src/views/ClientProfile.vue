@@ -161,9 +161,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component
 export default class ClientProfile extends Vue {
+  private userModule = getModule(User, this.$store);
   private valid: boolean = true;
 
   private clientProfile = {
@@ -188,15 +191,15 @@ export default class ClientProfile extends Vue {
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
   );
   private passwordRules = [
-    /*(password: string) =>
-      this.strongRegex.test(password) ||
-      "Le mot de passe doit contenir au moins 8 caractères (dont : 1 majuscule, 1 minuscule, 1 caractère spécial, 1 chiffre) .",*/
+    // (password: string) =>
+    //   this.strongRegex.test(password) ||
+    //   "Le mot de passe doit contenir au moins 8 caractères (dont : 1 majuscule, 1 minuscule, 1 caractère spécial, 1 chiffre) .",
   ];
 
   private confirmedPasswordRules = [
-    /*(confirmedPassword: string) =>
-      this.clientProfile.newPassword == confirmedPassword ||
-      "Les mots de passes doivent être identiques",*/
+    // (confirmedPassword: string) =>
+    //   this.clientProfile.newPassword == confirmedPassword ||
+    //   "Les mots de passes doivent être identiques",
   ];
 
   private phoneNumberRules = [
@@ -213,8 +216,8 @@ export default class ClientProfile extends Vue {
   ];
 
   private zipCodeRules = [
-    (zipCode: string) =>
-      /[0-9]{5}/g.test(zipCode) || "Le code postal doit être valide.",
+    // (zipCode: string) =>
+    //   /[0-9]{5}/g.test(zipCode) || "Le code postal doit être valide.",
   ];
   private rules = {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
@@ -222,9 +225,12 @@ export default class ClientProfile extends Vue {
 
   private countries = ["France"];
 
-  private apiDeleteRoute: string = "http://localhost:3000/user/"+ localStorage.getItem('userId');
-  private apiSubmitRoute: string = "http://localhost:3000/user/"+ localStorage.getItem('userId');
-  private apiGetRoute: string = "http://localhost:3000/user/"+ localStorage.getItem('userId');
+  private apiDeleteRoute: string =
+    "http://localhost:3000/user/" + this.userModule.userId;
+  private apiSubmitRoute: string =
+    "http://localhost:3000/user/" + this.userModule.userId;
+  private apiGetRoute: string =
+    "http://localhost:3000/user/" + this.userModule.userId;
 
   //api call to post data
 
@@ -235,14 +241,18 @@ export default class ClientProfile extends Vue {
       )
     ) {
       axios
-        .delete(this.apiDeleteRoute,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
-      })
+        .delete(this.apiDeleteRoute, {
+          headers: {
+            Authorization: this.userModule.token,
+          },
+        })
         .then((res: any) => {
           //Perform Success Action
-          this.$router.push({ name: "ClientRegister" });
+          console.log(res);
+          this.userModule.set_token("").then((token: string) => {
+            localStorage.clear();
+            window.location.href = "http://localhost:8080/client-register";
+          });
         })
         .catch((error: any) => {
           // error.response.status Check status code
@@ -261,18 +271,18 @@ export default class ClientProfile extends Vue {
       ).validate()
     ) {
       axios
-        .put(this.apiSubmitRoute, this.clientProfile,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
-      })
+        .put(this.apiSubmitRoute, this.clientProfile, {
+          headers: {
+            Authorization: this.userModule.token,
+          },
+        })
         .then((res: any) => {
-          console.log(res)
+          console.log(res);
           //Perform Success Action
           this.$router.go(0);
         })
         .catch((error: any) => {
-          console.log(error)
+          console.log(error);
           // error.response.status Check status code
           this.$router.go(0);
         })
@@ -284,19 +294,19 @@ export default class ClientProfile extends Vue {
 
   mounted() {
     axios
-      .get(this.apiGetRoute,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: this.userModule.token,
+        },
       })
       .then((res: any) => {
-        console.log(res.data)
+        console.log(res.data);
 
         //Perform Success Action
         this.clientProfile = res.data;
       })
       .catch((error: any) => {
-        console.log(error)
+        console.log(error);
         // error.response.status Check status code
         //this.$router.go(0);
       })

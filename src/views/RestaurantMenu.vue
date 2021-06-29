@@ -9,15 +9,18 @@ import axios from "axios";
 import { Articles } from "@/shims-tsx";
 import ArticleCard from "@/components/ArticleCard.vue";
 
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
+
 @Component({
   components: {
     ArticleList,
   },
 })
 export default class RestaurantMenu extends Vue {
+  private userModule = getModule(User, this.$store);
   private apiGetRoute: string =
-    "http://localhost:3000/restaurantboard/" +
-    localStorage.getItem("restaurantId");
+    "http://localhost:3000/restaurantboard/" + this.userModule.roleId;
   private apiSubmitArticleRoute: string = "http://localhost:3000/article/";
   private apiArticleRoute: string = "http://localhost:3000/article/";
   private apiMenuRoute: string = "http://localhost:3000/menu/";
@@ -29,7 +32,7 @@ export default class RestaurantMenu extends Vue {
     axios
       .get(this.apiGetRoute, {
         headers: {
-          Authorization: "Bearer" + localStorage.getItem("token"),
+          Authorization: this.userModule.token,
         },
       })
       .then((res: any) => {
@@ -64,12 +67,12 @@ export default class RestaurantMenu extends Vue {
     axios
       .delete(this.apiArticleRoute + article.id, {
         headers: {
-          Authorization: "Bearer" + localStorage.getItem("token"),
+          Authorization: this.userModule.token,
         },
       })
       .then((res: any) => {
         console.log(res);
-        //this.$router.go(0);
+        this.$router.go(0);
       })
       .catch((error: any) => {
         //this.$router.go(0);
@@ -81,7 +84,7 @@ export default class RestaurantMenu extends Vue {
     axios
       .delete(this.apiMenuRoute + menu.id, {
         headers: {
-          Authorization: "Bearer" + localStorage.getItem("token"),
+          Authorization: this.userModule.token,
         },
       })
       .then((res: any) => {
@@ -102,12 +105,12 @@ export default class RestaurantMenu extends Vue {
       axios
         .put(this.apiSubmitArticleRoute + article.id, article, {
           headers: {
-            Authorization: "Bearer" + localStorage.getItem("token"),
+            Authorization: this.userModule.token,
           },
         })
         .then((res: any) => {
           console.log(res);
-          //this.$router.go(0);
+          this.$router.go(0);
         })
         .catch((error: any) => {
           console.log(error);
@@ -120,7 +123,7 @@ export default class RestaurantMenu extends Vue {
       axios
         .post(this.apiSubmitArticleRoute, article, {
           headers: {
-            Authorization: "Bearer" + localStorage.getItem("token"),
+            Authorization: this.userModule.token,
           },
         })
         .then((res: any) => {
@@ -145,7 +148,7 @@ export default class RestaurantMenu extends Vue {
         axios
           .put(this.apiMenuRoute + menu.id, menu, {
             headers: {
-              Authorization: "Bearer" + localStorage.getItem("token"),
+              Authorization: this.userModule.token,
             },
           })
           .then((res: any) => {
@@ -159,12 +162,12 @@ export default class RestaurantMenu extends Vue {
         axios
           .post(this.apiMenuRoute, menu, {
             headers: {
-              Authorization: "Bearer" + localStorage.getItem("token"),
+              Authorization: this.userModule.token,
             },
           })
           .then((res: any) => {
             console.log(res);
-            //this.$router.go(0);
+            this.$router.go(0);
           })
           .catch((error: any) => {
             //this.$router.go(0);
@@ -175,7 +178,7 @@ export default class RestaurantMenu extends Vue {
       axios
         .post(this.apiMenuRoute, menu, {
           headers: {
-            Authorization: "Bearer" + localStorage.getItem("token"),
+            Authorization: this.userModule.token,
           },
         })
         .then((res: any) => {

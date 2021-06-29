@@ -115,7 +115,6 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 
-
 @Component
 export default class ClientRegister extends Vue {
   private valid: boolean = true;
@@ -177,17 +176,14 @@ export default class ClientRegister extends Vue {
       ).validate()
     ) {
       axios
-        .post(this.apiSubmitRoute, this.clientRegister,{headers : {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
-          }})
+        .post(this.apiSubmitRoute, this.clientRegister, {})
         .then((res: any) => {
           //Perform Success Action
-          console.log(res)
+          console.log(res);
           this.$router.push({ name: "ClientLogin" });
         })
         .catch((error: any) => {
-          console.log(error)
+          console.log(error);
           // error.response.status Check status code
           //this.$router.go(0);
         })

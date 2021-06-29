@@ -88,6 +88,8 @@ import ArticleCard from "@/components/ArticleCard.vue";
 import { Articles } from "@/shims-tsx";
 import { getModule } from "vuex-module-decorators";
 import CartModule from "@/store/cart";
+import User from "@/store/user";
+
 import axios from "axios";
 
 @Component({
@@ -97,6 +99,8 @@ import axios from "axios";
 })
 export default class ShoppingCart extends Vue {
   private cartModule = getModule(CartModule, this.$store);
+  private userModule = getModule(User, this.$store);
+
   private dialog: boolean = false;
   private restaurant: string = "";
 
@@ -120,11 +124,11 @@ export default class ShoppingCart extends Vue {
     axios
       .post(this.apiSubmitRoute, body, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: this.userModule.token,
         },
       })
       .then((res: any) => {
-        this.$router.push({ name: "DeveloperLogin" });
+        console.log(res);
       })
       .catch((error: any) => {
         console.log(error);

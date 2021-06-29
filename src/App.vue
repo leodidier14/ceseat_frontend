@@ -1,10 +1,12 @@
 <template>
   <v-app>
-    <div v-if="isMobile()">
-      <NavbarMobile />
-    </div>
-    <div v-else>
-      <Navbar />
+    <div v-if="this.userModule.token != ''">
+      <div v-if="isMobile()">
+        <NavbarMobile />
+      </div>
+      <div v-else>
+        <Navbar />
+      </div>
     </div>
     <v-main class="main">
       <router-view />
@@ -31,26 +33,33 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import Navbar from "@/components/Navbar.vue";
 import NavbarMobile from "@/components/NavbarMobile.vue";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
-export default Vue.extend({
-  name: "App",
-
+@Component({
   components: {
     Navbar,
     NavbarMobile,
   },
+})
+export default class App extends Vue {
+  private isAuthenticated: boolean = false;
 
-  data: () => ({}),
+  private userModule = getModule(User, this.$store);
 
-  methods: {
-    isMobile() {
-      return this.$vuetify.breakpoint.smAndDown;
-    },
-  },
-});
+  private isMobile() {
+    return this.$vuetify.breakpoint.smAndDown;
+  }
+
+  //  if (localStorage.getItem("token")) {
+  //     this.isAuthenticated = true;
+  //   } else {
+  //     this.isAuthenticated = false;
+  //   }
+}
 </script>
 
 <style>

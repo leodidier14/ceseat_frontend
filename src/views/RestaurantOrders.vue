@@ -93,6 +93,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 import RestaurantOrderCard from "@/components/RestaurantOrderCard.vue";
 import { Orders } from "@/shims-tsx";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component({
   components: {
@@ -100,11 +102,12 @@ import { Orders } from "@/shims-tsx";
   },
 })
 export default class RestaurantsOrders extends Vue {
+  private userModule = getModule(User, this.$store);
   private orders: Array<Orders.Order> = [];
 
   private apiGetRoute: string =
     "http://localhost:3000/order/restaurant/currentorder/" +
-    localStorage.getItem("restaurantId");
+    this.userModule.roleId;
 
   public putStatus(info: { status: string; id: number }): void {
     let apiPutRoute = "http://localhost:3000/order/statement/";
@@ -129,11 +132,12 @@ export default class RestaurantsOrders extends Vue {
     axios
       .put(apiPutRoute, info, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: this.userModule.token,
         },
       })
       .then((res: any) => {
         //Perform Success Action
+        this.$router.go(0);
       })
       .catch((error: any) => {
         // error.response.status Check status code
@@ -148,7 +152,7 @@ export default class RestaurantsOrders extends Vue {
     axios
       .get(this.apiGetRoute, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: this.userModule.token,
         },
       })
       .then((res: any) => {
