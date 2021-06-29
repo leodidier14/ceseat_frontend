@@ -158,11 +158,14 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Components } from "@/shims-tsx";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component
 export default class TechnicianComponents extends Vue {
   private dialog: boolean = false;
   private valid: boolean = true;
+  private userModule = getModule(User, this.$store);
 
   private headerProps: object = {
     sortByText: "Trier par",
@@ -207,7 +210,7 @@ export default class TechnicianComponents extends Vue {
   private types: Array<string> = ["npm", "Micro-service"];
 
   private component: Components.component = {
-    id: 0,
+    _id: 0,
     type: "",
     name: "",
     version: "",
@@ -217,36 +220,24 @@ export default class TechnicianComponents extends Vue {
   };
 
   private components: Array<Components.component> = [];
-  //   {
-  //     type: "npm",
-  //     name: "API de commandes",
-  //     version: "1.0.0",
-  //     description: "Fonctionnalités pour faire des commandes",
-  //     documentationLink: "https://github.com/leodidier14",
-  //     downloadLink: "https://github.com/leodidier14",
-  //   },
-  //   {
-  //     type: "Micro-service",
-  //     name: "API de connection",
-  //     version: "1.0.0",
-  //     description: "Fonctionnalités pour connecter un utilisateur",
-  //     documentationLink: "https://github.com/leodidier14",
-  //     downloadLink: "https://github.com/leodidier14",
-  //   },
-  // ];
 
   private rules = {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiGetRoute: string = "api/components/";
+  private apiGetRoute: string = "http://localhost:3000/devTools/components/";
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: this.userModule.token,
+        },
+      })
       .then((res: any) => {
         //Perform Success Action
-        this.components = res;
+        console.log(res.data);
+        this.components = res.data;
       })
       .catch((error: any) => {
         // error.response.status Check status code
@@ -266,8 +257,13 @@ export default class TechnicianComponents extends Vue {
       // const index = this.components.indexOf(item);
       // this.components.splice(index, 1);
       //axios delete
+      console.log(item);
       axios
-        .delete(this.apiGetRoute)
+        .delete(this.apiGetRoute + item._id, {
+          headers: {
+            Authorization: this.userModule.token,
+          },
+        })
         .then((res: any) => {
           //Perform Success Action
           this.components = res;
@@ -286,18 +282,12 @@ export default class TechnicianComponents extends Vue {
     if (
       (this.$refs.componentForm as Vue & { validate: () => boolean }).validate()
     ) {
-      // this.components.push(JSON.parse(JSON.stringify(this.component)));
-      // this.component = {
-      //   type: "",
-      //   name: "",
-      //   version: "",
-      //   description: "",
-      //   documentationLink: "",
-      //   downloadLink: "",
-      // };
-      // this.dialog = false;
       axios
-        .post(this.apiGetRoute, this.component)
+        .post(this.apiGetRoute, this.component, {
+          headers: {
+            Authorization: this.userModule.token,
+          },
+        })
         .then((res: any) => {
           this.$router.go(0);
           //Perform Success Action

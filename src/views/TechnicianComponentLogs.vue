@@ -15,22 +15,11 @@
       <template slot="no-data">Désolé, pas de logs disponibles</template>
       <template v-slot:item="row">
         <tr>
-          <td>{{ row.item.time }}</td>
+          <td>{{ row.item.date + " " + row.item.heure }}</td>
           <td>{{ row.item.type }}</td>
           <td>{{ row.item.name }}</td>
           <td>{{ row.item.version }}</td>
           <td>{{ row.item.idUser }}</td>
-          <td>
-            <v-btn
-              class="mx-2"
-              text
-              small
-              color="red"
-              @click="deleteLog(row.item)"
-            >
-              <v-icon dark>mdi-delete</v-icon>
-            </v-btn>
-          </td>
         </tr>
       </template>
     </v-data-table>
@@ -41,11 +30,14 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Logs } from "@/shims-tsx";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component
 export default class TechnicianConnexionLogs extends Vue {
   private dialog: boolean = false;
   private currentDialogItem: any = [];
+  private userModule = getModule(User, this.$store);
 
   private headerProps: object = {
     sortByText: "Trier par",
@@ -75,30 +67,24 @@ export default class TechnicianConnexionLogs extends Vue {
       text: "ID utilisateur",
       value: "idUser",
     },
-    {
-      text: "Supprimer",
-      sortable: false,
-    },
   ];
 
   private logs: Array<Logs.componentLogs> = [];
-  //   {
-  //     time: "25/06/2021 18h13",
-  //     idUser: 2,
-  //     type: "npm",
-  //     name: "Button",
-  //     version: "1.0.1",
-  //   },
-  // ];
 
-  private apiGetRoute: string = "api/components-logs/";
+  private apiGetRoute: string =
+    "http://localhost:3000/devTools/logs/components/";
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: this.userModule.token,
+        },
+      })
       .then((res: any) => {
         //Perform Success Action
-        this.logs = res;
+        console.log(res.data);
+        this.logs = res.data;
       })
       .catch((error: any) => {
         // error.response.status Check status code
@@ -107,27 +93,6 @@ export default class TechnicianConnexionLogs extends Vue {
       .finally(() => {
         //Perform action in always
       });
-  }
-
-  public deleteLog(item: Logs.componentLogs) {
-    if (confirm("Etes-vous sûr de vouloir supprimer ce log ?")) {
-      // const index = this.logs.indexOf(item);
-      // this.logs.splice(index, 1);
-      //axios delete
-      axios
-        .delete(this.apiGetRoute)
-        .then((res: any) => {
-          //Perform Success Action
-          this.logs = res;
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-          //this.$router.go(0);
-        })
-        .finally(() => {
-          //Perform action in always
-        });
-    }
   }
 }
 </script>

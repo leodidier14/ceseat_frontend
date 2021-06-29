@@ -35,11 +35,13 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Restaurants } from "@/shims-tsx";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component
 export default class BusinessRestaurantList extends Vue {
-  private apiGetRoute: string = "api/restaurant/";
-  
+  private apiGetRoute: string = "http://localhost:3000/restaurants";
+  private userModule = getModule(User, this.$store);
   private headerProps: object = {
     sortByText: "Trier par",
   };
@@ -69,10 +71,14 @@ export default class BusinessRestaurantList extends Vue {
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: this.userModule.token,
+        },
+      })
       .then((res: any) => {
         //Perform Success Action
-        this.restaurants = res;
+        this.restaurants = res.data;
       })
       .catch((error: any) => {
         // error.response.status Check status code
@@ -82,45 +88,5 @@ export default class BusinessRestaurantList extends Vue {
         //Perform action in always
       });
   }
-
-  // private restaurants: Array<Restaurants.Restaurant> = [
-  //   {
-  //     id: 1,
-  //     name: "McDonald's",
-  //     email: "",
-  //     siretNumber: "",
-  //     phoneNumber: "",
-  //     website: "",
-  //     description: "",
-  //     type: "Snack",
-  //     openingTime: "",
-  //     closingTime: "",
-  //     image: "",
-  //     address: "",
-  //     city: "Strasbourg",
-  //     zipCode: "",
-  //     country: "",
-  //     sponsorshipLink: "",
-  //   },
-
-  //   {
-  //     id: 2,
-  //     name: "Sushi World",
-  //     email: "",
-  //     siretNumber: "",
-  //     phoneNumber: "",
-  //     website: "",
-  //     description: "",
-  //     type: "Japonais",
-  //     openingTime: "",
-  //     closingTime: "",
-  //     image: "",
-  //     address: "",
-  //     city: "Bagdad",
-  //     zipCode: "",
-  //     country: "",
-  //     sponsorshipLink: "",
-  //   },
-  // ];
 }
 </script>

@@ -29,10 +29,13 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Stats } from "@/shims-tsx";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component
 export default class BusinessStats extends Vue {
   private dialog: boolean = false;
+  private userModule = getModule(User, this.$store);
   private currentDialogItem: any = [];
 
   private headerProps: object = {
@@ -62,23 +65,21 @@ export default class BusinessStats extends Vue {
   ];
 
   private stats: Array<Stats.microserviceRequest> = [];
-  //   {
-  //     id: 1,
-  //     date: "25/06/2021",
-  //     name: "API Auth",
-  //     description: "API de connexion pour le client",
-  //     requestNumber: 15,
-  //   },
-  // ];
 
-  private apiGetBusinessStats: string = "api/business-stats/";
+  private apiGetBusinessStats: string =
+    "http://localhost:3000/stats/components/";
 
   mounted() {
     axios
-      .get(this.apiGetBusinessStats)
+      .get(this.apiGetBusinessStats, {
+        headers: {
+          Authorization: this.userModule.token,
+        },
+      })
       .then((res: any) => {
         //Perform Success Action
-        this.stats = res.stats
+        console.log(res.data);
+        this.stats = res.data;
       })
       .catch((error: any) => {
         // error.response.status Check status code
