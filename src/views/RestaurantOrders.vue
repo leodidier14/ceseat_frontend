@@ -95,7 +95,7 @@ import RestaurantOrderCard from "@/components/RestaurantOrderCard.vue";
 import { Orders } from "@/shims-tsx";
 import { getModule } from "vuex-module-decorators";
 import User from "@/store/user";
-import mqtt from "mqtt";
+import io from "socket.io-client";
 
 @Component({
   components: {
@@ -109,7 +109,14 @@ export default class RestaurantsOrders extends Vue {
   private apiGetRoute: string =
     "http://localhost:3000/order/restaurant/currentorder/" +
     this.userModule.roleId;
+  private socket: any = {};
 
+  created() {
+    this.socket = io("http://localhost:3003");
+    this.socket.on("message", (msg: string) => {
+      console.log(msg);
+    });
+  }
   public putStatus(info: { status: string; id: number }): void {
     let apiPutRoute = "http://localhost:3000/order/statement/";
     switch (info.status) {
