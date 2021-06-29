@@ -14,7 +14,7 @@ import { Restaurants } from "@/shims-tsx";
   },
 })
 export default class RestaurantRegister extends Vue {
-  private apiRootRoute = "api/restaurant/";
+
 
   mounted() {
     this.$root.$on(
@@ -24,18 +24,27 @@ export default class RestaurantRegister extends Vue {
     );
   }
 
+  private apiSubmitRoute: string = "http://localhost:3000/restaurant";
+
   private createRestaurant(newRestaurant: Restaurants.Restaurant) {
-    axios
-      .post(this.apiRootRoute, newRestaurant)
-      .then((res: any) => {
-        this.$router.push({ name: "RestaurantList" });
-      })
-      .catch((error: any) => {
-        this.$router.go(0);
-      })
-      .finally(() => {
-        
-      });
+   axios
+          .post(this.apiSubmitRoute, newRestaurant, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res: any) => {
+            localStorage.setItem("restaurantId", res.data.id);
+            console.log(res);
+            //Perform Success Action
+          })
+          .catch((error: any) => {
+            console.log(error);
+            // error.response.status Check status code
+          })
+          .finally(() => {
+            //Perform action in always
+          });
   }
 }
 </script>

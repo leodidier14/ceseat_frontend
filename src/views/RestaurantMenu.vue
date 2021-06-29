@@ -15,19 +15,29 @@ import ArticleCard from "@/components/ArticleCard.vue";
   },
 })
 export default class RestaurantMenu extends Vue {
-  private apiGetRoute: string = "api/restaurant/id/menu";
-  private apiArticleRoute: string = "api/article/id";
-  private apiMenuRoute: string = "api/menu/id";
+  private apiGetRoute: string =
+    "http://localhost:3000/restaurantboard/" +
+    localStorage.getItem("restaurantId");
+  private apiSubmitArticleRoute: string = "http://localhost:3000/article/";
+  private apiArticleRoute: string = "http://localhost:3000/article/";
+  private apiMenuRoute: string = "http://localhost:3000/menu/";
 
   private articles: Array<Articles.Article> = [];
   private menus: Array<Articles.Menu> = [];
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: "Bearer" + localStorage.getItem("token"),
+        },
+      })
       .then((res: any) => {
-        this.articles = res.articles;
-        this.menus = res.menus;
+        this.articles = res.data.ArticleList;
+        console.log(this.articles);
+
+        this.menus = res.data.MenuList;
+        console.log(this.menus);
       })
       .catch((error: any) => {
         //this.$router.go(0);
@@ -45,13 +55,21 @@ export default class RestaurantMenu extends Vue {
     this.$root.$on("add-article", (article: Articles.Article) => {
       this.addArticle(article);
     });
+    this.$root.$on("add-menu", (menu: Articles.Menu) => {
+      this.addMenu(menu);
+    });
   }
 
   private deleteArticle(article: Articles.Article) {
     axios
-      .delete(this.apiArticleRoute)
+      .delete(this.apiArticleRoute + article.id, {
+        headers: {
+          Authorization: "Bearer" + localStorage.getItem("token"),
+        },
+      })
       .then((res: any) => {
-        this.$router.go(0);
+        console.log(res);
+        //this.$router.go(0);
       })
       .catch((error: any) => {
         //this.$router.go(0);
@@ -61,7 +79,11 @@ export default class RestaurantMenu extends Vue {
 
   private deleteMenu(menu: Articles.Menu) {
     axios
-      .delete(this.apiMenuRoute)
+      .delete(this.apiMenuRoute + menu.id, {
+        headers: {
+          Authorization: "Bearer" + localStorage.getItem("token"),
+        },
+      })
       .then((res: any) => {
         this.$router.go(0);
       })
@@ -78,19 +100,31 @@ export default class RestaurantMenu extends Vue {
     )[0];
     if (existingArticle != null) {
       axios
-        .put(this.apiArticleRoute, article)
+        .put(this.apiSubmitArticleRoute + article.id, article, {
+          headers: {
+            Authorization: "Bearer" + localStorage.getItem("token"),
+          },
+        })
         .then((res: any) => {
-          this.$router.go(0);
+          console.log(res);
+          //this.$router.go(0);
         })
         .catch((error: any) => {
+          console.log(error);
           //this.$router.go(0);
         })
         .finally(() => {});
     } else {
+      console.log("new menu");
+
       axios
-        .post(this.apiArticleRoute, article)
+        .post(this.apiSubmitArticleRoute, article, {
+          headers: {
+            Authorization: "Bearer" + localStorage.getItem("token"),
+          },
+        })
         .then((res: any) => {
-          this.$router.go(0);
+          //this.$router.go(0);
         })
         .catch((error: any) => {
           //this.$router.go(0);
@@ -100,24 +134,53 @@ export default class RestaurantMenu extends Vue {
   }
 
   private addMenu(menu: Articles.Menu) {
-    let existingMenu: Articles.Menu = this.menus.filter(
-      (previousMenu: Articles.Menu) => previousMenu.name == menu.name
-    )[0];
-    if (existingMenu != null) {
-      axios
-        .put(this.apiMenuRoute, menu)
-        .then((res: any) => {
-          this.$router.go(0);
-        })
-        .catch((error: any) => {
-          //this.$router.go(0);
-        })
-        .finally(() => {});
+    console.log(menu);
+    console.log(this.menus);
+    if (this.menus) {
+      let existingMenu: Articles.Menu = this.menus.filter(
+        (previousMenu: Articles.Menu) => previousMenu.id == menu.id
+      )[0];
+      console.log(existingMenu);
+      if (existingMenu != null) {
+        axios
+          .put(this.apiMenuRoute + menu.id, menu, {
+            headers: {
+              Authorization: "Bearer" + localStorage.getItem("token"),
+            },
+          })
+          .then((res: any) => {
+            this.$router.go(0);
+          })
+          .catch((error: any) => {
+            //this.$router.go(0);
+          })
+          .finally(() => {});
+      } else {
+        axios
+          .post(this.apiMenuRoute, menu, {
+            headers: {
+              Authorization: "Bearer" + localStorage.getItem("token"),
+            },
+          })
+          .then((res: any) => {
+            console.log(res);
+            //this.$router.go(0);
+          })
+          .catch((error: any) => {
+            //this.$router.go(0);
+          })
+          .finally(() => {});
+      }
     } else {
       axios
-        .post(this.apiMenuRoute, menu)
+        .post(this.apiMenuRoute, menu, {
+          headers: {
+            Authorization: "Bearer" + localStorage.getItem("token"),
+          },
+        })
         .then((res: any) => {
-          this.$router.go(0);
+          console.log(res);
+          //this.$router.go(0);
         })
         .catch((error: any) => {
           //this.$router.go(0);

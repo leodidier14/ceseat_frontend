@@ -79,16 +79,16 @@
                 {{ order.clientPhone }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.clientAddress.address }}
+                {{ order.clientAddress[0].address }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.clientAddress.city }}
+                {{ order.clientAddress[0].city }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.clientAddress.zipCode }}
+                {{ order.clientAddress[0].zipCode }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.clientAddress.country }}
+                {{ order.clientAddress[0].country }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -99,16 +99,19 @@
                 {{ order.restaurantName }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.restaurantAddress.address }}
+                {{ order.restaurantPhone }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.restaurantAddress.city }}
+                {{ order.restaurantAddress[0].address }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.restaurantAddress.zipCode }}
+                {{ order.restaurantAddress[0].city }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.restaurantAddress.country }}
+                {{ order.restaurantAddress[0].zipCode }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>
+                {{ order.restaurantAddress[0].country }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>

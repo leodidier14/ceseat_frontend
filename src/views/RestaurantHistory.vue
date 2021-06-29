@@ -84,6 +84,12 @@
                   {{ article.price }}€</v-list-item-subtitle
                 >
               </div>
+              <div v-for="menu in currentDialogItem.menus" :key="menu.name">
+                <v-list-item-subtitle>
+                  {{ menu.name }} x {{ menu.quantity }}:
+                  {{ menu.price }}€</v-list-item-subtitle
+                >
+              </div>
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
@@ -167,83 +173,13 @@ export default class RestaurantHistory extends Vue {
     },
   ];
 
-  private orders: Array<Orders.Order> = [
-    {
-      number: "Commande1",
-      clientName: "Leo Didier",
-      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
-      clientPhone: "0633589362",
-      restaurantName: "MacDo",
-      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
-      deliveryManName: "Romain Kauf",
-      deliveryManId: 0,
-      price: 10.0,
-      comment: "Ajoutez des cornichons",
-      status: "delivered",
-      date: "04/03/2021 18h30",
-      articles: [
-        {
-          id: 4,
-          name: "menu",
-          description: "",
-          image: "",
-          type: "Menu",
-          restaurant: "",
-          price: 10,
-          quantity: 1,
-        },
-        {
-          id: 3,
-          name: "menu",
-          description: "",
-          image: "",
-          type: "Menu",
-          restaurant: "",
-          price: 10,
-          quantity: 1,
-        },
-      ],
-    },
-    {
-      number: "Commande2",
-      clientName: "Leo Didier",
-      clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
-      clientPhone: "0633589362",
-      restaurantName: "MacDo",
-      restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
-      deliveryManName: "Romain Kauf",
-      deliveryManId: 0,
-      price: 10.0,
-      comment: "Ajoutez des cornichons",
-      status: "denied",
-      date: "04/03/2021 18h30",
-      articles: [
-        {
-          id: 1,
-          name: "menu",
-          description: "",
-          image: "",
-          type: "Menu",
-          restaurant: "",
-          price: 10,
-          quantity: 1,
-        },
-        {
-          id: 2,
-          name: "menu",
-          description: "",
-          image: "",
-          type: "Menu",
-          restaurant: "",
-          price: 10,
-          quantity: 1,
-        },
-      ],
-    },
-  ];
+  private orders: Array<Orders.Order> = [];
 
-  private apiDeleteRoute: string = "api/orders/id";
-  private apiGetRoute: string = "api/orders/";
+  private apiDeleteRoute: string =
+    "http://localhost:3000/order/restaurant/ordershistory/";
+  private apiGetRoute: string =
+    "http://localhost:3000/order/restaurant/ordershistory/" +
+    localStorage.getItem("restaurantId");
 
   //api call to post data
 
@@ -257,7 +193,11 @@ export default class RestaurantHistory extends Vue {
     ) {
       //axios delete
       axios
-        .delete(this.apiDeleteRoute)
+        .delete(this.apiDeleteRoute + item.number, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
         .then((res: any) => {
           //Perform Success Action
           const index = this.orders.indexOf(item);
@@ -275,10 +215,14 @@ export default class RestaurantHistory extends Vue {
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
       .then((res: any) => {
         //Perform Success Action
-        this.orders = res;
+        this.orders = res.data;
       })
       .catch((error: any) => {
         // error.response.status Check status code
@@ -290,6 +234,7 @@ export default class RestaurantHistory extends Vue {
   }
 
   getOrdersHistory() {
+    console.log(this.orders);
     return this.orders.filter(
       (i) => i.status === "delivered" || i.status === "denied"
     );

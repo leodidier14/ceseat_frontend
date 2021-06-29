@@ -38,13 +38,20 @@
         <div id="banner">
           <H1 class="ml-10" id="title" v-text="cartModule.restaurant"></H1>
         </div>
-        <div v-for="article in cartModule.articles" :key="article.name">
+        <div v-for="article in cartModule.articles" :key="article.id">
           <ArticleCard
             :article="JSON.parse(JSON.stringify(article))"
             type="cart"
           >
             <template v-slot:article-image>
               <v-img :src="article.image"></v-img>
+            </template>
+          </ArticleCard>
+        </div>
+        <div v-for="menu in cartModule.menus" :key="menu.id">
+          <ArticleCard :menu="JSON.parse(JSON.stringify(menu))" type="cart">
+            <template v-slot:article-image>
+              <v-img :src="menu.image"></v-img>
             </template>
           </ArticleCard>
         </div>
@@ -64,7 +71,7 @@
               >Total : {{ totalPriceString }}</v-toolbar-title
             >
             <v-spacer></v-spacer>
-            <v-btn color="#CA6B3E">
+            <v-btn @click="PaidCart" color="#CA6B3E">
               Payer ma commande
               <!-- <v-icon>mdi-credit-card-outline</v-icon> -->
             </v-btn>
@@ -81,6 +88,7 @@ import ArticleCard from "@/components/ArticleCard.vue";
 import { Articles } from "@/shims-tsx";
 import { getModule } from "vuex-module-decorators";
 import CartModule from "@/store/cart";
+import axios from "axios";
 
 @Component({
   components: {
@@ -96,6 +104,36 @@ export default class ShoppingCart extends Vue {
     return (
       Number.parseFloat(String(this.cartModule.totalPrice)).toFixed(2) + " €"
     );
+  }
+  private apiSubmitRoute: string = "http://localhost:3000/order/";
+
+  public PaidCart(): void {
+    console.log(this.cartModule.state);
+    let body = {
+      Articles: this.cartModule.articles,
+      Menus: this.cartModule.menus,
+      price: this.cartModule.totalPrice,
+      restaurantId: this.cartModule.restaurantId,
+      orderDate: Date.now(),
+    };
+    console.log(body);
+    axios
+      .post(this.apiSubmitRoute, body, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res: any) => {
+        this.$router.push({ name: "DeveloperLogin" });
+      })
+      .catch((error: any) => {
+        console.log(error);
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
   }
 }
 </script>

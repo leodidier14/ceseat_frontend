@@ -62,6 +62,7 @@
               v-if="menu != null"
               mode="edit"
               :menu="JSON.parse(JSON.stringify(menu))"
+              :articles="articles"
             />
             <v-icon class="ml-5 mt-5" color="red" @click="deleteArticle()"
               >mdi-delete</v-icon
@@ -93,6 +94,11 @@ import AddArticle from "@/components/AddArticle.vue";
 })
 export default class ArticleCard extends Vue {
   private cartModule = getModule(CartModule, this.$store);
+  @Prop()
+  private articles!: Array<Articles.Article>;
+
+  @Prop()
+  private restaurantId!: number;
 
   @Prop()
   private article!: Articles.Article;
@@ -142,6 +148,7 @@ export default class ArticleCard extends Vue {
         this.getCardItem.quantity = 1;
       });
     }
+    this.cartModule.addRestaurantId(this.restaurantId);
   }
 
   incrementQuantity() {

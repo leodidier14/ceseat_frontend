@@ -1,5 +1,5 @@
 <template>
-  <RestaurantForm formType="profile" />
+  <RestaurantForm formType="profile"  :restaurant="restaurant"/>
 </template>
 
 <script lang="ts">
@@ -14,21 +14,22 @@ import { Restaurants } from "@/shims-tsx";
   },
 })
 export default class RestaurantProfile extends Vue {
-  private apiRootRoute = "api/restaurant/";
-  private apiGetRoute = "api/restaurant/id";
+  private apiUpdateRoute = "http://localhost:3000/restaurant/" + localStorage.getItem('restaurantId');
+  private apiDeleteRoute ="http://localhost:3000/restaurant/" + localStorage.getItem('restaurantId');
+  private apiGetRoute = "http://localhost:3000/restaurant/" + localStorage.getItem('restaurantId');
 
   private restaurant: Restaurants.Restaurant = {
     id: 0,
     name: "",
     email: "",
-    siretNumber: "",
+    siret: "",
     phoneNumber: "",
     website: "",
     description: "",
     type: "",
     openingTime: "",
     closingTime: "",
-    image: "",
+    pictureLink: "",
     address: "",
     city: "",
     zipCode: "",
@@ -38,14 +39,19 @@ export default class RestaurantProfile extends Vue {
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
       .then((res: any) => {
+        console.log(res.data)
         //Perform Success Action
-        this.restaurant = res;
+        this.restaurant = res.data;
       })
       .catch((error: any) => {
         // error.response.status Check status code
-        this.$router.go(0);
+      //  this.$router.go(0);
       })
       .finally(() => {
         //Perform action in always
@@ -66,25 +72,39 @@ export default class RestaurantProfile extends Vue {
 
   private updateRestaurant(newRestaurant: Restaurants.Restaurant) {
     axios
-      .put(this.apiRootRoute + newRestaurant.id, newRestaurant)
-      .then((res: any) => {
-        this.restaurant = res;
-      })
-      .catch((error: any) => {
-        this.$router.go(0);
-      })
-      .finally(() => {
-        this.$router.go(0);
-      });
+          .put(this.apiUpdateRoute, this.restaurant, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res: any) => {
+            console.log(res);
+            //Perform Success Action
+          })
+          .catch((error: any) => {
+            console.log(error);
+            // error.response.status Check status code
+          })
+          .finally(() => {
+            //Perform action in always
+          });
   }
 
   private deleteRestaurant(id: number) {
     axios
-      .delete(this.apiRootRoute + id)
+      .delete(this.apiDeleteRoute,{
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
       .then((res: any) => {
+        console.log(res)
         this.$router.push({ name: "RestaurantRegister" })
+        localStorage.removeItem('restaurantId')
       })
       .catch((error: any) => {
+        console.log(error)
+
         this.$router.go(0);
       })
       .finally(() => {

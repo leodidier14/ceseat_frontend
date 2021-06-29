@@ -19,17 +19,26 @@ private apiRootRoute: string = "api/delivery-man/"
   mounted() {
     this.$root.$on("create-delivery-man", (deliveryMan: DeliveryMen.DeliveryMan) => this.createDeliveryMan(deliveryMan));
   }
-
+  private apiSubmitRoute: string = "http://localhost:3000/deliveryman";
   private createDeliveryMan(deliveryMan: DeliveryMen.DeliveryMan) {
     axios
-      .post(this.apiRootRoute)
-      .then((res: any) => {
-        this.$router.push({name: "ClientLogin"});
-      })
-      .catch((error: any) => {
-        //this.$router.go(0);
-      })
-      .finally(() => {});
+          .post(this.apiSubmitRoute, deliveryMan, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res: any) => {
+            console.log(res);
+            localStorage.setItem("deliverymanId", res.data.id);
+            //Perform Success Action
+          })
+          .catch((error: any) => {
+            console.log(error)
+            // error.response.status Check status code
+          })
+          .finally(() => {
+            //Perform action in always
+          });
   }
 }
 </script>

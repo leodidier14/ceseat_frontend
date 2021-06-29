@@ -152,6 +152,9 @@ export default class AddMenu extends Vue {
   })
   private mode!: string;
 
+  @Prop()
+  private articles!: Array<Articles.Article>;
+
   @Prop({
     default: () => {
       return {
@@ -167,60 +170,21 @@ export default class AddMenu extends Vue {
     },
   })
   private menu!: Articles.Menu;
-
+  mounted() {
+    console.log("mounted");
+    console.log(this.menu);
+  }
   private dialog: boolean = false;
 
   private category: string = "";
   private articleName: string = "";
 
-  private articles: Array<Articles.Article> = [
-    {
-      id: 1,
-      name: "Tripple Cheese",
-      description:
-        "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
-      type: "Burger",
-      price: 5.0,
-      quantity: 1,
-      image: require("../assets/triple_cheese.png"),
-      restaurant: "McDonald's",
-    },
-    {
-      id: 2,
-      name: "CBO",
-      description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-      type: "Burger",
-      price: 6.2,
-      quantity: 1,
-      image: require("../assets/CBO.png"),
-      restaurant: "McDonald's",
-    },
-    {
-      id: 3,
-      name: "Coca Cola",
-      description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-      type: "Boisson",
-      price: 3.5,
-      quantity: 1,
-      image: require("../assets/coca_sans_sucre.png"),
-      restaurant: "McDonald's",
-    },
-    {
-      id: 4,
-      name: "Frite",
-      description: "Une portion de frite pour accompagner ton plat.",
-      type: "Accompagnement",
-      price: 2.5,
-      quantity: 1,
-      image: require("../assets/frites.png"),
-      restaurant: "McDonald's",
-    },
-  ];
-
   private addedArticles: Array<Articles.Article> = [];
 
   private addArticle() {
+    console.log(this.selectedArticle);
     this.menu.articles.push(this.selectedArticle);
+    console.log(this.menu.articles);
   }
 
   get categories() {
@@ -236,13 +200,11 @@ export default class AddMenu extends Vue {
       .filter((article: Articles.Article) => article.type == this.category)
       .map((article: Articles.Article) => article.name);
   }
-
   get selectedArticle() {
     return this.articles.filter(
       (article: Articles.Article) => article.name == this.articleName
     )[0];
   }
-
   private addMenu() {
     if (
       (this.$refs.addMenuForm as Vue & { validate: () => boolean }).validate()

@@ -138,7 +138,7 @@
                 <v-dialog
                   ref="dialogOpen"
                   v-model="dialogOpenTime"
-                  :return-value.sync="restaurant.openTime"
+                  :return-value.sync="restaurant.openingTime"
                   persistent
                   width="290px"
                 >
@@ -180,7 +180,7 @@
                 <v-dialog
                   ref="dialogClose"
                   v-model="dialogCloseTime"
-                  :return-value.sync="restaurant.closeTime"
+                  :return-value.sync="restaurant.closingTime"
                   persistent
                   width="290px"
                 >
@@ -305,31 +305,35 @@ export default class RestaurantForm extends Vue {
   @Prop({ required: true })
   private formType!: string;
 
+  @Prop({default: () => {
+      return {
+        id: 0,
+      name: "",
+      email: "",
+      siret: "",
+      phoneNumber: "",
+      website: "",
+      description: "",
+      type: "",
+      openingTime: "",
+      closingTime: "",
+      pictureLink: "",
+      address: "",
+      city: "",
+      zipCode: "",
+      country: "",
+      sponsorshipLink: "",
+      }
+      } })
+  private restaurant!: Restaurants.Restaurant
+
   private valid: boolean = true;
 
   private dialogDescription: boolean = false;
   private dialogSchedule: boolean = false;
   private dialogOpenTime: boolean = false;
   private dialogCloseTime: boolean = false;
-
-  private restaurant: Restaurants.Restaurant = {
-    id: 0,
-    name: "",
-    email: "",
-    siret: "",
-    phoneNumber: "",
-    website: "",
-    description: "",
-    type: "",
-    openingTime: "",
-    closingTime: "",
-    pictureLink: "",
-    address: "",
-    city: "",
-    zipCode: "",
-    country: "",
-    sponsorshipLink: "https://vuetifyjs.com/en/api/v-text-field/#props",
-  };
+  
 
   /* input rules,style and selectItem */
 
@@ -365,85 +369,22 @@ export default class RestaurantForm extends Vue {
   private types = ["Hamburger", "Japonais", "Kebab"];
 
   private apiSubmitRoute: string = "http://localhost:3000/restaurant";
-  private apiGetRoute: string =
-    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
-  private apiDeleteRoute: string =
-    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
-  private apiUpdateRoute: string =
-    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
+  private apiGetRoute: string = "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
+  private apiDeleteRoute: string = "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
+  private apiUpdateRoute: string = "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
 
-  mounted() {
-    axios
-      .get(this.apiGetRoute, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      })
-      .then((res: any) => {
-        console.log(res.data);
-        //Perform Success Action
-        this.restaurant = res.data;
-      })
-      .catch((error: any) => {
-        console.log(error);
-        // error.response.status Check status code
-        //this.$router.go(0);
-      })
-      .finally(() => {
-        //Perform action in always
-      });
-  }
 
   //api call to post data
   public submitForm(): void {
-    if (this.formType == "register") {
-      if (
-        (
-          this.$refs.restaurantForm as Vue & { validate: () => boolean }
-        ).validate()
-      ) {
-        axios
-          .post(this.apiSubmitRoute, this.restaurant, {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          })
-          .then((res: any) => {
-            localStorage.setItem("restaurantId", res.data.id);
-            console.log(res);
-            //Perform Success Action
-          })
-          .catch((error: any) => {
-            console.log(error);
-            // error.response.status Check status code
-          })
-          .finally(() => {
-            //Perform action in always
-          });
-      }
-    } else {
-      if (
-        (
-          this.$refs.restaurantForm as Vue & { validate: () => boolean }
-        ).validate()
-      ) {
-        axios
-          .put(this.apiUpdateRoute, this.restaurant, {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          })
-          .then((res: any) => {
-            console.log(res);
-            //Perform Success Action
-          })
-          .catch((error: any) => {
-            console.log(error);
-            // error.response.status Check status code
-          })
-          .finally(() => {
-            //Perform action in always
-          });
+    if (
+      (
+        this.$refs.restaurantForm as Vue & { validate: () => boolean }
+      ).validate()
+    ) {
+      if (this.formType == "register") {
+        this.$root.$emit("create-restaurant", this.restaurant);
+      } else {
+        this.$root.$emit("update-restaurant", this.restaurant);
       }
     }
   }
@@ -454,22 +395,7 @@ export default class RestaurantForm extends Vue {
         "Etes-vous sûr de vouloir supprimer votre restaurant de manière définitive ?"
       )
     ) {
-      axios
-        .delete(this.apiDeleteRoute, {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        })
-        .then((res: any) => {
-          localStorage.removeItem("restaurantId");
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+      this.$root.$emit("delete-restaurant", this.restaurant.id);
     }
   }
 }

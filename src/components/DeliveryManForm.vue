@@ -77,99 +77,31 @@ import { DeliveryMen } from "@/shims-tsx";
 export default class DeliveryManForm extends Vue {
   @Prop({ required: true })
   private formType!: string;
-
+@Prop({ default: () => {
+    return {
+      siret: "",
+    sponsorshipLink: "",
+} }})
+  private deliveryMan!:DeliveryMen.DeliveryMan;
   private valid: boolean = true;
 
-  private deliveryMan = {
-    siret: "",
-    sponsorshipLink: "",
-  };
 
   /* input rules,style and selectItem */
   private rules = {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiSubmitRoute: string = "http://localhost:3000/deliveryman";
-  private apiGetRoute: string =
-    "http://localhost:3000/deliveryman/" +
-    localStorage.getItem("deliverymanId");
-  private apiDeleteRoute: string =
-    "http://localhost:3000/deliveryman/" +
-    localStorage.getItem("deliverymanId");
-  private apiUpdateRoute: string =
-    "http://localhost:3000/deliveryman/" +
-    localStorage.getItem("deliverymanId");
-
-  mounted() {
-    axios
-      .get(this.apiGetRoute, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      })
-      .then((res: any) => {
-        console.log(res.data);
-        //Perform Success Action
-        this.deliveryMan = res.data;
-      })
-      .catch((error: any) => {
-        console.log(error);
-        // error.response.status Check status code
-        //this.$router.go(0);
-      })
-      .finally(() => {
-        //Perform action in always
-      });
-  }
-
   //api call to post data
   public submitForm(): void {
-    if (this.formType == "register") {
-      if (
-        (
-          this.$refs.deliverymanForm as Vue & { validate: () => boolean }
-        ).validate()
-      ) {
-        axios
-          .post(this.apiSubmitRoute, this.deliveryMan, {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          })
-          .then((res: any) => {
-            console.log(res);
-            localStorage.setItem("deliverymanId", res.data.id);
-            //Perform Success Action
-          })
-          .catch((error: any) => {
-            // error.response.status Check status code
-          })
-          .finally(() => {
-            //Perform action in always
-          });
-      }
-    } else {
-      if (
-        (
-          this.$refs.deliverymanForm as Vue & { validate: () => boolean }
-        ).validate()
-      ) {
-        axios
-          .put(this.apiUpdateRoute, this.deliveryMan, {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          })
-          .then((res: any) => {
-            //Perform Success Action
-          })
-          .catch((error: any) => {
-            // error.response.status Check status code
-          })
-          .finally(() => {
-            //Perform action in always
-          });
+    if (
+      (
+        this.$refs.deliverymanForm as Vue & { validate: () => boolean }
+      ).validate()
+    ) {
+      if (this.formType == "register") {
+        this.$root.$emit("create-delivery-man", this.deliveryMan);
+      } else {
+        this.$root.$emit("update-delivery-man", this.deliveryMan);
       }
     }
   }
@@ -180,22 +112,7 @@ export default class DeliveryManForm extends Vue {
         "Etes-vous sûr de vouloir supprimer votre status de livreur de manière définitive ?"
       )
     ) {
-      axios
-        .delete(this.apiDeleteRoute, {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        })
-        .then((res: any) => {
-          localStorage.removeItem("deliverymanId");
-          //Perform Success Action
-        })
-        .catch((error: any) => {
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+      this.$root.$emit("delete-delivery-man", this.deliveryMan.siret);
     }
   }
 }

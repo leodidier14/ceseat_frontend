@@ -1,5 +1,5 @@
 <template>
-  <ArticleList menuType="customer" :articles="articles" :menus="menus" :restaurantId="$route.params.restaurantId"/>
+  <ArticleList menuType="customer" :articles="articles" :menus="menus" :restaurantId="$route.params.id" :restaurantName="$route.params.name"/>
 </template>
 
  <script lang="ts">
@@ -18,63 +18,27 @@ export default class CustomerMenu extends Vue {
   private currentType: string = "";
   private currentRestaurant: string = "McDonald's";
 
-  private apiGetRoute: string = "api/cutomer/menu"
+  private apiGetRoute: string = "http://localhost:3000/restaurantboard/"+ this.$route.params.id
 
   private articles: Array<Articles.Article> = []
   private menus: Array<Articles.Menu> = []
 
-  // private articles: Array<Articles.Article> = [
-  //   {
-  //     id: 1,
-  //     name: "Tripple Cheese",
-  //     description:
-  //       "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
-  //     type: "Burger",
-  //     price: 5.0,
-  //     quantity: 1,
-  //     image: require("../assets/triple_cheese.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "CBO",
-  //     description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-  //     type: "Burger",
-  //     price: 6.2,
-  //     quantity: 1,
-  //     image: require("../assets/CBO.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Coca Cola",
-  //     description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-  //     type: "Boisson",
-  //     price: 3.5,
-  //     quantity: 1,
-  //     image: require("../assets/coca_sans_sucre.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Frite",
-  //     description: "Une portion de frite pour accompagner ton plat.",
-  //     type: "Accompagnement",
-  //     price: 2.5,
-  //     quantity: 1,
-  //     image: require("../assets/frites.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  // ];
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute,{
+        headers:{
+          Authorization: localStorage.getItem('token')
+        }
+      })
       .then((res: any) => {
-        this.articles = res.articles;
-        this.menus = res.menus;
+        console.log(res.data)
+        this.articles = res.data.ArticleList;
+        this.menus = res.data.MenuList;
+      
       })
       .catch((error: any) => {
+        console.log(error)
         //this.$router.go(0);
       })
       .finally(() => {});

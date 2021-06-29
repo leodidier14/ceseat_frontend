@@ -142,7 +142,9 @@ export default class ClientOrders extends Vue {
   private dialog: boolean = false;
   private currentDialogItem: any = [];
 
-  private apiGetRoute: string = "api/customer/orders"
+  private apiGetRoute: string =
+    "http://localhost:3000/order/user/" + localStorage.getItem("userId");
+  private apiDeleteRoute: string = "http://localhost:3000/order/user/";
 
   private headerProps: object = {
     sortByText: "Trier par",
@@ -186,118 +188,18 @@ export default class ClientOrders extends Vue {
     },
   ];
 
-  private orders: Array<Orders.Order> = []
-
-  // private orders: Array<Orders.Order> = [
-  //   {
-  //     number: "Commande1",
-  //     clientName: "Leo Didier",
-  //     clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
-  //     clientPhone: "0633589362",
-  //     restaurantName: "MacDo",
-  //     restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
-  //     deliveryManName: "Romain Kauf",
-  //     deliveryManId: 1,
-  //     price: 10.0,
-  //     comment: "Ajoutez des cornichons",
-  //     status: "pendingRealization",
-  //     date: "04/03/2021 18h30",
-  //     articles: [
-  //       {
-  //         name: "menu",
-  //         description: "",
-  //         image: "",
-  //         type: "Menu",
-  //         restaurant: "",
-  //         price: 10,
-  //         quantity: 1,
-  //       },
-  //       {
-  //         name: "menu",
-  //         description: "",
-  //         image: "",
-  //         type: "Menu",
-  //         restaurant: "",
-  //         price: 10,
-  //         quantity: 1,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     number: "Commande2",
-  //     clientName: "Leo Didier",
-  //     clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
-  //     clientPhone: "0633589362",
-  //     restaurantName: "MacDo",
-  //     restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
-  //     deliveryManName: "Romain Kauf",
-  //     deliveryManId: 1,
-  //     price: 10.0,
-  //     comment: "Ajoutez des cornichons",
-  //     status: "delivered",
-  //     date: "04/03/2021 18h30",
-  //     articles: [
-  //       {
-  //         name: "menu",
-  //         description: "",
-  //         image: "",
-  //         type: "Menu",
-  //         restaurant: "",
-  //         price: 10,
-  //         quantity: 1,
-  //       },
-  //       {
-  //         name: "menu",
-  //         description: "",
-  //         image: "",
-  //         type: "Menu",
-  //         restaurant: "",
-  //         price: 10,
-  //         quantity: 1,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     number: "Commande3",
-  //     clientName: "Leo Didier",
-  //     clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
-  //     clientPhone: "0633589362",
-  //     restaurantName: "MacDo",
-  //     restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
-  //     deliveryManName: "Romain Kauf",
-  //     deliveryManId: 1,
-  //     price: 10.0,
-  //     comment: "Ajoutez des cornichons",
-  //     status: "denied",
-  //     date: "04/03/2021 18h30",
-  //     articles: [
-  //       {
-  //         name: "menu",
-  //         description: "",
-  //         image: "",
-  //         type: "Menu",
-  //         restaurant: "",
-  //         price: 10,
-  //         quantity: 1,
-  //       },
-  //       {
-  //         name: "menu",
-  //         description: "",
-  //         image: "",
-  //         type: "Menu",
-  //         restaurant: "",
-  //         price: 10,
-  //         quantity: 1,
-  //       },
-  //     ],
-  //   }
-  // ];
+  public orders: Array<Orders.Order> = [];
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
       .then((res: any) => {
-        this.orders = res;
+        console.log(res.data);
+        this.orders = res.data;
       })
       .catch((error: any) => {
         //this.$router.go(0);
@@ -322,14 +224,18 @@ export default class ClientOrders extends Vue {
       // this.orders.splice(index, 1);
       //axios delete
       axios
-      .delete(this.apiGetRoute + item.number)
-      .then((res: any) => {
-        this.orders = res;
-      })
-      .catch((error: any) => {
-        //this.$router.go(0);
-      })
-      .finally(() => {});
+        .delete(this.apiDeleteRoute + item.number, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res: any) => {
+          // this.orders = res;
+        })
+        .catch((error: any) => {
+          //this.$router.go(0);
+        })
+        .finally(() => {});
     }
   }
 }

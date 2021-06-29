@@ -134,6 +134,12 @@
                   {{ article.price }}€</v-list-item-subtitle
                 >
               </div>
+              <div v-for="menu in order.menus" :key="menu.name">
+                <v-list-item-subtitle>
+                  {{ menu.name }} x {{ menu.quantity }}:
+                  {{ menu.price }}€</v-list-item-subtitle
+                >
+              </div>
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
@@ -181,23 +187,42 @@ export default class RestaurantOrderCard extends Vue {
   private dialog: boolean = false;
 
   private declineOrder() {
-    this.$root.$emit("update-order-status", "denied");
+    this.$root.$emit("update-order-status", {
+      status: "denied",
+      id: this.order.number,
+    });
   }
 
   private acceptOrder() {
-    this.$root.$emit("update-order-status", "pendingRealization");
+    console.log({
+      status: "pendingRealization",
+      id: this.order.number,
+    });
+    this.$root.$emit("update-order-status", {
+      status: "pendingRealization",
+      id: this.order.number,
+    });
   }
 
   private prepareOrder() {
-    this.$root.$emit("update-order-status", "realization");
+    this.$root.$emit("update-order-status", {
+      status: "realization",
+      id: this.order.number,
+    });
   }
 
   private ready() {
-    this.$root.$emit("update-order-status", "pendingDelivery");
+    this.$root.$emit("update-order-status", {
+      status: "pendingDelivery",
+      id: this.order.number,
+    });
   }
 
   private deliver() {
-    this.$root.$emit("update-order-status", "delivery");
+    this.$root.$emit("update-order-status", {
+      status: "delivery",
+      id: this.order.number,
+    });
   }
 }
 </script>

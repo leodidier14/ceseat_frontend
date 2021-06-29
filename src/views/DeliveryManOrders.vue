@@ -81,86 +81,23 @@ import axios from "axios";
 export default class RestaurantsOrders extends Vue {
   private deliveryManState: boolean = true;
   private orders: Array<Orders.Order> = [];
-  // private orders: Array<Orders.Order> = [
-  //   {
-  //     number: "Commande1",
-  //     clientName: "Leo Didier",
-  //     clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
-  //     clientPhone: "0633589362",
-  //     restaurantName: "MacDo",
-  //     restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
-  //     deliveryManName: "Romain Kauf",
-  //     deliveryManId: 0,
-  //     price: 10.0,
-  //     comment: "Ajoutez des cornichons",
-  //     status: "pendingRealization",
-  //     date: "04/03/2021 18h30",
-  //     articles: [
-  //       {
-  //         name: "menu",
-  //         description: "",
-  //         image: "",
-  //         type: "Menu",
-  //         restaurant: "",
-  //         price: 10,
-  //         quantity: 1,
-  //       },
-  //       {
-  //         name: "menu",
-  //         description: "",
-  //         image: "",
-  //         type: "Menu",
-  //         restaurant: "",
-  //         price: 10,
-  //         quantity: 1,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     number: "Commande2",
-  //     clientName: "Leo Didier",
-  //     clientAddress: "9, Rue de la Croix, 68520, Burnhaupt-le-Bas",
-  //     clientPhone: "0633589362",
-  //     restaurantName: "MacDo",
-  //     restaurantAddress: "15, Avenue de l'Europe, 68520, Burnhaupt-le-Bas",
-  //     deliveryManName: "Romain Kauf",
-  //     deliveryManId: 1,
-  //     price: 10.0,
-  //     comment: "Ajoutez des cornichons",
-  //     status: "pendingDelivery",
-  //     date: "04/03/2021 18h30",
-  //     articles: [
-  //       {
-  //         name: "menu",
-  //         description: "",
-  //         image: "",
-  //         type: "Menu",
-  //         restaurant: "",
-  //         price: 10,
-  //         quantity: 1,
-  //       },
-  //       {
-  //         name: "menu",
-  //         description: "",
-  //         image: "",
-  //         type: "Menu",
-  //         restaurant: "",
-  //         price: 10,
-  //         quantity: 1,
-  //       },
-  //     ],
-  //   },
-  // ];
 
-  private apiPutRoute: string = "api/orders/id";
-  private apiGetRoute: string = "api/orders/";
+  private apiPutRoute: string =
+    "http://localhost:3000/orders/statement/delivered";
+  private apiGetRoute: string =
+    "http://localhost:3000/order/deliveryman/" +
+    localStorage.getItem("deliverymanId");
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
       .then((res: any) => {
         //Perform Success Action
-        this.orders = res;
+        this.orders = res.data;
       })
       .catch((error: any) => {
         // error.response.status Check status code
@@ -199,6 +136,9 @@ export default class RestaurantsOrders extends Vue {
   }
 
   getTakingOrders() {
+    console.log(
+      this.orders.filter((i) => i.deliveryManId != 0)[0].restaurantAddress[0]
+    );
     return this.orders.filter((i) => i.deliveryManId != 0);
   }
 }

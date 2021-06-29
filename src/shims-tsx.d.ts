@@ -21,7 +21,7 @@ namespace Articles {
     name: string,
     description: string,
     type: string
-    price: number,
+    price: float,
     image: string,
     quantity: number,
     restaurant: string
@@ -55,8 +55,7 @@ namespace Restaurants {
 
 namespace DeliveryMen {
   interface DeliveryMan {
-    id: number,
-    siretNumber: string,
+    siret: string,
     sponsorshipLink: string,
   }
 }

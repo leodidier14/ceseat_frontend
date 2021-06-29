@@ -91,7 +91,7 @@
         v-for="restaurant in resultQuery"
         :key="restaurant.id"
       >
-        <router-link :to="'/customer-menu/' + restaurant.id" tag="v-btn">
+        <router-link :to="{name:'CustomerMenu',params:{id:restaurant.id,name:restaurant.name}}" tag="v-btn">
           <Restaurant :restaurant="restaurant" />
         </router-link>
       </div>
@@ -127,88 +127,9 @@ export default class RestaurantsList extends Vue {
   private schedule: Array<string> = ["Tous", "Ouverts", "Fermés"];
 
   private restaurants: Array<Restaurants.Restaurant> = [
-    {
-      id: 1,
-      name: "MacDo",
-      email: "",
-      siretNumber: "",
-      phoneNumber: "",
-      website: "",
-      description: "",
-      type: "Snack",
-      openingTime: "12h",
-      closingTime: "22h",
-      image:
-        "https://media.gqmagazine.fr/photos/5f45086a03a812dcf4928d85/master/pass/McDo-Nouveau-Plat.jpg",
-      address: "",
-      city: "Strasbourg",
-      zipCode: "",
-      country: "",
-      sponsorshipLink: "",
-    },
-
-    {
-      id: 2,
-      name: "Sushi World",
-      email: "",
-      siretNumber: "",
-      phoneNumber: "",
-      website: "",
-      description: "",
-      type: "Japonais",
-      openingTime: "12h",
-      closingTime: "22h",
-      image:
-        "https://www.grand-roissy-tourisme.com/wp-content/uploads/wpetourisme/6823824-diaporama.jpg",
-      address: "",
-      city: "Marseille",
-      zipCode: "",
-      country: "",
-      sponsorshipLink: "",
-    },
-
-    {
-      id: 3,
-      name: "Burger King",
-      email: "",
-      siretNumber: "",
-      phoneNumber: "",
-      website: "",
-      description: "",
-      type: "Snack",
-      openingTime: "15h",
-      closingTime: "22h",
-      image:
-        "http://codingmatters.org/wp20-04/wp-content/uploads/2020/11/NHNH2EHT35GN3EJSHZSAABZWAE.jpg",
-      address: "",
-      city: "Paris",
-      zipCode: "",
-      country: "",
-      sponsorshipLink: "",
-    },
-
-    {
-      id: 4,
-      name: "KFC",
-      email: "",
-      siretNumber: "",
-      phoneNumber: "",
-      website: "",
-      description: "",
-      type: "Snack",
-      openingTime: "12h",
-      closingTime: "22h",
-      image:
-        "https://www.elma-food.com/wp-content/uploads/2019/12/shutterstock_1120332020-DPI.jpg",
-      address: "",
-      city: "Lyon",
-      zipCode: "",
-      country: "",
-      sponsorshipLink: "",
-    },
   ];
 
-  private apiGetRoute: string = "http://localhost:3000/board";
+  private apiGetRoute: string = "http://localhost:3000/restaurants";
 
   //api call to post data
 
@@ -220,10 +141,12 @@ export default class RestaurantsList extends Vue {
         }
       })
       .then((res: any) => {
+        console.log(res)
         //Perform Success Action
-        this.restaurants = res;
+        this.restaurants = res.data;
       })
       .catch((error: any) => {
+        console.log(error)
         // error.response.status Check status code
         //this.$router.go(0);
       })

@@ -3,7 +3,7 @@
     class="mx-auto restaurant-card"
     width="95%"
     height="100%"
-    v-bind:style="{ 'background-image': 'url(' + restaurant.image + ')' }"
+    v-bind:style="{ 'background-image': 'url(' + restaurant.pictureLink + ')' }"
     color="black"
     href="#"
   >

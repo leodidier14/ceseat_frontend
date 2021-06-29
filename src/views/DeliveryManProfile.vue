@@ -1,5 +1,5 @@
 <template>
-  <DeliveryManForm formType="profile" />
+  <DeliveryManForm formType="profile" :deliveryMan="deliveryMan"/>
 </template>
 
 <script lang="ts">
@@ -14,25 +14,31 @@ import { DeliveryMen } from "@/shims-tsx";
   },
 })
 export default class DeliveryManProfile extends Vue {
-  private apiGetRoute = "api/delivery-man/id";
-  private apiRootRoute = "api/delivery-man/";
+
 
   private deliveryMan: DeliveryMen.DeliveryMan = {
-    id: 0,
-    siretNumber: "",
+    siret: "",
     sponsorshipLink: "",
   };
-
+  private apiGetRoute: string ="http://localhost:3000/deliveryman/" + localStorage.getItem("deliverymanId");
+  private apiDeleteRoute: string ="http://localhost:3000/deliveryman/" +localStorage.getItem("deliverymanId");
+  private apiUpdateRoute: string ="http://localhost:3000/deliveryman/" + localStorage.getItem("deliverymanId");
   mounted() {
-    axios
-      .get(this.apiGetRoute)
+   axios
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
       .then((res: any) => {
+        console.log(res.data);
         //Perform Success Action
-        this.deliveryMan = res;
+        this.deliveryMan = res.data;
       })
       .catch((error: any) => {
+        console.log(error);
         // error.response.status Check status code
-        // this.$router.go(0);
+        //this.$router.go(0);
       })
       .finally(() => {
         //Perform action in always
@@ -51,28 +57,39 @@ export default class DeliveryManProfile extends Vue {
 
   private updateDeliveryMan(newDeliveryMan: DeliveryMen.DeliveryMan) {
     axios
-      .put(this.apiRootRoute, newDeliveryMan)
-      .then((res: any) => {
-        this.deliveryMan = res;
-      })
-      .catch((error: any) => {
-        // this.$router.go(0);
-      })
-      .finally(() => {
-        this.$router.go(0);
-      });
+          .put(this.apiUpdateRoute, newDeliveryMan, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res: any) => {
+            //Perform Success Action
+          })
+          .catch((error: any) => {
+            // error.response.status Check status code
+          })
+          .finally(() => {
+            //Perform action in always
+          });
   }
 
   private deleteDeliveryMan(id: number) {
     axios
-      .delete(this.apiRootRoute + id)
-      .then((res: any) => {
-        this.$router.push({ name: "DeliveryManRegister" });
-      })
-      .catch((error: any) => {
-        // this.$router.go(0);
-      })
-      .finally(() => {});
+        .delete(this.apiDeleteRoute, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res: any) => {
+          localStorage.removeItem("deliverymanId");
+          //Perform Success Action
+        })
+        .catch((error: any) => {
+          // error.response.status Check status code
+        })
+        .finally(() => {
+          //Perform action in always
+        });
   }
 }
 </script>

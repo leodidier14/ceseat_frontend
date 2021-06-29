@@ -1,25 +1,30 @@
 <template>
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
     <div id="banner">
-      <h2 class="ml-10" id="title" v-text="restaurantId"></h2>
+      <h2 class="ml-10" id="title" v-text="restaurantName"></h2>
       <span class="mr-10" id="add-buttons" v-if="menuType == 'restaurant'">
         <AddArticle />
-        <AddMenu />
+        <AddMenu :articles="articles" />
       </span>
     </div>
 
     <v-tabs v-model="currentType" light color="#CA6B3E" show-arrows>
       <v-tabs-slider color="#CA6B3E"></v-tabs-slider>
 
-      <v-tab v-if="menus.length > 0"> Menu </v-tab>
+      <v-tab v-if="menus"> Menu </v-tab>
       <v-tab v-for="type in getArticleTypeMap.keys()" :key="type">
         {{ type }}
       </v-tab>
     </v-tabs>
     <v-tabs-items class="articles-list" v-model="currentType">
-      <v-tab-item v-if="menus.length > 0">
+      <v-tab-item v-if="menus">
         <div id="article-card-layout" v-for="menu in menus" :key="menu.name">
-          <ArticleCard :menu="menu" :type="menuType">
+          <ArticleCard
+            :menu="menu"
+            :type="menuType"
+            :articles="articles"
+            :restaurantId="restaurantId"
+          >
             <template v-slot:article-image>
               <v-img :src="menu.image"></v-img>
             </template>
@@ -35,7 +40,11 @@
           v-for="article in entry[1]"
           :key="article.name"
         >
-          <ArticleCard :article="article" :type="menuType">
+          <ArticleCard
+            :article="article"
+            :type="menuType"
+            :restaurantId="restaurantId"
+          >
             <template v-slot:article-image>
               <v-img :src="article.image"></v-img>
             </template>
@@ -52,6 +61,7 @@ import ArticleCard from "@/components/ArticleCard.vue";
 import AddArticle from "@/components/AddArticle.vue";
 import AddMenu from "@/components/AddMenu.vue";
 import { Articles } from "@/shims-tsx";
+import Restaurant from "./Restaurant.vue";
 const lodash = require("lodash");
 
 @Component({
@@ -74,117 +84,16 @@ export default class ArticleChoice extends Vue {
   @Prop({ required: true })
   private menus!: Array<Articles.Menu>;
 
-  @Prop({required: true})
+  @Prop()
+  private restaurantName!: string;
+
+  @Prop()
   private restaurantId!: number;
 
   private currentType: string = "";
-  // private currentRestaurant: string = "McDonald's";
-
-  // private articles: Array<Articles.Article> = [
-  //   {
-  //     name: "Tripple Cheese",
-  //     description:
-  //       "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
-  //     type: "Burger",
-  //     price: 5.0,
-  //     quantity: 1,
-  //     image: require("../assets/triple_cheese.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     name: "CBO",
-  //     description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-  //     type: "Burger",
-  //     price: 6.2,
-  //     quantity: 1,
-  //     image: require("../assets/CBO.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     name: "Coca Cola",
-  //     description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-  //     type: "Boisson",
-  //     price: 3.5,
-  //     quantity: 1,
-  //     image: require("../assets/coca_sans_sucre.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     name: "Frite",
-  //     description: "Une portion de frite pour accompagner ton plat.",
-  //     type: "Accompagnement",
-  //     price: 2.5,
-  //     quantity: 1,
-  //     image: require("../assets/frites.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  // ];
-
-  // private menus: Array<Articles.Menu> = [
-  //   {
-  //     name: "Menu 1",
-  //     description: "Une menu complet.",
-  //     articles: [
-  //       {
-  //         name: "CBO",
-  //         description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-  //         type: "Burger",
-  //         price: 6.2,
-  //         quantity: 1,
-  //         image: require("../assets/CBO.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //       {
-  //         name: "Coca Cola",
-  //         description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-  //         type: "Boisson",
-  //         price: 3.5,
-  //         quantity: 1,
-  //         image: require("../assets/coca_sans_sucre.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //       {
-  //         name: "Frite",
-  //         description: "Une portion de frite pour accompagner ton plat.",
-  //         type: "Accompagnement",
-  //         price: 2.5,
-  //         quantity: 1,
-  //         image: require("../assets/frites.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //     ],
-  //     type: "Menu",
-  //     price: 10.5,
-  //     quantity: 1,
-  //     image: require("../assets/frites.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  // ];
 
   mounted() {
-
-    // this.$root.$on("add-article", (article: Articles.Article) => {
-    //   this.articles.push(article);
-    // });
-
-    // this.$root.$on("add-menu", (menu: Articles.Menu) => {
-    //   let existingMenu: Articles.Menu = this.menus.filter(
-    //     (previousMenu: Articles.Menu) => previousMenu.name == menu.name
-    //   )[0];
-    //   if (existingMenu != null) {
-    //     this.menus.splice(this.menus.indexOf(existingMenu), 1, menu);
-    //   } else {
-    //     this.menus.push(menu);
-    //   }
-    // });
-
-    // this.$root.$on("delete-article", (article: Articles.Article) => {
-    //   this.articles.splice(this.articles.indexOf(article), 1);
-    // });
-
-    // this.$root.$on("delete-menu", (menu: Articles.Menu) => {
-    //   this.menus.splice(this.menus.indexOf(menu), 1);
-    // });
+    console.log(this.articles);
   }
 
   get getArticleTypeMap(): Map<string, Array<Articles.Article>> {
