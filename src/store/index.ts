@@ -3,6 +3,8 @@ import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
 import CartModule from "@/store/cart";
 import User from "@/store/user";
+import Socket from "@/store/socket";
+
 
 Vue.use(Vuex);
 
@@ -23,6 +25,6 @@ const vuexLocalUser = new VuexPersist({
 });
 
 export const cart_store = new Vuex.Store({
-  modules: { cart: CartModule, user: User },
+  modules: { cart: CartModule, user: User, socket: Socket },
   plugins: [vuexLocal.plugin, vuexLocalUser.plugin],
 });

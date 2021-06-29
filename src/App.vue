@@ -38,6 +38,7 @@ import Navbar from "@/components/Navbar.vue";
 import NavbarMobile from "@/components/NavbarMobile.vue";
 import { getModule } from "vuex-module-decorators";
 import User from "@/store/user";
+import Socket from "@/store/socket";
 
 @Component({
   components: {
@@ -47,6 +48,7 @@ import User from "@/store/user";
 })
 export default class App extends Vue {
   private isAuthenticated: boolean = false;
+  private socketModule = getModule(Socket, this.$store);
 
   private userModule = getModule(User, this.$store);
 
@@ -54,11 +56,9 @@ export default class App extends Vue {
     return this.$vuetify.breakpoint.smAndDown;
   }
 
-  //  if (localStorage.getItem("token")) {
-  //     this.isAuthenticated = true;
-  //   } else {
-  //     this.isAuthenticated = false;
-  //   }
+  created() {
+    this.socketModule.createConnection();
+  }
 }
 </script>
 

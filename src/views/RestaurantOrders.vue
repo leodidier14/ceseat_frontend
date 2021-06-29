@@ -95,7 +95,7 @@ import RestaurantOrderCard from "@/components/RestaurantOrderCard.vue";
 import { Orders } from "@/shims-tsx";
 import { getModule } from "vuex-module-decorators";
 import User from "@/store/user";
-import io from "socket.io-client";
+import Socket from "@/store/socket";
 
 @Component({
   components: {
@@ -104,19 +104,13 @@ import io from "socket.io-client";
 })
 export default class RestaurantsOrders extends Vue {
   private userModule = getModule(User, this.$store);
+  private socketModule = getModule(Socket, this.$store);
   private orders: Array<Orders.Order> = [];
 
   private apiGetRoute: string =
     "http://localhost:3000/order/restaurant/currentorder/" +
     this.userModule.roleId;
-  private socket: any = {};
 
-  created() {
-    this.socket = io("http://localhost:3003");
-    this.socket.on("message", (msg: string) => {
-      console.log(msg);
-    });
-  }
   public putStatus(info: { status: string; id: number }): void {
     let apiPutRoute = "http://localhost:3000/order/statement/";
     switch (info.status) {
@@ -155,8 +149,15 @@ export default class RestaurantsOrders extends Vue {
         //Perform action in always
       });
   }
-
+  created() {
+    this.socketModule.socket.on("message", (msg: string) => {
+      console.log(msg);
+    });
+  }
   mounted() {
+    console.log(this.socketModule.socket);
+    this.socketModule.socket.emit("message", "testtest");
+
     axios
       .get(this.apiGetRoute, {
         headers: {
