@@ -47,7 +47,7 @@
                   ></v-text-field>
                   <v-text-field
                     color="#ca6b3e"
-                    label="Image"
+                    label="Lien image"
                     v-model="menu.image"
                     append-icon="mdi-camera"
                     :rules="[rules.required]"

@@ -22,14 +22,14 @@
         v-model="searchType"
         item-color="#CA6B3E"
       ></v-select>
-      <v-select
+      <!-- <v-select
         label="Disponibilité"
         class="mr-2 hidden-sm-and-down"
         color="#CA6B3E"
         :items="schedule"
         v-model="searchSchedule"
         item-color="#CA6B3E"
-      ></v-select>
+      ></v-select> -->
       <template>
         <div class="text-center hidden-md-and-up">
           <v-dialog v-model="dialog" width="80%">
@@ -63,14 +63,14 @@
                   v-model="searchType"
                   item-color="#CA6B3E"
                 ></v-select>
-                <v-select
+                <!-- <v-select
                   label="Disponibilité"
                   class="mr-2"
                   color="#CA6B3E"
                   :items="schedule"
                   v-model="searchSchedule"
                   item-color="#CA6B3E"
-                ></v-select>
+                ></v-select> -->
               </v-card-text>
               <v-divider></v-divider>
               <v-card-actions>

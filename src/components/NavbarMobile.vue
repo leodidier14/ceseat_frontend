@@ -43,7 +43,10 @@
           </v-toolbar>
           <v-list dense color="#CA6B3E">
             <v-list-item-group v-model="selectedItem" color="white">
-              <v-list-item class="text-center">
+              <v-list-item
+                class="text-center"
+                v-if="this.userModule.roleType == 'businessman'"
+              >
                 <v-list-item-content>
                   <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -70,7 +73,10 @@
                   </v-menu>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="text-center">
+              <v-list-item
+                class="text-center"
+                v-if="this.userModule.roleType == 'technician'"
+              >
                 <v-list-item-content>
                   <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -104,7 +110,10 @@
                   </v-menu>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="text-center">
+              <v-list-item
+                class="text-center"
+                v-if="this.userModule.roleType == 'dev'"
+              >
                 <v-list-item-content>
                   <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -138,7 +147,10 @@
                   </v-menu>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="text-center">
+              <v-list-item
+                class="text-center"
+                v-if="this.userModule.roleType == 'deliveryman'"
+              >
                 <v-list-item-content>
                   <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -172,7 +184,10 @@
                   </v-menu>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="text-center">
+              <v-list-item
+                class="text-center"
+                v-if="this.userModule.roleType == 'restaurant'"
+              >
                 <v-list-item-content>
                   <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -218,7 +233,7 @@
                   </v-menu>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="text-center">
+              <v-list-item class="text-center" v-if="this.userModule.userId">
                 <v-list-item-content>
                   <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -252,7 +267,7 @@
                   </v-menu>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="text-center">
+              <v-list-item class="text-center" v-if="this.userModule.userId">
                 <v-list-item-content>
                   <v-list-item-title class="item-list"
                     ><ShoppingCart
@@ -270,6 +285,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ShoppingCart from "@/components/ShoppingCart.vue";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component({
   components: {
@@ -277,6 +294,7 @@ import ShoppingCart from "@/components/ShoppingCart.vue";
   },
 })
 export default class NavbarMobile extends Vue {
+  private userModule = getModule(User, this.$store);
   private name: string = "NavbarMobile";
   private dialog: boolean = false;
   private selectedItem: number = 0;

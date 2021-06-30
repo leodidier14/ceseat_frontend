@@ -69,7 +69,7 @@
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
-              label="Image"
+              label="Lien image"
               v-model="restaurant.pictureLink"
               :rules="[rules.required]"
               required
@@ -305,27 +305,29 @@ export default class RestaurantForm extends Vue {
   @Prop({ required: true })
   private formType!: string;
 
-  @Prop({default: () => {
+  @Prop({
+    default: () => {
       return {
         id: 0,
-      name: "",
-      email: "",
-      siret: "",
-      phoneNumber: "",
-      website: "",
-      description: "",
-      type: "",
-      openingTime: "",
-      closingTime: "",
-      pictureLink: "",
-      address: "",
-      city: "",
-      zipCode: "",
-      country: "",
-      sponsorshipLink: "",
-      }
-      } })
-  private restaurant!: Restaurants.Restaurant
+        name: "",
+        email: "",
+        siret: "",
+        phoneNumber: "",
+        website: "",
+        description: "",
+        type: "",
+        openingTime: "",
+        closingTime: "",
+        pictureLink: "",
+        address: "",
+        city: "",
+        zipCode: "",
+        country: "",
+        sponsorshipLink: "",
+      };
+    },
+  })
+  private restaurant!: Restaurants.Restaurant;
 
   private valid: boolean = true;
 
@@ -333,7 +335,6 @@ export default class RestaurantForm extends Vue {
   private dialogSchedule: boolean = false;
   private dialogOpenTime: boolean = false;
   private dialogCloseTime: boolean = false;
-  
 
   /* input rules,style and selectItem */
 
@@ -369,10 +370,12 @@ export default class RestaurantForm extends Vue {
   private types = ["Hamburger", "Japonais", "Kebab"];
 
   private apiSubmitRoute: string = "http://localhost:3000/restaurant";
-  private apiGetRoute: string = "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
-  private apiDeleteRoute: string = "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
-  private apiUpdateRoute: string = "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
-
+  private apiGetRoute: string =
+    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
+  private apiDeleteRoute: string =
+    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
+  private apiUpdateRoute: string =
+    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
 
   //api call to post data
   public submitForm(): void {

@@ -314,7 +314,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <ShoppingCart />
+    <ShoppingCart v-if="this.userModule.userId" />
   </v-app-bar>
 </template>
  
