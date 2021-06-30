@@ -37,10 +37,8 @@ export default class RestaurantMenu extends Vue {
       })
       .then((res: any) => {
         this.articles = res.data.ArticleList;
-        console.log(this.articles);
 
         this.menus = res.data.MenuList;
-        console.log(this.menus);
       })
       .catch((error: any) => {
         //this.$router.go(0);
@@ -114,7 +112,6 @@ export default class RestaurantMenu extends Vue {
           },
         })
         .then((res: any) => {
-          console.log(res);
           //this.$router.go(0);
         })
         .catch((error: any) => {
@@ -123,8 +120,6 @@ export default class RestaurantMenu extends Vue {
         })
         .finally(() => {});
     } else {
-      console.log("new article");
-
       axios
         .post(this.apiSubmitArticleRoute, article, {
           headers: {
@@ -145,13 +140,11 @@ export default class RestaurantMenu extends Vue {
   }
 
   private addMenu(menu: Articles.Menu) {
-    console.log(menu);
-    console.log(this.menus);
+    console.log(menu)
     if (this.menus) {
       let existingMenu: Articles.Menu = this.menus.filter(
         (previousMenu: Articles.Menu) => previousMenu.id == menu.id
       )[0];
-      console.log(existingMenu);
       if (existingMenu != null) {
         axios
           .put(this.apiMenuRoute + menu.id, menu, {
