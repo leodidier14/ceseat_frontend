@@ -6,6 +6,10 @@
     height="100%"
   >
     <span id="header">
+      <router-link class="link ml-5 pt-5" to="/business-orders-monitor"
+        ><v-icon>mdi-close </v-icon></router-link
+      >
+
       <h3 id="title" class="ml-5 pt-5">
         <span class="hidden-md-and-down">Suivi de commandes : </span> &nbsp;
         {{ $route.params.restaurantId }}
@@ -134,9 +138,11 @@ export default class BusinessOrdersMonitor extends Vue {
       })
       .then((res: any) => {
         //Perform Success Action
-        console.log(res.data[0]);
-        this.orders = res.data[0].OrdersList;
-        this.transac = res.data[0].transac;
+        if (res.data[0]) {
+          console.log(res.data[0]);
+          this.orders = res.data[0].OrdersList;
+          this.transac = res.data[0].transac;
+        }
       })
       .catch((error: any) => {
         // error.response.status Check status code
@@ -148,19 +154,27 @@ export default class BusinessOrdersMonitor extends Vue {
   }
 
   getPendingRealizationOrders() {
-    return this.orders.filter((i) => i.status === "pendingRealization");
+    if (this.orders) {
+      return this.orders.filter((i) => i.status === "pendingRealization");
+    }
   }
 
   getRealizationOrders() {
-    return this.orders.filter((i) => i.status === "realization");
+    if (this.orders) {
+      return this.orders.filter((i) => i.status === "realization");
+    }
   }
 
   getPendingDeliveryOrders() {
-    return this.orders.filter((i) => i.status === "pendingDelivery");
+    if (this.orders) {
+      return this.orders.filter((i) => i.status === "pendingDelivery");
+    }
   }
 
   getDeliveryOrders() {
-    return this.orders.filter((i) => i.status === "delivery");
+    if (this.orders) {
+      return this.orders.filter((i) => i.status === "delivery");
+    }
   }
 }
 </script>
@@ -197,4 +211,10 @@ h4 {
     width: 100% !important;
   }
 }
+
+.link {
+  text-decoration: none;
+}
 </style>
+
+

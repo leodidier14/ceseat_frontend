@@ -126,6 +126,7 @@ export default class ClientLogin extends Vue {
         })
         .catch((error: any) => {
           console.log(error);
+          console.log("error");
           // error.response.status Check status code
           //this.$router.go(0);
         })

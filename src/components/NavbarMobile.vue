@@ -106,14 +106,18 @@
                           >Logs de composants</span
                         ></router-link
                       >
+                      <router-link
+                        to="/login"
+                        class="router-mobile-link text-center"
+                        ><span @click="dialog = false"
+                          >Se déconnecter</span
+                        ></router-link
+                      >
                     </v-list>
                   </v-menu>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item
-                class="text-center"
-                v-if="this.userModule.roleType == 'dev'"
-              >
+              <v-list-item class="text-center" v-if="this.userModule.devId">
                 <v-list-item-content>
                   <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -139,7 +143,7 @@
                       <router-link
                         to="/developer-logout"
                         class="router-mobile-link text-center mr-2"
-                        ><span @click="dialog = false"
+                        ><span @click="devLogout"
                           >Se déconnecter</span
                         ></router-link
                       >
@@ -233,7 +237,13 @@
                   </v-menu>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="text-center" v-if="this.userModule.userId">
+              <v-list-item
+                class="text-center"
+                v-if="
+                  this.userModule.userId &&
+                  this.userModule.roleType != 'technician'
+                "
+              >
                 <v-list-item-content>
                   <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -259,7 +269,7 @@
                       <router-link
                         to="/login"
                         class="router-mobile-link text-center"
-                        ><span @click="dialog = false"
+                        ><span @click="logout"
                           >Se déconnecter</span
                         ></router-link
                       >
@@ -267,7 +277,13 @@
                   </v-menu>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="text-center" v-if="this.userModule.userId">
+              <v-list-item
+                class="text-center"
+                v-if="
+                  this.userModule.userId &&
+                  this.userModule.roleType != 'technician'
+                "
+              >
                 <v-list-item-content>
                   <v-list-item-title class="item-list"
                     ><ShoppingCart
@@ -285,9 +301,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ShoppingCart from "@/components/ShoppingCart.vue";
+import axios from "axios";
 import { getModule } from "vuex-module-decorators";
 import User from "@/store/user";
-
 @Component({
   components: {
     ShoppingCart,
@@ -298,6 +314,60 @@ export default class NavbarMobile extends Vue {
   private name: string = "NavbarMobile";
   private dialog: boolean = false;
   private selectedItem: number = 0;
+
+  private apilogout: string = "http://localhost:3000/logout";
+  private apiDevlogout: string = "http://localhost:3000/dev-logout";
+
+  public logout(): void {
+    axios
+      .post(this.apilogout, "", {
+        headers: {
+          Authorization: this.userModule.token,
+        },
+      })
+      .then((res: any) => {
+        //Perform Success Action
+        console.log(res);
+        this.userModule.set_token("").then((token: string) => {
+          localStorage.clear();
+          window.location.href = "http://localhost:8080/client-login";
+        });
+
+        // this.$router.push({ name: "ClientLogin" });
+      })
+      .catch((error: any) => {
+        console.log(error);
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
+
+  public devLogout(): void {
+    axios
+      .post(this.apiDevlogout, "", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res: any) => {
+        //Perform Success Action
+        console.log(res);
+        localStorage.removeItem("token");
+        localStorage.removeItem("devId");
+        this.$router.push({ name: "DeveloperLogin" });
+      })
+      .catch((error: any) => {
+        console.log(error);
+        // error.response.status Check status code
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
 }
 </script>
 

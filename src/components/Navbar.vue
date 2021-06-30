@@ -105,9 +105,12 @@
             >Logs de composants</router-link
           >
         </v-list-item>
+        <v-list-item>
+          <v-btn text @click="logout">Se déconnecter</v-btn>
+        </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu offset-y v-if="this.userModule.roleType == 'dev'">
+    <v-menu offset-y v-if="this.userModule.devId">
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Développeur</span></v-btn
@@ -145,7 +148,7 @@
           >
         </v-list-item>
         <v-list-item>
-          <v-btn @click="devLogout">Se déconnecter</v-btn>
+          <v-btn text @click="devLogout">Se déconnecter</v-btn>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -272,7 +275,10 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu offset-y v-if="this.userModule.userId != null">
+    <v-menu
+      offset-y
+      v-if="this.userModule.userId && this.userModule.roleType != 'technician'"
+    >
       <template v-slot:activator="{ on, attrs }">
         <v-btn text color="black" v-bind="attrs" v-on="on"
           ><span class="mr-2">Mon compte</span></v-btn
@@ -314,7 +320,9 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <ShoppingCart v-if="this.userModule.userId" />
+    <ShoppingCart
+      v-if="this.userModule.userId && this.userModule.roleType != 'technician'"
+    />
   </v-app-bar>
 </template>
  

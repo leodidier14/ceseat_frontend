@@ -19,7 +19,7 @@
           <td>{{ row.item.city }}</td>
           <td>{{ row.item.type }}</td>
           <td>
-            <router-link :to="$route.path + '/' + row.item.id">
+            <router-link class="link" :to="$route.path + '/' + row.item.id">
               <v-btn class="mx-2" text small color="black">
                 <v-icon dark>mdi-information</v-icon>
               </v-btn>
@@ -91,3 +91,9 @@ export default class BusinessRestaurantList extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.link {
+  text-decoration: none;
+}
+</style>
