@@ -89,20 +89,6 @@
               }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <!-- <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>Liste d'articles : </v-list-item-title>
-              <div
-                v-for="article in currentDialogItem.articles"
-                :key="article.name"
-              >
-                <v-list-item-subtitle>
-                  {{ article.name }} x {{ article.quantity }}:
-                  {{ article.price }}€</v-list-item-subtitle
-                >
-              </div>
-            </v-list-item-content>
-          </v-list-item> -->
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Commentaire : </v-list-item-title>
@@ -192,7 +178,6 @@ export default class ClientOrders extends Vue {
   ];
 
   public orders: Array<Orders.Order> = [];
-
   mounted() {
     axios
       .get(this.apiGetRoute, {
@@ -210,6 +195,18 @@ export default class ClientOrders extends Vue {
         //this.$router.go(0);
       })
       .finally(() => {});
+
+    this.$root.$on(
+      "update-statement",
+      (info: { status: string; id: number }) => {
+        console.log("client update");
+        var order = this.orders.findIndex(
+          (w) => w.number == info.id.toString()
+        );
+        console.log(this.orders[order]);
+        this.orders[order].status = info.status;
+      }
+    );
   }
 
   public showDialog(item: Orders.Order) {

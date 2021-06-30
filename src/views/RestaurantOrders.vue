@@ -150,14 +150,28 @@ export default class RestaurantsOrders extends Vue {
       });
   }
   created() {
-    this.socketModule.socket.on("message", (msg: string) => {
-      console.log(msg);
-    });
+    this.socketModule.socket.on(
+      "NewOrder" + this.userModule.roleId,
+      (newOrder: Orders.Order) => {
+        this.$root.$emit("update-statement", "Nouvelle Commande");
+        this.orders.push(newOrder);
+      }
+    );
+    this.socketModule.socket.on(
+      "DeliveredOrder" + this.userModule.roleId,
+      (orderId: number) => {
+        var order = this.orders.findIndex(
+          (w) => w.number == orderId.toString()
+        );
+        this.orders[order].status = "delivered";
+        this.$root.$emit(
+          "update-statement",
+          "Commande N° : " + orderId + " livrée."
+        );
+      }
+    );
   }
   mounted() {
-    console.log(this.socketModule.socket);
-    this.socketModule.socket.emit("message", "testtest");
-
     axios
       .get(this.apiGetRoute, {
         headers: {

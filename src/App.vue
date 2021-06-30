@@ -9,6 +9,15 @@
       </div>
     </div>
     <v-main class="main">
+      <v-snackbar v-model="notification">
+        {{ message }}
+
+        <template v-slot:action="{ attrs }">
+          <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
       <router-view />
     </v-main>
     <template>
@@ -47,7 +56,9 @@ import Socket from "@/store/socket";
   },
 })
 export default class App extends Vue {
+  private notification: boolean = false;
   private isAuthenticated: boolean = false;
+  private message: String = "";
   private socketModule = getModule(Socket, this.$store);
 
   private userModule = getModule(User, this.$store);
@@ -58,6 +69,14 @@ export default class App extends Vue {
 
   created() {
     this.socketModule.createConnection();
+
+    this.$root.$on(
+      "update-statement",
+      (info: { status: string; id: number }) => {
+        this.notification = true;
+        this.message = "Votre commande N° " + info.id + "a été mise à jour";
+      }
+    );
   }
 }
 </script>

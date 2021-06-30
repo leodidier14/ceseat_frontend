@@ -158,15 +158,24 @@ export default class DeliveryManOrderCard extends Vue {
   private dialog: boolean = false;
 
   private declineOrder() {
-    this.$root.$emit("update-order-status", "denied");
+    this.$root.$emit("update-order-status", {
+      status: "deniedDelivery",
+      id: this.order.number,
+    });
   }
 
   private acceptOrder() {
-    this.$root.$emit("update-order-status", "delivery");
+    this.$root.$emit("update-order-status", {
+      status: "AcceptDelivery",
+      id: this.order.number,
+    });
   }
 
   private delivered() {
-    this.$root.$emit("update-order-status", "delivered");
+    this.$root.$emit("update-order-status", {
+      status: "delivred",
+      id: this.order.number,
+    });
   }
 }
 </script>

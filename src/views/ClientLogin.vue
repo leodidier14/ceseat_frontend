@@ -79,6 +79,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 import { getModule } from "vuex-module-decorators";
 import User from "@/store/user";
+import Socket from "@/store/socket";
 
 @Component
 export default class ClientLogin extends Vue {
@@ -92,6 +93,7 @@ export default class ClientLogin extends Vue {
 
   /* input rules,style  */
   private showPassword: boolean = false;
+  private socketModule = getModule(Socket, this.$store);
   private email: string = "";
   private emailRules = [
     (mail: string) => !!mail || "L'adresse mail est obligatoire",
@@ -119,9 +121,14 @@ export default class ClientLogin extends Vue {
           this.userModule.set_userId(res.data.userId);
           this.userModule.set_roleType(res.data.role.type);
           this.userModule.set_roleId(res.data.role.id);
-          // localStorage.setItem("token", "Bearer " + res.data.token);
-          // localStorage.setItem("userId", res.data.userId);
-          // localStorage.setItem(res.data.role.type, res.data.role.id);
+          this.socketModule.socket.on(
+            "UpdateStatement" + res.data.userId,
+            (info: { status: string; id: number }) => {
+              console.log(info);
+              this.$root.$emit("update-statement", info);
+            }
+          );
+
           this.$router.push({ name: "RestaurantsList" });
         })
         .catch((error: any) => {

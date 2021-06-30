@@ -75,7 +75,7 @@ import { Orders } from "@/shims-tsx";
 import axios from "axios";
 import { getModule } from "vuex-module-decorators";
 import User from "@/store/user";
-
+import Socket from "@/store/socket";
 @Component({
   components: {
     DeliveryManOrderCard,
@@ -85,9 +85,11 @@ export default class RestaurantsOrders extends Vue {
   private userModule = getModule(User, this.$store);
   private deliveryManState: boolean = true;
   private orders: Array<Orders.Order> = [];
-
-  private apiPutRoute: string =
+  private socketModule = getModule(Socket, this.$store);
+  private apiPutAcceptedRoute: string =
     "http://localhost:3000/orders/statement/delivered";
+  private apiPutDelivredRoute: string =
+    "http://localhost:3000/orders/statement/deliverymanaccept";
   private apiGetRoute: string =
     "http://localhost:3000/order/deliveryman/" + this.userModule.roleId;
 
@@ -113,32 +115,59 @@ export default class RestaurantsOrders extends Vue {
         //Perform action in always
       });
 
-    this.$root.$on("update-order-status", (status: string) =>
-      this.putStatus(status)
+    this.$root.$on(
+      "update-order-status",
+      (info: { status: string; id: number }) => this.putStatus(info)
     );
   }
 
-  private putStatus(status: string) {
-    axios
-      .post(
-        this.apiPutRoute,
-        { status: status },
-        {
-          headers: {
-            Authorization: this.userModule.token,
-          },
-        }
-      )
-      .then((res: any) => {
-        this.$router.go(0);
-      })
-      .catch((error: any) => {
-        // error.response.status Check status code
-        this.$router.go(0);
-      })
-      .finally(() => {
-        //Perform action in always
-      });
+  private putStatus(info: { status: string; id: number }) {
+    switch (info.status) {
+      case "deniedDelivery":
+        var index = this.orders
+          .map((x) => {
+            return x.number;
+          })
+          .indexOf(info.id.toString());
+        this.orders.splice(index, 1);
+        break;
+      case "AcceptDelivery":
+        axios
+          .post(this.apiPutAcceptedRoute, info, {
+            headers: {
+              Authorization: this.userModule.token,
+            },
+          })
+          .then((res: any) => {
+            this.$router.go(0);
+          })
+          .catch((error: any) => {
+            // error.response.status Check status code
+            this.$router.go(0);
+          })
+          .finally(() => {
+            //Perform action in always
+          });
+        break;
+      case "delivered":
+        axios
+          .post(this.apiPutDelivredRoute, info, {
+            headers: {
+              Authorization: this.userModule.token,
+            },
+          })
+          .then((res: any) => {
+            this.$router.go(0);
+          })
+          .catch((error: any) => {
+            // error.response.status Check status code
+            this.$router.go(0);
+          })
+          .finally(() => {
+            //Perform action in always
+          });
+        break;
+    }
   }
 
   getPendingOrders() {
