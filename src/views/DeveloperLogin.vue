@@ -114,7 +114,7 @@ export default class DeveloperLogin extends Vue {
           this.userModule.set_token("Bearer " + res.data.token);
           this.userModule.set_devId(res.data.id);
           //Perform Success Action
-          // this.$router.push({ name: "DeveloperComponents" });
+          this.$router.push({ name: "DeveloperComponents" });
         })
         .catch((error: any) => {
           // error.response.status Check status code

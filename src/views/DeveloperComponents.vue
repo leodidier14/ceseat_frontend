@@ -36,7 +36,7 @@
               text
               small
               color="green"
-              href="https://github.com/leodidier14"
+              @click="logDl(row.item)"
             >
               <v-icon dark>mdi-download</v-icon>
             </v-btn>
@@ -51,6 +51,8 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Components } from "@/shims-tsx";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component
 export default class DeveloperComponent extends Vue {
@@ -60,7 +62,7 @@ export default class DeveloperComponent extends Vue {
   private footerProps: object = {
     "items-per-page-text": "Composants par page",
   };
-
+  private userModule = getModule(User, this.$store);
   private headers: object = [
     {
       text: "Type",
@@ -92,40 +94,44 @@ export default class DeveloperComponent extends Vue {
 
   private components: Array<Components.component> = [];
 
-  private apiGetRoute: string = "api/components/";
+  private apiGetRoute: string = "http://localhost:3000/devTools/components/";
+  private apiSubmitLogRoute: string =
+    "http://localhost:3000/devTools/logs/components/";
 
   mounted() {
     axios
-      .get(this.apiGetRoute)
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: this.userModule.token,
+        },
+      })
       .then((res: any) => {
         //Perform Success Action
-        this.components = res;
+        this.components = res.data;
       })
       .catch((error: any) => {
-        // error.response.status Check status code
         //this.$router.go(0);
       })
       .finally(() => {
         //Perform action in always
       });
   }
-
-  //   {
-  //     type: "npm",
-  //     name: "Button",
-  //     version: "1.0.0",
-  //     description: "Button pour faire des commandes",
-  //     documentationLink: "https://github.com/leodidier14",
-  //     downloadLink: "https://github.com/leodidier14",
-  //   },
-  //   {
-  //     type: "Micro-service",
-  //     name: "API de connection",
-  //     version: "1.0.0",
-  //     description: "Fonctionnalités pour connecter un utilisateur",
-  //     documentationLink: "https://github.com/leodidier14",
-  //     downloadLink: "https://github.com/leodidier14",
-  //   },
-  // ];
+  public logDl(item: Components.component) {
+    axios
+      .post(this.apiSubmitLogRoute, item, {
+        headers: {
+          Authorization: this.userModule.token,
+        },
+      })
+      .then((res: any) => {
+        //Perform Success Action
+      })
+      .catch((error: any) => {
+        //this.$router.go(0);
+      })
+      .finally(() => {
+        //Perform action in always
+      });
+  }
 }
 </script>

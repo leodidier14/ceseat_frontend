@@ -360,7 +360,6 @@ export default class Navbar extends Vue {
           localStorage.clear();
           window.location.href = "http://localhost:8080/client-login";
         });
-
         // this.$router.push({ name: "ClientLogin" });
       })
       .catch((error: any) => {
@@ -377,15 +376,15 @@ export default class Navbar extends Vue {
     axios
       .post(this.apiDevlogout, "", {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: this.userModule.token,
         },
       })
       .then((res: any) => {
         //Perform Success Action
-        console.log(res);
-        localStorage.removeItem("token");
-        localStorage.removeItem("devId");
-        this.$router.push({ name: "DeveloperLogin" });
+        this.userModule.set_token("").then((token: string) => {
+          localStorage.clear();
+          window.location.href = "http://localhost:8080/developer-login";
+        });
       })
       .catch((error: any) => {
         console.log(error);

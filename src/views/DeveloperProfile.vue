@@ -88,6 +88,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component
 export default class DeveloperProfile extends Vue {
@@ -101,6 +103,7 @@ export default class DeveloperProfile extends Vue {
     companyName: "",
   };
 
+  private userModule = getModule(User, this.$store);
   /* input rules,style and selectItem */
   private showPassword: boolean = false;
   private showConfirmedPassword: boolean = false;
@@ -132,9 +135,12 @@ export default class DeveloperProfile extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiDeleteRoute: string = "http://localhost:3000/dev/"+ localStorage.getItem('devId');
-  private apiSubmitRoute: string = "http://localhost:3000/dev/"+ localStorage.getItem('devId');
-  private apiGetRoute: string = "http://localhost:3000/dev/"+ localStorage.getItem('devId');
+  private apiDeleteRoute: string =
+    "http://localhost:3000/dev/" + this.userModule.devId;
+  private apiSubmitRoute: string =
+    "http://localhost:3000/dev/" + this.userModule.devId;
+  private apiGetRoute: string =
+    "http://localhost:3000/dev/" + this.userModule.devId;
 
   //api call to post data
 
@@ -145,18 +151,22 @@ export default class DeveloperProfile extends Vue {
       )
     ) {
       axios
-        .delete(this.apiDeleteRoute,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
-      })
+        .delete(this.apiDeleteRoute, {
+          headers: {
+            Authorization: this.userModule.token,
+          },
+        })
         .then((res: any) => {
           //Perform Success Action
-          this.$router.push({ name: "DeveloperRegister" });
+          this.userModule.set_token("").then((token: string) => {
+            localStorage.clear();
+
+            window.location.href = "http://localhost:8080/developer-register";
+          });
         })
         .catch((error: any) => {
           // error.response.status Check status code
-          this.$router.go(0);
+          // this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always
@@ -171,18 +181,18 @@ export default class DeveloperProfile extends Vue {
       ).validate()
     ) {
       axios
-        .put(this.apiSubmitRoute, this.devProfile,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
-      })
+        .put(this.apiSubmitRoute, this.devProfile, {
+          headers: {
+            Authorization: this.userModule.token,
+          },
+        })
         .then((res: any) => {
           //Perform Success Action
-          this.$router.go(0);
+          //this.$router.go(0);
         })
         .catch((error: any) => {
           // error.response.status Check status code
-          this.$router.go(0);
+          // this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always
@@ -192,10 +202,10 @@ export default class DeveloperProfile extends Vue {
 
   mounted() {
     axios
-      .get(this.apiGetRoute,{
-        headers:{
-          Authorization: localStorage.getItem('token')
-        }
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: this.userModule.token,
+        },
       })
       .then((res: any) => {
         //Perform Success Action
