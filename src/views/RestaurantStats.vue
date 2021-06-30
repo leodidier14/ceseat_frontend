@@ -14,18 +14,18 @@
             color="#CA6B3E"
           >
             <h4 class="text-center py-2" style="color: white">
-              Menus Populaires
+              Articles Populaires
             </h4>
             <div class="card-container">
               <ArticleCard
                 class="article-card"
-                v-for="menu in menus"
-                :key="menu.name"
-                :menu="menu"
+                v-for="article in articles"
+                :key="article.name"
+                :article="article"
                 type="stats"
               >
                 <template v-slot:article-image>
-                  <v-img :src="menu.image"></v-img>
+                  <v-img :src="article.image"></v-img>
                 </template>
               </ArticleCard>
             </div>
@@ -34,10 +34,12 @@
         <v-col class="nb-col" cols="12" md="4" style="height: 50%">
           <v-card class="mx-auto" elevation="10" width="100%" color="#CA6B3E">
             <h4 class="text-center py-2" style="color: white">
-              Articles en moyenne par Commande
+              Chiffre d'affaire transactionnel
             </h4>
             <div class="number-stats-container">
-              <h4 class="number-stat">{{ meanArticlesByOrder }}</h4>
+              <h4 class="number-stat">
+                {{ Number.parseFloat(meanArticlesByOrder).toFixed(2) }} €
+              </h4>
             </div>
           </v-card>
         </v-col>
@@ -90,6 +92,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import ArticleCard from "@/components/ArticleCard.vue";
 import { Articles } from "@/shims-tsx";
 import axios from "axios";
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 
 @Component({
   components: {
@@ -98,167 +102,29 @@ import axios from "axios";
 })
 export default class RestaurantStats extends Vue {
   private menus: Array<Articles.Menu> = [];
-  //   {
-  //     name: "Menu 1",
-  //     description: "Une menu complet.",
-  //     articles: [
-  //       {
-  //         name: "CBO",
-  //         description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-  //         type: "Burger",
-  //         price: 6.2,
-  //         quantity: 1,
-  //         image: require("../assets/CBO.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //       {
-  //         name: "Coca Cola",
-  //         description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-  //         type: "Boisson",
-  //         price: 3.5,
-  //         quantity: 1,
-  //         image: require("../assets/coca_sans_sucre.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //       {
-  //         name: "Frite",
-  //         description: "Une portion de frite pour accompagner ton plat.",
-  //         type: "Accompagnement",
-  //         price: 2.5,
-  //         quantity: 1,
-  //         image: require("../assets/frites.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //     ],
-  //     type: "Menu",
-  //     price: 10.5,
-  //     quantity: 1,
-  //     image: require("../assets/frites.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     name: "Menu 2",
-  //     description: "Une menu complet.",
-  //     articles: [
-  //       {
-  //         name: "CBO",
-  //         description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-  //         type: "Burger",
-  //         price: 6.2,
-  //         quantity: 1,
-  //         image: require("../assets/CBO.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //       {
-  //         name: "Coca Cola",
-  //         description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-  //         type: "Boisson",
-  //         price: 3.5,
-  //         quantity: 1,
-  //         image: require("../assets/coca_sans_sucre.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //       {
-  //         name: "Frite",
-  //         description: "Une portion de frite pour accompagner ton plat.",
-  //         type: "Accompagnement",
-  //         price: 2.5,
-  //         quantity: 1,
-  //         image: require("../assets/frites.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //     ],
-  //     type: "Menu",
-  //     price: 10.5,
-  //     quantity: 1,
-  //     image: require("../assets/frites.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     name: "Menu 3",
-  //     description: "Une menu complet.",
-  //     articles: [
-  //       {
-  //         name: "CBO",
-  //         description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-  //         type: "Burger",
-  //         price: 6.2,
-  //         quantity: 1,
-  //         image: require("../assets/CBO.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //       {
-  //         name: "Coca Cola",
-  //         description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-  //         type: "Boisson",
-  //         price: 3.5,
-  //         quantity: 1,
-  //         image: require("../assets/coca_sans_sucre.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //       {
-  //         name: "Frite",
-  //         description: "Une portion de frite pour accompagner ton plat.",
-  //         type: "Accompagnement",
-  //         price: 2.5,
-  //         quantity: 1,
-  //         image: require("../assets/frites.png"),
-  //         restaurant: "McDonald's",
-  //       },
-  //     ],
-  //     type: "Menu",
-  //     price: 10.5,
-  //     quantity: 1,
-  //     image: require("../assets/frites.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  // ];
-
   private articles: Array<Articles.Article> = [];
-  //   {
-  //     name: "Tripple Cheese",
-  //     description:
-  //       "Pain, Triple steack haché, Triple fromage, Sauce, Cornichon",
-  //     type: "Burger",
-  //     price: 5.0,
-  //     quantity: 1,
-  //     image: require("../assets/triple_cheese.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     name: "CBO",
-  //     description: "Pain, Poisson pané, Salade, Sauce, Cornichon",
-  //     type: "Burger",
-  //     price: 6.2,
-  //     quantity: 1,
-  //     image: require("../assets/CBO.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  //   {
-  //     name: "Coca Cola",
-  //     description: "50cl de pure fraicheur. Et tout cela, sans sucre !",
-  //     type: "Boisson",
-  //     price: 3.5,
-  //     quantity: 1,
-  //     image: require("../assets/coca_sans_sucre.png"),
-  //     restaurant: "McDonald's",
-  //   },
-  // ];
-
+  private userModule = getModule(User, this.$store);
   private meanArticlesByOrder: number = 0;
   private meanPriceByOrder: number = 0;
-
-  private apiGetRestaurantStats: string = "api/restaurant-stats/";
+  private apiGetRoute: string =
+    "http://localhost:3000/stats/restaurant/" + this.userModule.roleId;
 
   mounted() {
     axios
-      .get(this.apiGetRestaurantStats)
+      .get(this.apiGetRoute, {
+        headers: {
+          Authorization: this.userModule.token,
+        },
+      })
       .then((res: any) => {
         //Perform Success Action
-        this.articles = res.articles;
-        this.menus = res.menus;
-        this.meanArticlesByOrder = res.meanArticlesByOrder;
-        this.meanPriceByOrder = res.meanPriceByOrder;
+        this.articles = res.data.articles;
+        this.menus = res.data.menus;
+        this.meanArticlesByOrder =
+          res.data.meanArticlesByOrder.meanArticlesByOrder;
+        this.meanPriceByOrder = res.data.meanPriceByOrder.meanPricePerOrder;
+        console.log(this.articles);
+        console.log(this.menus);
       })
       .catch((error: any) => {
         // error.response.status Check status code

@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" elevation="10" width="80%" height="100%">
     <h3 class="text-center pt-5" style="font-weight: normal">
-      Nombre de requêtes par jour - micro-services
+      Nombre de requêtes aujourd'hui - micro-services
     </h3>
     <v-data-table
       :headers="headers"
@@ -15,10 +15,8 @@
       <template slot="no-data">Désolé, pas de stats disponibles</template>
       <template v-slot:item="row">
         <tr>
-          <td>{{ row.item.date }}</td>
-          <td>{{ row.item.name }}</td>
-          <td>{{ row.item.description }}</td>
-          <td>{{ row.item.requestNumber }}</td>
+          <td>{{ row.item._id }}</td>
+          <td>{{ row.item.count }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -47,19 +45,11 @@ export default class BusinessStats extends Vue {
 
   private headers: object = [
     {
-      text: "Date",
-      value: "date",
-    },
-    {
       text: "Micro-service",
       value: "name",
     },
     {
-      text: "Description",
-      value: "description",
-    },
-    {
-      text: "Nombre de requêtes",
+      text: "Nombre de requêtes aujourd'hui",
       value: "requestNumber",
     },
   ];

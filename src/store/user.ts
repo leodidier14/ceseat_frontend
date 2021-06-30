@@ -13,11 +13,19 @@ export default class User extends VuexModule {
   public roleType: string = "";
   public roleId: number = 0;
   public userId: number = 0;
+  public devId: number = 0;
 
   @Mutation
   private SET_TOKEN(newToken: string): void {
     if (newToken != null) {
       this.token = newToken;
+    }
+  }
+
+  @Mutation
+  private SET_DEVID(devId: number): void {
+    if (devId != null) {
+      this.devId = devId;
     }
   }
 
@@ -64,5 +72,10 @@ export default class User extends VuexModule {
   public async set_userId(newUserID: number): Promise<number> {
     await this.SET_USERID(newUserID);
     return this.userId;
+  }
+  @Action({ rawError: true })
+  public async set_devId(devId: number): Promise<number> {
+    await this.SET_DEVID(devId);
+    return this.devId;
   }
 }

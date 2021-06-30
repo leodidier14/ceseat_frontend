@@ -16,10 +16,10 @@
       <template v-slot:item="row">
         <tr>
           <td>{{ row.item.name }}</td>
-          <td>{{ row.item.description }}</td>
-          <td>{{ row.item.version }}</td>
+          <td>{{ row.item.city }}</td>
+          <td>{{ row.item.type }}</td>
           <td>
-            <router-link :to="$route.path + '/' + row.item.id" tag="v-btn">
+            <router-link :to="$route.path + '/' + row.item.id">
               <v-btn class="mx-2" text small color="black">
                 <v-icon dark>mdi-information</v-icon>
               </v-btn>
@@ -78,6 +78,7 @@ export default class BusinessRestaurantList extends Vue {
       })
       .then((res: any) => {
         //Perform Success Action
+        console.log(res.data);
         this.restaurants = res.data;
       })
       .catch((error: any) => {

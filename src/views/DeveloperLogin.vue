@@ -77,10 +77,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
-
+import { getModule } from "vuex-module-decorators";
+import User from "@/store/user";
 @Component
 export default class DeveloperLogin extends Vue {
   private valid: boolean = true;
+  private userModule = getModule(User, this.$store);
 
   private login = {
     email: "",
@@ -109,15 +111,14 @@ export default class DeveloperLogin extends Vue {
       axios
         .post(this.apiSubmitRoute, this.login)
         .then((res: any) => {
-          localStorage.setItem('token','Bearer ' + res.data.token)
-
-          localStorage.setItem('devId',res.data.id)
+          this.userModule.set_token("Bearer " + res.data.token);
+          this.userModule.set_devId(res.data.id);
           //Perform Success Action
-         // this.$router.push({ name: "DeveloperComponents" });
+          // this.$router.push({ name: "DeveloperComponents" });
         })
         .catch((error: any) => {
           // error.response.status Check status code
-         // this.$router.go(0);
+          // this.$router.go(0);
         })
         .finally(() => {
           //Perform action in always
