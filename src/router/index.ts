@@ -24,6 +24,14 @@ function isClient() {
   }
 }
 
+function isDev() {
+  if (userModule.devId) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function isRestaurant() {
   if (userModule.roleType == "restaurant") {
     return true;
@@ -57,173 +65,128 @@ function isBusinessMan() {
 }
 
 const routes: Array<RouteConfig> = [
-  {
-    path: "/",
-    name: "RestaurantsList",
-    beforeEnter(to, from, next) {
-      if (isClient()) {
-        next();
-      } else {
-        //rajouter redirection
-        next();
-      }
-    },
-    component: () => import("@/views/RestaurantsList.vue"),
-  },
-  {
-    path: "/client-login",
-    name: "ClientLogin",
-    component: () => import("@/views/ClientLogin.vue"),
-  },
-  {
-    path: "/developer-login",
-    name: "DeveloperLogin",
-    component: () => import("@/views/DeveloperLogin.vue"),
-  },
+  /**************************CLIENT*********************************/
   {
     path: "/client-register",
     name: "ClientRegister",
     beforeEnter(to, from, next) {
-      if (!isClient()) {
+      if (!isClient() && !isDev()) {
         next();
       } else {
-        //rajouter redirection
-        next({ name: "RestaurantsList" });
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
       }
     },
     component: () => import("@/views/ClientRegister.vue"),
   },
   {
+    path: "/client-login",
+    name: "ClientLogin",
+    beforeEnter(to, from, next) {
+      if (!isClient() && !isDev()) {
+        next();
+      } else {
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
+      }
+    },
+    component: () => import("@/views/ClientLogin.vue"),
+  },
+  {
     path: "/client-profile",
     name: "ClientProfile",
     beforeEnter(to, from, next) {
-      if (isClient()) {
+      if (isClient() && !isTechnician()) {
         next();
       } else {
-        //rajouter redirection
-        next();
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else {
+          next({ name: "TechnicianConnexionLogs" });
+        }
       }
     },
     component: () => import("@/views/ClientProfile.vue"),
   },
   {
     path: "/client-orders",
-    name: "ClientOrders",
     beforeEnter(to, from, next) {
-      if (isClient()) {
+      if (isClient() && !isTechnician()) {
         next();
       } else {
-        //rajouter redirection
-        next();
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else {
+          next({ name: "TechnicianConnexionLogs" });
+        }
       }
     },
     component: () => import("@/views/ClientOrders.vue"),
   },
   {
-    path: "/technician-components",
-    name: "TechnicianComponents",
+    path: "/",
+    name: "RestaurantsList",
     beforeEnter(to, from, next) {
-      if (isTechnician()) {
+      if (isClient() && !isTechnician()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else {
+          next({ name: "TechnicianConnexionLogs" });
+        }
       }
     },
-    component: () => import("@/views/TechnicianComponents.vue"),
+    component: () => import("@/views/RestaurantsList.vue"),
   },
   {
-    path: "/technician-connexion-logs",
-    name: "TechnicianConnexionLogs",
+    path: "/customer-menu",
+    name: "CustomerMenu",
     beforeEnter(to, from, next) {
-      if (isTechnician()) {
+      if (isClient() && !isTechnician()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else {
+          next({ name: "TechnicianConnexionLogs" });
+        }
       }
     },
-    component: () => import("@/views/TechnicianConnexionLogs.vue"),
-  },
-  {
-    path: "/technician-components-logs",
-    name: "TechnicianComponentLogs",
-    beforeEnter(to, from, next) {
-      if (isTechnician()) {
-        next();
-      } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
-      }
-    },
-    component: () => import("@/views/TechnicianComponentLogs.vue"),
-  },
-  {
-    path: "/developer-register",
-    name: "DeveloperRegister",
-    component: () => import("@/views/DeveloperRegister.vue"),
-  },
-  {
-    path: "/developer-profile",
-    name: "DeveloperProfile",
-    // beforeEnter(to, from, next) {
-    //   if (isAuthenticated()) {
-    //     next();
-    //   } else {
-    //     router.push({ name: "ClientLogin" });
-    //   }
-    // },
-    component: () => import("@/views/DeveloperProfile.vue"),
-  },
-  {
-    path: "/developer-components",
-    name: "DeveloperComponents",
-    // beforeEnter(to, from, next) {
-    //   if (isAuthenticated()) {
-    //     next();
-    //   } else {
-    //     router.push({ name: "ClientLogin" });
-    //   }
-    // },
-    component: () => import("@/views/DeveloperComponents.vue"),
+    component: () => import("../views/CustomerMenu.vue"),
   },
 
-  {
-    path: "/restaurant-register",
-    name: "RestaurantRegister",
-    beforeEnter(to, from, next) {
-      if (!isRestaurant()) {
-        next();
-      } else {
-        router.push({ name: "RestaurantProfile" });
-      }
-    },
-    component: () => import("@/views/RestaurantRegister.vue"),
-  },
-
-  {
-    path: "/restaurant-profile",
-    name: "RestaurantProfile",
-    beforeEnter(to, from, next) {
-      if (isRestaurant()) {
-        next();
-      } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
-      }
-    },
-    component: () => import("@/views/RestaurantProfile.vue"),
-  },
-
+  /**************************DELIVERY-MAN*********************************/
   {
     path: "/deliveryman-register",
     name: "DeliveryManRegister",
     beforeEnter(to, from, next) {
-      if (!isDeliveryMan()) {
-        next();
+      if (!isDeliveryMan() && !isRestaurant()) {
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else if (isBusinessMan()) {
+          next({ name: "RestaurantsList" });
+        } else {
+          next();
+        }
       } else {
         router.push({ name: "DeliveryManProfile" });
       }
     },
     component: () => import("@/views/DeliveryManRegister.vue"),
   },
-
   {
     path: "/deliveryman-profile",
     name: "DeliveryManProfile",
@@ -231,7 +194,11 @@ const routes: Array<RouteConfig> = [
       if (isDeliveryMan()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
       }
     },
     component: () => import("@/views/DeliveryManProfile.vue"),
@@ -243,12 +210,73 @@ const routes: Array<RouteConfig> = [
       if (isDeliveryMan()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
       }
     },
     component: () => import("@/views/DeliveryManOrders.vue"),
   },
 
+  /**************************RESTAURANT*********************************/
+  {
+    path: "/restaurant-register",
+    name: "RestaurantRegister",
+    beforeEnter(to, from, next) {
+      if (!isRestaurant() && !isDeliveryMan()) {
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else if (isBusinessMan()) {
+          next({ name: "RestaurantsList" });
+        } else {
+          next();
+        }
+      } else {
+        router.push({ name: "RestaurantProfile" });
+      }
+    },
+    component: () => import("@/views/RestaurantRegister.vue"),
+  },
+  {
+    path: "/restaurant-profile",
+    name: "RestaurantProfile",
+    beforeEnter(to, from, next) {
+      if (isRestaurant()) {
+        next();
+      } else {
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
+      }
+    },
+    component: () => import("@/views/RestaurantProfile.vue"),
+  },
+  {
+    path: "/restaurant-menu",
+    name: "RestaurantMenu",
+    beforeEnter(to, from, next) {
+      if (isRestaurant()) {
+        next();
+      } else {
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
+      }
+    },
+    component: () => import("@/views/RestaurantMenu.vue"),
+  },
   {
     path: "/restaurant-orders",
     name: "RestaurantOrders",
@@ -256,7 +284,13 @@ const routes: Array<RouteConfig> = [
       if (isRestaurant()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
       }
     },
     component: () => import("@/views/RestaurantOrders.vue"),
@@ -268,7 +302,13 @@ const routes: Array<RouteConfig> = [
       if (isRestaurant()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
       }
     },
     component: () => import("@/views/RestaurantHistory.vue"),
@@ -280,37 +320,135 @@ const routes: Array<RouteConfig> = [
       if (isRestaurant()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
       }
     },
     component: () => import("@/views/RestaurantStats.vue"),
   },
+
+  /**************************DEVELOPER*********************************/
   {
-    path: "/customer-menu",
-    name: "CustomerMenu",
+    path: "/developer-register",
+    name: "DeveloperRegister",
     beforeEnter(to, from, next) {
-      if (isClient()) {
+      if (!isClient() && !isDev()) {
         next();
       } else {
-        //rajouter redirection
-        next();
+        if (isClient() && !isTechnician()) {
+          next({ name: "RestaurantsList" });
+        } else {
+          next({ name: "TechnicianConnexionLogs" });
+        }
       }
     },
-    component: () => import("../views/CustomerMenu.vue"),
+    component: () => import("@/views/DeveloperRegister.vue"),
+  },
+  {
+    path: "/developer-login",
+    name: "DeveloperLogin",
+    beforeEnter(to, from, next) {
+      if (!isClient() && !isDev()) {
+        next();
+      } else {
+        if (isClient() && !isTechnician()) {
+          next({ name: "RestaurantsList" });
+        } else {
+          next({ name: "TechnicianConnexionLogs" });
+        }
+      }
+    },
+    component: () => import("@/views/DeveloperLogin.vue"),
+  },
+  {
+    path: "/developer-profile",
+    name: "DeveloperProfile",
+    beforeEnter(to, from, next) {
+      if (isDev()) {
+        next();
+      } else {
+        if (isClient() && !isTechnician()) {
+          next({ name: "RestaurantsList" });
+        } else {
+          next({ name: "TechnicianConnexionLogs" });
+        }
+      }
+    },
+    component: () => import("@/views/DeveloperProfile.vue"),
+  },
+  {
+    path: "/developer-components",
+    name: "DeveloperComponents",
+    beforeEnter(to, from, next) {
+      if (isDev()) {
+        next();
+      } else {
+        if (isClient() && !isTechnician()) {
+          next({ name: "RestaurantsList" });
+        } else {
+          next({ name: "TechnicianConnexionLogs" });
+        }
+      }
+    },
+    component: () => import("@/views/DeveloperComponents.vue"),
   },
 
+  /**************************TECHNICIAN*********************************/
   {
-    path: "/restaurant-menu",
-    name: "RestaurantMenu",
+    path: "/technician-components",
+    name: "TechnicianComponents",
     beforeEnter(to, from, next) {
-      if (isRestaurant()) {
+      if (isTechnician()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
       }
     },
-    component: () => import("@/views/RestaurantMenu.vue"),
+    component: () => import("@/views/TechnicianComponents.vue"),
   },
+  {
+    path: "/technician-connexion-logs",
+    name: "TechnicianConnexionLogs",
+    beforeEnter(to, from, next) {
+      if (isTechnician()) {
+        next();
+      } else {
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
+      }
+    },
+    component: () => import("@/views/TechnicianConnexionLogs.vue"),
+  },
+  {
+    path: "/technician-components-logs",
+    name: "TechnicianComponentLogs",
+    beforeEnter(to, from, next) {
+      if (isTechnician()) {
+        next();
+      } else {
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
+      }
+    },
+    component: () => import("@/views/TechnicianComponentLogs.vue"),
+  },
+
+  /**************************BUSINESSMAN*********************************/
   {
     path: "/business-orders-monitor",
     name: "BusinessRestaurantList",
@@ -318,7 +456,13 @@ const routes: Array<RouteConfig> = [
       if (isBusinessMan()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
       }
     },
     component: () => import("@/views/BusinessRestaurantList.vue"),
@@ -330,7 +474,13 @@ const routes: Array<RouteConfig> = [
       if (isBusinessMan()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
       }
     },
     component: () => import("@/views/BusinessOrdersMonitor.vue"),
@@ -342,7 +492,13 @@ const routes: Array<RouteConfig> = [
       if (isBusinessMan()) {
         next();
       } else {
-        next({ name: "RestaurantsList" }); // voir si il est dev
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
       }
     },
     component: () => import("@/views/BusinessStats.vue"),

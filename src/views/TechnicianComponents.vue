@@ -254,8 +254,6 @@ export default class TechnicianComponents extends Vue {
         "Etes-vous sûr de vouloir supprimer le composant '" + item.name + "' ?"
       )
     ) {
-      // const index = this.components.indexOf(item);
-      // this.components.splice(index, 1);
       //axios delete
       console.log(item);
       axios
@@ -266,7 +264,8 @@ export default class TechnicianComponents extends Vue {
         })
         .then((res: any) => {
           //Perform Success Action
-          this.components = res;
+          const index = this.components.indexOf(item);
+          this.components.splice(index, 1);
         })
         .catch((error: any) => {
           // error.response.status Check status code
@@ -289,8 +288,17 @@ export default class TechnicianComponents extends Vue {
           },
         })
         .then((res: any) => {
-          this.$router.go(0);
-          //Perform Success Action
+          this.components.push(JSON.parse(JSON.stringify(this.component)));
+          this.component = {
+            _id: 0,
+            type: "",
+            name: "",
+            version: "",
+            description: "",
+            documentationLink: "",
+            downloadLink: "",
+          };
+          this.dialog = false;
         })
         .catch((error: any) => {
           // error.response.status Check status code
