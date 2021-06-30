@@ -106,15 +106,19 @@
                         <tr>
                           <th class="text-left">Article</th>
                           <th class="text-left">Categorie</th>
+                          <th class="text-center">Supprimer</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr
                           v-for="article in menu.articles"
-                          :key="article.name"
+                          :key="article.id"
                         >
                           <td>{{ article.name }}</td>
                           <td>{{ article.type }}</td>
+                          <td class="text-center">
+                            <v-icon dark color="red" @click="deleteArticle(article)">mdi-close</v-icon>
+                          </td>
                         </tr>
                       </tbody>
                     </template>
@@ -200,11 +204,18 @@ export default class AddMenu extends Vue {
       .filter((article: Articles.Article) => article.type == this.category)
       .map((article: Articles.Article) => article.name);
   }
+
   get selectedArticle() {
     return this.articles.filter(
       (article: Articles.Article) => article.name == this.articleName
     )[0];
   }
+
+  private deleteArticle(articleToDelete: Articles.Article) {
+    
+    this.menu.articles.splice(this.menu.articles.indexOf(articleToDelete), 1);
+  }
+
   private addMenu() {
     if (
       (this.$refs.addMenuForm as Vue & { validate: () => boolean }).validate()

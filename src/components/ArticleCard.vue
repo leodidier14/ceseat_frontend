@@ -61,7 +61,7 @@
             <AddMenu
               v-if="menu != null"
               mode="edit"
-              :menu="JSON.parse(JSON.stringify(menu))"
+              :menu="lodash.cloneDeep(menu)"
               :articles="articles"
             />
             <v-icon class="ml-5 mt-5" color="red" @click="deleteArticle()"
@@ -85,6 +85,7 @@ import { getModule } from "vuex-module-decorators";
 import CartModule from "@/store/cart";
 import AddMenu from "@/components/AddMenu.vue";
 import AddArticle from "@/components/AddArticle.vue";
+import lodash from "lodash";
 
 @Component({
   components: {
@@ -93,6 +94,7 @@ import AddArticle from "@/components/AddArticle.vue";
   },
 })
 export default class ArticleCard extends Vue {
+  private lodash = lodash;
   private cartModule = getModule(CartModule, this.$store);
   @Prop()
   private articles!: Array<Articles.Article>;

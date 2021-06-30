@@ -18,7 +18,7 @@
     </v-tabs>
     <v-tabs-items class="articles-list" v-model="currentType">
       <v-tab-item v-if="menus">
-        <div id="article-card-layout" v-for="menu in menus" :key="menu.name">
+        <div id="article-card-layout" v-for="menu in menus" :key="menu.id">
           <ArticleCard
             :menu="menu"
             :type="menuType"
@@ -38,7 +38,7 @@
         <div
           id="article-card-layout"
           v-for="article in entry[1]"
-          :key="article.name"
+          :key="article.id"
         >
           <ArticleCard
             :article="article"
@@ -61,7 +61,6 @@ import ArticleCard from "@/components/ArticleCard.vue";
 import AddArticle from "@/components/AddArticle.vue";
 import AddMenu from "@/components/AddMenu.vue";
 import { Articles } from "@/shims-tsx";
-import Restaurant from "./Restaurant.vue";
 const lodash = require("lodash");
 
 @Component({
@@ -91,10 +90,6 @@ export default class ArticleChoice extends Vue {
   private restaurantId!: number;
 
   private currentType: string = "";
-
-  mounted() {
-    console.log(this.articles);
-  }
 
   get getArticleTypeMap(): Map<string, Array<Articles.Article>> {
     let typeMap: Map<string, Array<Articles.Article>> = new Map<
