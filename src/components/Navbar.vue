@@ -24,14 +24,30 @@
         <v-list-item>
           <router-link
             to="/business-orders-monitor"
-            class="router-mobile-link text-center mr-2"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
             >Suivi de commandes</router-link
           >
         </v-list-item>
         <v-list-item>
           <router-link
             to="/business-stats"
-            class="router-mobile-link text-center mr-2"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
             >Statistiques</router-link
           >
         </v-list-item>
@@ -47,17 +63,45 @@
         <v-list-item>
           <router-link
             to="/technician-components"
-            class="router-mobile-link text-center mr-2"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
             >Composants</router-link
           >
         </v-list-item>
         <v-list-item>
-          <router-link to="/technician-connexion-logs"
+          <router-link
+            to="/technician-connexion-logs"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
             >Logs de connexions</router-link
           >
         </v-list-item>
         <v-list-item>
-          <router-link to="/technician-components-logs"
+          <router-link
+            to="/technician-components-logs"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
             >Logs de composants</router-link
           >
         </v-list-item>
@@ -71,10 +115,34 @@
       </template>
       <v-list>
         <v-list-item>
-          <router-link to="/developer-profile">Mon profil</router-link>
+          <router-link
+            to="/developer-profile"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Mon profil</router-link
+          >
         </v-list-item>
         <v-list-item>
-          <router-link to="/developer-components">Composants</router-link>
+          <router-link
+            to="/developer-components"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Composants</router-link
+          >
         </v-list-item>
         <v-list-item>
           <v-btn @click="devLogout">Se déconnecter</v-btn>
@@ -89,10 +157,34 @@
       </template>
       <v-list>
         <v-list-item>
-          <router-link to="/deliveryman-profile">Profil</router-link>
+          <router-link
+            to="/deliveryman-profile"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Profil</router-link
+          >
         </v-list-item>
         <v-list-item>
-          <router-link to="/deliveryman-orders">Commandes</router-link>
+          <router-link
+            to="/deliveryman-orders"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Commandes</router-link
+          >
         </v-list-item>
       </v-list>
     </v-menu>
@@ -104,19 +196,79 @@
       </template>
       <v-list>
         <v-list-item>
-          <router-link to="/restaurant-profile">Profil</router-link>
+          <router-link
+            to="/restaurant-profile"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Profil</router-link
+          >
         </v-list-item>
         <v-list-item>
-          <router-link to="/restaurant-menu">Carte</router-link>
+          <router-link
+            to="/restaurant-menu"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Carte</router-link
+          >
         </v-list-item>
         <v-list-item>
-          <router-link to="/restaurant-orders">Commandes</router-link>
+          <router-link
+            to="/restaurant-orders"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Commandes</router-link
+          >
         </v-list-item>
         <v-list-item>
-          <router-link to="/restaurant-history">Historique</router-link>
+          <router-link
+            to="/restaurant-history"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Historique</router-link
+          >
         </v-list-item>
         <v-list-item>
-          <router-link to="/restaurant-stats">Statistiques</router-link>
+          <router-link
+            to="/restaurant-stats"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Statistiques</router-link
+          >
         </v-list-item>
       </v-list>
     </v-menu>
@@ -128,13 +280,37 @@
       </template>
       <v-list>
         <v-list-item>
-          <router-link to="/client-orders">Mes commandes</router-link>
+          <router-link
+            to="/client-orders"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Mes commandes</router-link
+          >
         </v-list-item>
         <v-list-item>
-          <router-link to="/client-profile">Mon profil</router-link>
+          <router-link
+            to="/client-profile"
+            class="
+              v-btn v-list-item
+              theme--light
+              v-btn v-btn--text
+              theme--light
+              v-size--default
+              text-center
+              link
+            "
+            >Mon profil</router-link
+          >
         </v-list-item>
         <v-list-item>
-          <v-btn @click="logout">Se déconnecter</v-btn>
+          <v-btn text @click="logout">Se déconnecter</v-btn>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -216,12 +392,11 @@ export default class Navbar extends Vue {
 </script>
 
 <style scoped>
-a {
-  text-decoration: none;
-  color: black !important;
-}
-
 .router-link-exact-active {
   font-weight: bold;
+}
+
+.link {
+  letter-spacing: 0.0892857143em;
 }
 </style>

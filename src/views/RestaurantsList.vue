@@ -92,6 +92,7 @@
         :key="restaurant.id"
       >
         <router-link
+          class="restaurant-link"
           :to="{
             name: 'CustomerMenu',
             params: { id: restaurant.id, name: restaurant.name },
@@ -232,5 +233,9 @@ function getBySchedule(list: Array<any>, city: string) {
 
 .restaurant {
   height: 30%;
+}
+
+.restaurant-link {
+  text-decoration: none;
 }
 </style>

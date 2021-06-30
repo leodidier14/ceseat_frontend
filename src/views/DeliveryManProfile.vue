@@ -66,9 +66,7 @@ export default class DeliveryManProfile extends Vue {
           Authorization: this.userModule.token,
         },
       })
-      .then((res: any) => {
-        this.$router.go(0);
-      })
+      .then((res: any) => {})
       .catch((error: any) => {
         // error.response.status Check status code
       })

@@ -56,6 +56,7 @@ export default class RestaurantMenu extends Vue {
     });
 
     this.$root.$on("add-article", (article: Articles.Article) => {
+      console.log(article);
       this.addArticle(article);
     });
     this.$root.$on("add-menu", (menu: Articles.Menu) => {
@@ -97,9 +98,14 @@ export default class RestaurantMenu extends Vue {
   }
 
   private addArticle(article: Articles.Article) {
-    let existingArticle: Articles.Article = this.articles.filter(
-      (previousArticle: Articles.Article) => previousArticle.id == article.id
-    )[0];
+    let existingArticle = null;
+
+    if (this.articles) {
+      existingArticle = this.articles.filter(
+        (previousArticle: Articles.Article) => previousArticle.id == article.id
+      )[0];
+    }
+
     if (existingArticle != null) {
       axios
         .put(this.apiSubmitArticleRoute + article.id, article, {
@@ -109,7 +115,7 @@ export default class RestaurantMenu extends Vue {
         })
         .then((res: any) => {
           console.log(res);
-          this.$router.go(0);
+          //this.$router.go(0);
         })
         .catch((error: any) => {
           console.log(error);
@@ -117,7 +123,7 @@ export default class RestaurantMenu extends Vue {
         })
         .finally(() => {});
     } else {
-      console.log("new menu");
+      console.log("new article");
 
       axios
         .post(this.apiSubmitArticleRoute, article, {
@@ -126,9 +132,12 @@ export default class RestaurantMenu extends Vue {
           },
         })
         .then((res: any) => {
+          console.log(res);
+          this.articles.push(article);
           //this.$router.go(0);
         })
         .catch((error: any) => {
+          console.log(error);
           //this.$router.go(0);
         })
         .finally(() => {});

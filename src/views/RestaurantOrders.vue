@@ -166,7 +166,9 @@ export default class RestaurantsOrders extends Vue {
       })
       .then((res: any) => {
         //Perform Success Action
-        this.orders = res.data[0].OrdersList;
+        if (res.data[0].OrdersList) {
+          this.orders = res.data[0].OrdersList;
+        }
       })
       .catch((error: any) => {
         // error.response.status Check status code

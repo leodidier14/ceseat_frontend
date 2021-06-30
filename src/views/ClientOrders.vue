@@ -89,7 +89,7 @@
               }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item>
+          <!-- <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Liste d'articles : </v-list-item-title>
               <div
@@ -102,7 +102,7 @@
                 >
               </div>
             </v-list-item-content>
-          </v-list-item>
+          </v-list-item> -->
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Commentaire : </v-list-item-title>
@@ -202,7 +202,9 @@ export default class ClientOrders extends Vue {
       })
       .then((res: any) => {
         console.log(res.data);
-        this.orders = res.data;
+        if (res.data) {
+          this.orders = res.data;
+        }
       })
       .catch((error: any) => {
         //this.$router.go(0);

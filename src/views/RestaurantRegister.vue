@@ -40,6 +40,7 @@ export default class RestaurantRegister extends Vue {
         this.userModule.set_roleType("restaurant");
         this.userModule.set_roleId(res.data.id);
         console.log(res);
+        this.$router.push({ name: "RestaurantMenu" });
         //Perform Success Action
       })
       .catch((error: any) => {

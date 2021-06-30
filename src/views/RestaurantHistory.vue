@@ -225,7 +225,9 @@ export default class RestaurantHistory extends Vue {
       })
       .then((res: any) => {
         //Perform Success Action
-        this.orders = res.data;
+        if (res.data) {
+          this.orders = res.data;
+        }
       })
       .catch((error: any) => {
         // error.response.status Check status code

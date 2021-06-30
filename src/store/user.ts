@@ -1,3 +1,4 @@
+import { Getter } from "vuex-class";
 import {
   VuexModule,
   Module,

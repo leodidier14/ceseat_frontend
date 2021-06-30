@@ -130,29 +130,40 @@
         >
           Sauvegarder
         </v-btn>
+
         <v-btn
           class="form-button mt-2"
           color="white"
           style="color: #ca6b3e"
           @click="deleteAccount"
+          :disabled="
+            userModule.roleType == 'restaurant' ||
+            userModule.roleType == 'deliveryman'
+          "
         >
           Supprimer
         </v-btn>
+
         <v-btn
           class="form-button mt-7"
           color="white"
           style="color: #ca6b3e"
-          href="/restaurant-register"
+          v-if="userModule.roleType == null || userModule.roleType == ''"
         >
-          Devenir restaurateur
+          <router-link to="/restaurant-register" class="link">
+            Devenir restaurateur
+          </router-link>
         </v-btn>
         <v-btn
+          v-if="userModule.roleType == null || userModule.roleType == ''"
           class="form-button mt-2"
           color="white"
           style="color: #ca6b3e"
           href="/deliveryman-register"
         >
-          Devenir livreur
+          <router-link to="/deliveryman-register" class="link">
+            Devenir livreur
+          </router-link>
         </v-btn>
       </div>
     </v-form>
@@ -251,6 +262,7 @@ export default class ClientProfile extends Vue {
           console.log(res);
           this.userModule.set_token("").then((token: string) => {
             localStorage.clear();
+
             window.location.href = "http://localhost:8080/client-register";
           });
         })
@@ -354,5 +366,9 @@ h3 {
   .form-button {
     width: 80%;
   }
+}
+.link {
+  text-decoration: none;
+  color: #ca6b3e;
 }
 </style>
