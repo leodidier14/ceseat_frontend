@@ -1,5 +1,16 @@
 <template>
-  <RestaurantForm formType="register" />
+  <div style="height: 100%">
+    <v-alert
+      class="text-center"
+      :value="errorPopup"
+      dense
+      outlined
+      type="error"
+    >
+      Erreur à la création du restaurant
+    </v-alert>
+    <RestaurantForm formType="register" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -18,6 +29,7 @@ import User from "@/store/user";
 })
 export default class RestaurantRegister extends Vue {
   private userModule = getModule(User, this.$store);
+  private errorPopup: boolean = false;
 
   mounted() {
     this.$root.$on(
@@ -45,7 +57,7 @@ export default class RestaurantRegister extends Vue {
       })
       .catch((error: any) => {
         console.log(error);
-        // error.response.status Check status code
+        this.errorPopup = true;
       })
       .finally(() => {
         //Perform action in always

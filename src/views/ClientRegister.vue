@@ -22,6 +22,15 @@
       <v-container>
         <v-row no-gutters>
           <v-col cols="12" md="6">
+            <v-alert
+              class="input-field mx-auto"
+              :value="errorPopup"
+              dense
+              outlined
+              type="error"
+            >
+              Erreur à l'inscription
+            </v-alert>
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
@@ -119,6 +128,8 @@ import axios from "axios";
 export default class ClientRegister extends Vue {
   private valid: boolean = true;
 
+  private errorPopup: boolean = false;
+
   private clientRegister = {
     email: "",
     password: "",
@@ -185,7 +196,7 @@ export default class ClientRegister extends Vue {
         .catch((error: any) => {
           console.log(error);
           // error.response.status Check status code
-          //this.$router.go(0);
+          this.errorPopup = true;
         })
         .finally(() => {
           //Perform action in always

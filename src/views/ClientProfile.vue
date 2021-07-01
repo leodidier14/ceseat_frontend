@@ -22,6 +22,15 @@
       <v-container>
         <v-row no-gutters>
           <v-col cols="12" md="6">
+            <v-alert
+              class="input-field mx-auto"
+              :value="errorPopup"
+              dense
+              outlined
+              type="error"
+            >
+              Erreur à la sauvegarde du compte
+            </v-alert>
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
@@ -180,6 +189,8 @@ export default class ClientProfile extends Vue {
   private userModule = getModule(User, this.$store);
   private valid: boolean = true;
 
+  private errorPopup: boolean = false;
+
   private clientProfile = {
     email: "",
     newPassword: "",
@@ -290,13 +301,12 @@ export default class ClientProfile extends Vue {
         })
         .then((res: any) => {
           console.log(res);
+          this.errorPopup = false;
           //Perform Success Action
-          this.$router.go(0);
         })
         .catch((error: any) => {
           console.log(error);
-          // error.response.status Check status code
-          this.$router.go(0);
+          this.errorPopup = true;
         })
         .finally(() => {
           //Perform action in always

@@ -13,13 +13,21 @@
       width="150"
     ></v-img>
     <h3 class="text-center mt-5">Se connecter à Ces'Eat</h3>
-
     <v-form
       class="login-form mx-auto my-5"
       ref="loginForm"
       v-model="valid"
       lazy-validation
     >
+      <v-alert
+        class="textfield mx-auto"
+        :value="errorPopup"
+        dense
+        outlined
+        type="error"
+      >
+        Erreur à la connexion du compte
+      </v-alert>
       <v-text-field
         class="textfield mx-auto"
         v-model="login.email"
@@ -84,6 +92,7 @@ import Socket from "@/store/socket";
 @Component
 export default class ClientLogin extends Vue {
   private userModule = getModule(User, this.$store);
+  private errorPopup: boolean = false;
   private valid: boolean = true;
 
   private login = {
@@ -134,6 +143,7 @@ export default class ClientLogin extends Vue {
         .catch((error: any) => {
           console.log(error);
           console.log("error");
+          this.errorPopup = true;
           // error.response.status Check status code
           //this.$router.go(0);
         })

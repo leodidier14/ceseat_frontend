@@ -367,7 +367,16 @@ export default class RestaurantForm extends Vue {
 
   private countries = ["France"];
 
-  private types = ["Hamburger", "Japonais", "Kebab"];
+  private types = [
+    "Fast food",
+    "Japonais",
+    "Chinois",
+    "Pizza",
+    "Burger",
+    "Tacos",
+    "Kebab",
+    "Autre",
+  ];
 
   private apiSubmitRoute: string = "http://localhost:3000/restaurant";
   private apiGetRoute: string =

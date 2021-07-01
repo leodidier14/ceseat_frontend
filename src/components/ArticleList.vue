@@ -136,7 +136,7 @@ export default class ArticleChoice extends Vue {
   align-items: center;
   width: 100%;
   height: 12em;
-  background: url("https://img.bfmtv.com/i/0/0/d0496/352d3eefcf45ef141370f002903.jpeg")
+  background: url("https://static.vecteezy.com/system/resources/previews/001/959/920/large_2x/blurred-busy-restaurant-background-free-photo.JPG")
     center center no-repeat;
   background-size: cover;
 }
