@@ -6,11 +6,11 @@
     height="100%"
   >
     <h3 class="text-center pt-5">Les commandes du restaurant</h3>
-    <v-container class="restaurant-orders-container">
+    <v-container class="restaurant-orders-container" v-if="renderComponent">
       <v-row class="restaurant-orders-row pt-5">
         <v-col cols="12" class="pb-5">
           <v-card
-            class="mx-auto"
+            class="new-order-card mx-auto"
             elevation="10"
             width="100%"
             height="100%"
@@ -107,6 +107,8 @@ export default class RestaurantsOrders extends Vue {
   private socketModule = getModule(Socket, this.$store);
   private orders: Array<Orders.Order> = [];
 
+  private renderComponent: boolean = true;
+
   private apiGetRoute: string =
     "http://localhost:3000/order/restaurant/currentorder/" +
     this.userModule.roleId;
@@ -139,24 +141,34 @@ export default class RestaurantsOrders extends Vue {
       })
       .then((res: any) => {
         //Perform Success Action
+        // this.renderComponent = false;
+        // this.$nextTick(() => {
+        //   // Add the component back in
+        //   this.renderComponent = true;
+        // });
+        console.log("good");
         this.$router.go(0);
       })
       .catch((error: any) => {
         // error.response.status Check status code
-        this.$router.go(0);
+        console.log("error");
       })
       .finally(() => {
         //Perform action in always
+        console.log("finally");
       });
   }
   created() {
     this.socketModule.socket.on(
       "NewOrder" + this.userModule.roleId,
       (newOrder: Orders.Order) => {
-        this.$root.$emit("update-statement", {
-          status: "Attente de Validation",
-          id: newOrder.number,
-        });
+        this.$root.$emit(
+          "update-statement",
+          newOrder,
+          "Une nouvelle comande N°" +
+            newOrder.number +
+            " est en attente de validation."
+        );
         this.orders.push(newOrder);
       }
     );
@@ -169,7 +181,8 @@ export default class RestaurantsOrders extends Vue {
         this.orders[order].status = "delivered";
         this.$root.$emit(
           "update-statement",
-          "Commande N° : " + orderId + " livrée."
+          order,
+          "La commande N° : " + orderId + " a été livrée."
         );
       }
     );
@@ -197,7 +210,10 @@ export default class RestaurantsOrders extends Vue {
 
     this.$root.$on(
       "update-order-status",
-      (info: { status: string; id: number }) => this.putStatus(info)
+      (info: { status: string; id: number }) => {
+        this.$router.go(0);
+        this.putStatus(info);
+      }
     );
   }
 
@@ -247,8 +263,8 @@ h4 {
 }
 
 @media screen and (max-width: 965px) {
-  .restaurant-orders-card {
-    width: 100% !important;
+  .new-order-card {
+    width: 97% !important;
   }
 }
 </style>

@@ -5,18 +5,8 @@
     width="80%"
     height="100%"
   >
-    <h3 class="text-center pt-5">Mes commandes</h3>
-    <div
-      style="
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        height: 30px;
-      "
-    >
-      <span class="mr-2">Disponible ?</span>
-      <v-switch color="green" v-model="deliveryManState"></v-switch>
-    </div>
+    <h3 class="text-center pt-5 pb-5">Mes commandes</h3>
+
     <v-container class="deliveryman-orders-container">
       <v-row class="deliveryman-orders-row">
         <v-col cols="12" class="pb-5">
@@ -27,7 +17,7 @@
             height="100%"
             color="#CA6B3E"
           >
-            <h4 class="text-center py-2" style="color: white">
+            <h4 class="text-center pt-2" style="color: white">
               Nouvelles commandes
             </h4>
             <div class="flex-container" v-if="getOrdersLength()">

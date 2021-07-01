@@ -2,11 +2,13 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import { getModule } from "vuex-module-decorators";
 import User from "@/store/user";
+import Cart from "@/store/cart";
 import { cart_store } from "@/store/index";
 
 Vue.use(VueRouter);
 
 const userModule = getModule(User, cart_store);
+const cartModule = getModule(Cart, cart_store);
 
 function isAuthenticated() {
   if (userModule.token) {
@@ -120,6 +122,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/client-orders",
+    name: "ClientOrders",
     beforeEnter(to, from, next) {
       if (isClient() && !isTechnician()) {
         next();
@@ -164,6 +167,24 @@ const routes: Array<RouteConfig> = [
       }
     },
     component: () => import("../views/CustomerMenu.vue"),
+  },
+  {
+    path: "/customer-payment",
+    name: "Payment",
+    beforeEnter(to, from, next) {
+      if (isClient() && !isTechnician() && cartModule.totalPrice > 0) {
+        next();
+      } else {
+        if (isDev()) {
+          next({ name: "DeveloperComponents" });
+        } else if (isTechnician()) {
+          next({ name: "TechnicianConnexionLogs" });
+        } else {
+          next({ name: "RestaurantsList" });
+        }
+      }
+    },
+    component: () => import("../views/Payment.vue"),
   },
 
   /**************************DELIVERY-MAN*********************************/

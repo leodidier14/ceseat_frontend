@@ -9,6 +9,7 @@
       :items-per-page="5"
       class="elevation-1 pt-5"
       lang="fr"
+      sort-desc.sync="true"
     >
       <template slot="no-data">Désolé, pas de commandes disponibles</template>
       <template v-slot:item="row">
@@ -190,6 +191,7 @@ export default class ClientOrders extends Vue {
         console.log(res.data);
         if (res.data) {
           this.orders = res.data;
+          this.orders.reverse();
         }
       })
       .catch((error: any) => {
@@ -200,12 +202,34 @@ export default class ClientOrders extends Vue {
       "UpdateStatement" + this.userModule.userId,
       (info: { status: string; id: number }) => {
         console.log(info);
-        this.$root.$emit("update-statement", info);
+        var message = "";
+        switch (info.status) {
+          case "pendingValidation":
+            message = "en attente de validation.";
+            break;
+          case "pendingRealization":
+            message = "en attente de réalisation.";
+            break;
+          case "realization":
+            message = "en cours de réalisation.";
+            break;
+          case "pendingDelivery":
+            message = "en attente de livraison.";
+            break;
+          case "delivery":
+            message = "en cours livraison.";
+            break;
+        }
+        this.$root.$emit(
+          "update-statement",
+          info,
+          "La commande N°" + info.id + " est " + message
+        );
       }
     );
     this.$root.$on(
       "update-statement",
-      (info: { status: string; id: number }) => {
+      (info: { status: string; id: number }, message: string) => {
         var order = this.orders.findIndex(
           (w) => w.number == info.id.toString()
         );

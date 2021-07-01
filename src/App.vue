@@ -13,7 +13,12 @@
         {{ message }}
 
         <template v-slot:action="{ attrs }">
-          <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
+          <v-btn
+            color="#CA6B3E"
+            text
+            v-bind="attrs"
+            @click="notification = false"
+          >
             Close
           </v-btn>
         </template>
@@ -72,9 +77,10 @@ export default class App extends Vue {
 
     this.$root.$on(
       "update-statement",
-      (info: { status: string; id: number }) => {
+      (info: { status: string; id: number }, message: string) => {
         this.notification = true;
-        this.message = "Votre commande N° " + info.id + "a été mise à jour";
+        console.log(info);
+        this.message = message;
       }
     );
   }

@@ -194,10 +194,6 @@ export default class RestaurantOrderCard extends Vue {
   }
 
   private acceptOrder() {
-    console.log({
-      status: "pendingRealization",
-      id: this.order.number,
-    });
     this.$root.$emit("update-order-status", {
       status: "pendingRealization",
       id: this.order.number,

@@ -71,10 +71,15 @@
               >Total : {{ totalPriceString }}</v-toolbar-title
             >
             <v-spacer></v-spacer>
-            <v-btn @click="PaidCart" color="#CA6B3E">
-              Payer ma commande
-              <!-- <v-icon>mdi-credit-card-outline</v-icon> -->
-            </v-btn>
+            <router-link to="/customer-payment" class="link">
+              <v-btn
+                @click="dialog = false"
+                color="#CA6B3E"
+                :disabled="cartModule.totalPrice <= 0"
+              >
+                Payer ma commande
+              </v-btn>
+            </router-link>
           </v-row>
         </v-container>
       </v-toolbar>
@@ -109,36 +114,6 @@ export default class ShoppingCart extends Vue {
       Number.parseFloat(String(this.cartModule.totalPrice)).toFixed(2) + " €"
     );
   }
-  private apiSubmitRoute: string = "http://localhost:3000/order/";
-
-  public PaidCart(): void {
-    console.log(this.cartModule.state);
-    let body = {
-      Articles: this.cartModule.articles,
-      Menus: this.cartModule.menus,
-      price: this.cartModule.totalPrice,
-      restaurantId: this.cartModule.restaurantId,
-      orderDate: Date.now(),
-    };
-    console.log(body);
-    axios
-      .post(this.apiSubmitRoute, body, {
-        headers: {
-          Authorization: this.userModule.token,
-        },
-      })
-      .then((res: any) => {
-        console.log(res);
-      })
-      .catch((error: any) => {
-        console.log(error);
-        // error.response.status Check status code
-        //this.$router.go(0);
-      })
-      .finally(() => {
-        //Perform action in always
-      });
-  }
 }
 </script>
 
@@ -146,6 +121,10 @@ export default class ShoppingCart extends Vue {
 .cart-list {
   margin-top: 50px;
   overflow-y: auto;
+}
+
+.link {
+  text-decoration: none;
 }
 
 #banner {
