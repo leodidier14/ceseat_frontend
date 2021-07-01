@@ -97,32 +97,35 @@
                   >
                 </v-col>
               </v-row>
-
               <v-row>
                 <v-col cols="12">
-                  <v-simple-table>
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th class="text-left">Article</th>
-                          <th class="text-left">Categorie</th>
-                          <th class="text-center">Supprimer</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          v-for="article in menu.articles"
-                          :key="article.id"
-                        >
-                          <td>{{ article.name }}</td>
-                          <td>{{ article.type }}</td>
-                          <td class="text-center">
-                            <v-icon dark color="red" @click="deleteArticle(article)">mdi-close</v-icon>
-                          </td>
-                        </tr>
-                      </tbody>
+                  <v-data-table
+                    v-if="renderComponent"
+                    :headers="headers"
+                    :items="menu.articles"
+                    :hide-default-footer="true"
+                    class="elevation-1 pt-5"
+                    lang="fr"
+                  >
+                    <template slot="no-data">Aucun article</template>
+                    <template v-slot:item="row">
+                      <tr>
+                        <td>{{ row.item.name }}</td>
+                        <td>{{ row.item.type }}</td>
+                        <td>
+                          <v-btn
+                            class="mx-2"
+                            text
+                            small
+                            color="red"
+                            @click="deleteArticle(row.item)"
+                          >
+                            <v-icon dark>mdi-delete</v-icon>
+                          </v-btn>
+                        </td>
+                      </tr>
                     </template>
-                  </v-simple-table>
+                  </v-data-table>
                 </v-col>
               </v-row>
             </v-container>
@@ -155,7 +158,7 @@ export default class AddMenu extends Vue {
     validator: (value: string) => ["create", "edit"].includes(value),
   })
   private mode!: string;
-
+  public renderComponent: boolean = true;
   @Prop()
   private articles!: Array<Articles.Article>;
 
@@ -174,6 +177,21 @@ export default class AddMenu extends Vue {
     },
   })
   private menu!: Articles.Menu;
+
+  private headers: object = [
+    {
+      text: "Article",
+      value: "name",
+    },
+    {
+      text: "Categorie",
+      value: "type",
+    },
+    {
+      text: "Supprimer",
+      sortable: false,
+    },
+  ];
   mounted() {
     console.log("mounted");
     console.log(this.menu);
@@ -183,12 +201,16 @@ export default class AddMenu extends Vue {
   private category: string = "";
   private articleName: string = "";
 
-  private addedArticles: Array<Articles.Article> = [];
-
   private addArticle() {
-    console.log(this.selectedArticle);
     this.menu.articles.push(this.selectedArticle);
+    if (!this.menu.articles) this.menu.articles = [];
     console.log(this.menu.articles);
+
+    this.renderComponent = false;
+    this.$nextTick(() => {
+      // Add the component back in
+      this.renderComponent = true;
+    });
   }
 
   get categories() {
@@ -198,7 +220,6 @@ export default class AddMenu extends Vue {
     );
     return categories;
   }
-
   get categoryArticles() {
     return this.articles
       .filter((article: Articles.Article) => article.type == this.category)
@@ -211,9 +232,14 @@ export default class AddMenu extends Vue {
     )[0];
   }
 
-  private deleteArticle(articleToDelete: Articles.Article) {
-    
-    this.menu.articles.splice(this.menu.articles.indexOf(articleToDelete), 1);
+  private deleteArticle(item: Articles.Article) {
+    const index = this.menu.articles.indexOf(item);
+    this.menu.articles.splice(index, 1);
+    this.renderComponent = false;
+    this.$nextTick(() => {
+      // Add the component back in
+      this.renderComponent = true;
+    });
   }
 
   private addMenu() {

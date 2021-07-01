@@ -153,7 +153,10 @@ export default class RestaurantsOrders extends Vue {
     this.socketModule.socket.on(
       "NewOrder" + this.userModule.roleId,
       (newOrder: Orders.Order) => {
-        this.$root.$emit("update-statement", "Nouvelle Commande");
+        this.$root.$emit("update-statement", {
+          status: "Attente de Validation",
+          id: newOrder.number,
+        });
         this.orders.push(newOrder);
       }
     );

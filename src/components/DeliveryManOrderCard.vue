@@ -23,7 +23,7 @@
                   v-if="
                     (order.status == 'pendingRealization' ||
                       order.status == 'realization') &&
-                    order.deliveryManId == 0
+                    order.deliveryManId == null
                   "
                   @click="declineOrder()"
                 >
@@ -41,7 +41,7 @@
                   v-if="
                     (order.status == 'pendingRealization' ||
                       order.status == 'realization') &&
-                    order.deliveryManId == 0
+                    order.deliveryManId == null
                   "
                   @click="acceptOrder()"
                 >
@@ -79,16 +79,16 @@
                 {{ order.clientPhone }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.clientAddress[0].address }}
+                {{ order.clientAddress.address }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.clientAddress[0].city }}
+                {{ order.clientAddress.city }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.clientAddress[0].zipCode }}
+                {{ order.clientAddress.zipCode }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.clientAddress[0].country }}
+                {{ order.clientAddress.country }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -102,16 +102,16 @@
                 {{ order.restaurantPhone }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.restaurantAddress[0].address }}
+                {{ order.restaurantAddress.address }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.restaurantAddress[0].city }}
+                {{ order.restaurantAddress.city }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.restaurantAddress[0].zipCode }}
+                {{ order.restaurantAddress.zipCode }}
               </v-list-item-subtitle>
               <v-list-item-subtitle>
-                {{ order.restaurantAddress[0].country }}
+                {{ order.restaurantAddress.country }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -173,7 +173,7 @@ export default class DeliveryManOrderCard extends Vue {
 
   private delivered() {
     this.$root.$emit("update-order-status", {
-      status: "delivred",
+      status: "delivered",
       id: this.order.number,
     });
   }

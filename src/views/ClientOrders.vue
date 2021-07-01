@@ -124,13 +124,14 @@ import { Orders } from "@/shims-tsx";
 import axios from "axios";
 import { getModule } from "vuex-module-decorators";
 import User from "@/store/user";
+import Socket from "@/store/socket";
 
 @Component
 export default class ClientOrders extends Vue {
   private userModule = getModule(User, this.$store);
   private dialog: boolean = false;
   private currentDialogItem: any = [];
-
+  private socketModule = getModule(Socket, this.$store);
   private apiGetRoute: string =
     "http://localhost:3000/order/user/" + this.userModule.userId;
   private apiDeleteRoute: string = "http://localhost:3000/order/user/";
@@ -195,15 +196,19 @@ export default class ClientOrders extends Vue {
         //this.$router.go(0);
       })
       .finally(() => {});
-
+    this.socketModule.socket.on(
+      "UpdateStatement" + this.userModule.userId,
+      (info: { status: string; id: number }) => {
+        console.log(info);
+        this.$root.$emit("update-statement", info);
+      }
+    );
     this.$root.$on(
       "update-statement",
       (info: { status: string; id: number }) => {
-        console.log("client update");
         var order = this.orders.findIndex(
           (w) => w.number == info.id.toString()
         );
-        console.log(this.orders[order]);
         this.orders[order].status = info.status;
       }
     );

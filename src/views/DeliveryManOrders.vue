@@ -34,7 +34,7 @@
               <DeliveryManOrderCard
                 class="restaurant-order-card"
                 :order="order"
-                v-for="order in getPendingOrders()"
+                v-for="order in getTakingOrders()"
                 :key="order.number"
               />
             </div>
@@ -57,7 +57,7 @@
               <DeliveryManOrderCard
                 class="restaurant-order-card"
                 :order="order"
-                v-for="order in getTakingOrders()"
+                v-for="order in getPendingOrders()"
                 :key="order.number"
               />
             </div>
@@ -86,12 +86,27 @@ export default class RestaurantsOrders extends Vue {
   private deliveryManState: boolean = true;
   private orders: Array<Orders.Order> = [];
   private socketModule = getModule(Socket, this.$store);
-  private apiPutAcceptedRoute: string =
-    "http://localhost:3000/orders/statement/delivered";
   private apiPutDelivredRoute: string =
-    "http://localhost:3000/orders/statement/deliverymanaccept";
+    "http://localhost:3000/orders/statement/delivered/";
+  private apiPutAcceptedRoute: string =
+    "http://localhost:3000/orders/statement/deliverymanaccept/";
   private apiGetRoute: string =
     "http://localhost:3000/order/deliveryman/" + this.userModule.roleId;
+
+  created() {
+    this.socketModule.socket.on(
+      "NewOrderToDelivery",
+      (newOrder: Orders.Order) => {
+        if (!this.orders.find((o) => o.number == newOrder.number)) {
+          this.$root.$emit("update-statement", {
+            status: "Attente de Validation",
+            id: newOrder.number,
+          });
+          this.orders.push(newOrder);
+        }
+      }
+    );
+  }
 
   mounted() {
     axios
@@ -102,7 +117,7 @@ export default class RestaurantsOrders extends Vue {
       })
       .then((res: any) => {
         //Perform Success Action
-        console.log(res);
+        //console.log(res);
         if (res.data != "") {
           this.orders = res.data;
         }
@@ -133,7 +148,7 @@ export default class RestaurantsOrders extends Vue {
         break;
       case "AcceptDelivery":
         axios
-          .post(this.apiPutAcceptedRoute, info, {
+          .put(this.apiPutAcceptedRoute + info.id, info, {
             headers: {
               Authorization: this.userModule.token,
             },
@@ -151,7 +166,7 @@ export default class RestaurantsOrders extends Vue {
         break;
       case "delivered":
         axios
-          .post(this.apiPutDelivredRoute, info, {
+          .put(this.apiPutDelivredRoute + info.id, info, {
             headers: {
               Authorization: this.userModule.token,
             },
@@ -173,16 +188,15 @@ export default class RestaurantsOrders extends Vue {
   getPendingOrders() {
     return this.orders.filter(
       (i) =>
-        (i.status === "pendingRealization" || i.status === "realization") &&
-        i.deliveryManId === 0
+        (i.status == "pendingRealization" ||
+          i.status == "realization" ||
+          i.status == "pendingDelivery") &&
+        i.deliveryManId == this.userModule.roleId
     );
   }
 
   getTakingOrders() {
-    console.log(
-      this.orders.filter((i) => i.deliveryManId != 0)[0].restaurantAddress[0]
-    );
-    return this.orders.filter((i) => i.deliveryManId != 0);
+    return this.orders.filter((i) => i.deliveryManId == null);
   }
 
   getOrdersLength() {

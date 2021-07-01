@@ -9,7 +9,7 @@
       </div>
     </div>
     <v-main class="main">
-      <v-snackbar v-model="notification">
+      <v-snackbar v-model="notification" absolute right top>
         {{ message }}
 
         <template v-slot:action="{ attrs }">
