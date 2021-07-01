@@ -20,11 +20,7 @@
                   rounded
                   small
                   style="color: #ca6b3e"
-                  v-if="
-                    (order.status == 'pendingRealization' ||
-                      order.status == 'realization') &&
-                    order.deliveryManId == null
-                  "
+                  v-if="order.deliveryManId == null"
                   @click="declineOrder()"
                 >
                   Refuser
@@ -38,11 +34,7 @@
                   rounded
                   small
                   style="color: white"
-                  v-if="
-                    (order.status == 'pendingRealization' ||
-                      order.status == 'realization') &&
-                    order.deliveryManId == null
-                  "
+                  v-if="order.deliveryManId == null"
                   @click="acceptOrder()"
                 >
                   Accepter

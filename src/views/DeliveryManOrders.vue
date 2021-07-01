@@ -88,10 +88,14 @@ export default class RestaurantsOrders extends Vue {
       "NewOrderToDelivery",
       (newOrder: Orders.Order) => {
         if (!this.orders.find((o) => o.number == newOrder.number)) {
-          this.$root.$emit("update-statement", {
-            status: "Attente de Validation",
-            id: newOrder.number,
-          });
+          this.$root.$emit(
+            "update-statement",
+            {
+              status: "Attente de Validation",
+              id: newOrder.number,
+            },
+            "Nouvelle commande en attente de validation"
+          );
           this.orders.push(newOrder);
         }
       }
@@ -180,7 +184,8 @@ export default class RestaurantsOrders extends Vue {
       (i) =>
         (i.status == "pendingRealization" ||
           i.status == "realization" ||
-          i.status == "pendingDelivery") &&
+          i.status == "pendingDelivery" ||
+          i.status == "delivery") &&
         i.deliveryManId == this.userModule.roleId
     );
   }

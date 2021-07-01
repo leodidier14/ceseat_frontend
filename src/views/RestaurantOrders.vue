@@ -96,6 +96,7 @@ import { Orders } from "@/shims-tsx";
 import { getModule } from "vuex-module-decorators";
 import User from "@/store/user";
 import Socket from "@/store/socket";
+import router from "../router/index";
 
 @Component({
   components: {
@@ -174,16 +175,18 @@ export default class RestaurantsOrders extends Vue {
     );
     this.socketModule.socket.on(
       "DeliveredOrder" + this.userModule.roleId,
-      (orderId: number) => {
+      (info: { status: string; id: number }) => {
         var order = this.orders.findIndex(
-          (w) => w.number == orderId.toString()
+          (w) => w.number === info.id.toString()
         );
-        this.orders[order].status = "delivered";
+        if (order != -1) this.orders[order].status = "delivered";
+
         this.$root.$emit(
           "update-statement",
-          order,
-          "La commande N° : " + orderId + " a été livrée."
+          { status: "delivred", id: info.id },
+          "La commande N° : " + info.id + " a été livrée."
         );
+        this.$router.go(0);
       }
     );
   }
