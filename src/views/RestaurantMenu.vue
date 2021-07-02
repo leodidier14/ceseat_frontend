@@ -127,9 +127,8 @@ export default class RestaurantMenu extends Vue {
           },
         })
         .then((res: any) => {
-          console.log(res);
-          this.articles.push(article);
-          //this.$router.go(0);
+            //this.articles.push(article);
+            this.$router.go(0)
         })
         .catch((error: any) => {
           console.log(error);
@@ -167,7 +166,6 @@ export default class RestaurantMenu extends Vue {
             },
           })
           .then((res: any) => {
-            console.log(res);
             this.$router.go(0);
           })
           .catch((error: any) => {
@@ -183,8 +181,7 @@ export default class RestaurantMenu extends Vue {
           },
         })
         .then((res: any) => {
-          console.log(res);
-          //this.$router.go(0);
+          this.$router.go(0);
         })
         .catch((error: any) => {
           //this.$router.go(0);

@@ -42,7 +42,7 @@
                     label="Prix"
                     v-model="menu.price"
                     append-icon="mdi-currency-eur"
-                    :rules="[rules.required]"
+                    :rules="[priceRule]"
                     required
                   ></v-text-field>
                   <v-text-field
@@ -200,6 +200,12 @@ export default class AddMenu extends Vue {
 
   private category: string = "";
   private articleName: string = "";
+
+  private priceRule = [
+    (price: string) => !!price || "Le prix est obligatoire.",
+    (price: string) =>
+      /(\d+\.\d{1,2})/g.test(price) || "Le prix doit être valide.",
+  ];
 
   private addArticle() {
     this.menu.articles.push(this.selectedArticle);
