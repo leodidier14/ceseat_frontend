@@ -323,7 +323,7 @@ export default class NavbarMobile extends Vue {
         console.log(res);
         this.userModule.set_token("").then((token: string) => {
           localStorage.clear();
-          window.location.href = "http://localhost:8080/client-login";
+          window.location.href = "http://172.16.44.43:8080/client-login";
         });
 
         // this.$router.push({ name: "ClientLogin" });
@@ -349,7 +349,7 @@ export default class NavbarMobile extends Vue {
         //Perform Success Action
         this.userModule.set_token("").then((token: string) => {
           localStorage.clear();
-          window.location.href = "http://localhost:8080/developer-login";
+          window.location.href = "http://172.16.44.43:8080/developer-login";
         });
       })
       .catch((error: any) => {

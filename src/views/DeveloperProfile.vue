@@ -161,14 +161,14 @@ export default class DeveloperProfile extends Vue {
           this.userModule.set_token("").then((token: string) => {
             localStorage.clear();
 
-            window.location.href = "http://localhost:8080/developer-register";
+            window.location.href = "http://172.16.44.43:8080/developer-register";
           });
         })
         .catch((error: any) => {
           this.userModule.set_token("").then((token: string) => {
             localStorage.clear();
 
-            window.location.href = "http://localhost:8080/developer-register";
+            window.location.href = "http://172.16.44.43:8080/developer-register";
           });
         })
         .finally(() => {

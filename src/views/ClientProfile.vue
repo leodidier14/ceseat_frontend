@@ -274,14 +274,14 @@ export default class ClientProfile extends Vue {
 
           this.userModule.set_token("").then((token: string) => {
             localStorage.clear();
-            window.location.href = "http://localhost:8080/client-register";
+            window.location.href = "http://172.16.44.43:8080/client-register";
           });
         })
         .catch((error: any) => {
           // error.response.status Check status code
           this.userModule.set_token("").then((token: string) => {
             localStorage.clear();
-            window.location.href = "http://localhost:8080/client-register";
+            window.location.href = "http://172.16.44.43:8080/client-register";
           });
         })
         .finally(() => {
