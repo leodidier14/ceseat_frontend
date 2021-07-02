@@ -177,7 +177,7 @@ export default class ClientRegister extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiSubmitRoute: string = "http://localhost:3000/user";
+  private apiSubmitRoute: string = "http://172.16.44.43:3000/user";
 
   //api call to post data
   public submitForm(): void {

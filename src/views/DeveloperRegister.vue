@@ -156,13 +156,13 @@ export default class DeveloperRegister extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiSubmitRoute: string = "http://localhost:3000/dev/";
+  private apiSubmitRoute: string = "http://172.16.44.43:3000/dev/";
   private apiGettRoute: string =
-    "http://localhost:3000/dev/" + localStorage.getItem("devId");
+    "http://172.16.44.43:3000/dev/" + localStorage.getItem("devId");
   private apiDeleteRoute: string =
-    "http://localhost:3000/dev/" + localStorage.getItem("devId");
+    "http://172.16.44.43:3000/dev/" + localStorage.getItem("devId");
   private apiUpdateRoute: string =
-    "http://localhost:3000/dev/" + localStorage.getItem("devId");
+    "http://172.16.44.43:3000/dev/" + localStorage.getItem("devId");
 
   //api call to post data
   public submitForm(): void {

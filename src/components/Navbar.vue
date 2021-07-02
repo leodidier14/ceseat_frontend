@@ -343,8 +343,8 @@ export default class Navbar extends Vue {
 
   private userModule = getModule(User, this.$store);
 
-  private apilogout: string = "http://localhost:3000/logout";
-  private apiDevlogout: string = "http://localhost:3000/dev-logout";
+  private apilogout: string = "http://172.16.44.43:3000/logout";
+  private apiDevlogout: string = "http://172.16.44.43:3000/dev-logout";
 
   public logout(): void {
     axios

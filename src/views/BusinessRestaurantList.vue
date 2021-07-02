@@ -40,7 +40,7 @@ import User from "@/store/user";
 
 @Component
 export default class BusinessRestaurantList extends Vue {
-  private apiGetRoute: string = "http://localhost:3000/restaurants";
+  private apiGetRoute: string = "http://172.16.44.43:3000/restaurants";
   private userModule = getModule(User, this.$store);
   private headerProps: object = {
     sortByText: "Trier par",

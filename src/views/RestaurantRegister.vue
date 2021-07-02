@@ -39,7 +39,7 @@ export default class RestaurantRegister extends Vue {
     );
   }
 
-  private apiSubmitRoute: string = "http://localhost:3000/restaurant";
+  private apiSubmitRoute: string = "http://172.16.44.43:3000/restaurant";
 
   private createRestaurant(newRestaurant: Restaurants.Restaurant) {
     axios

@@ -19,11 +19,11 @@ export default class RestaurantProfile extends Vue {
   private userModule = getModule(User, this.$store);
 
   private apiUpdateRoute =
-    "http://localhost:3000/restaurant/" + this.userModule.roleId;
+    "http://172.16.44.43:3000/restaurant/" + this.userModule.roleId;
   private apiDeleteRoute =
-    "http://localhost:3000/restaurant/" + this.userModule.roleId;
+    "http://172.16.44.43:3000/restaurant/" + this.userModule.roleId;
   private apiGetRoute =
-    "http://localhost:3000/restaurant/" + this.userModule.roleId;
+    "http://172.16.44.43:3000/restaurant/" + this.userModule.roleId;
 
   private restaurant: Restaurants.Restaurant = {
     id: 0,

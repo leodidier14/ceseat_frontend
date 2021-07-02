@@ -57,7 +57,7 @@ export default class BusinessStats extends Vue {
   private stats: Array<Stats.microserviceRequest> = [];
 
   private apiGetBusinessStats: string =
-    "http://localhost:3000/stats/components/";
+    "http://172.16.44.43:3000/stats/components/";
 
   mounted() {
     axios

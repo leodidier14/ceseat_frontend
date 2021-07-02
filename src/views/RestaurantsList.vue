@@ -140,7 +140,7 @@ export default class RestaurantsList extends Vue {
 
   private restaurants: Array<Restaurants.Restaurant> = [];
 
-  private apiGetRoute: string = "http://localhost:3000/restaurants";
+  private apiGetRoute: string = "http://172.16.44.43:3000/restaurants";
 
   //api call to post data
 

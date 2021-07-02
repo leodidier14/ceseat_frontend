@@ -136,11 +136,11 @@ export default class DeveloperProfile extends Vue {
   };
 
   private apiDeleteRoute: string =
-    "http://localhost:3000/dev/" + this.userModule.devId;
+    "http://172.16.44.43:3000/dev/" + this.userModule.devId;
   private apiSubmitRoute: string =
-    "http://localhost:3000/dev/" + this.userModule.devId;
+    "http://172.16.44.43:3000/dev/" + this.userModule.devId;
   private apiGetRoute: string =
-    "http://localhost:3000/dev/" + this.userModule.devId;
+    "http://172.16.44.43:3000/dev/" + this.userModule.devId;
 
   //api call to post data
 

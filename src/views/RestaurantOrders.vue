@@ -111,11 +111,11 @@ export default class RestaurantsOrders extends Vue {
   private renderComponent: boolean = true;
 
   private apiGetRoute: string =
-    "http://localhost:3000/order/restaurant/currentorder/" +
+    "http://172.16.44.43:3000/order/restaurant/currentorder/" +
     this.userModule.roleId;
 
   public putStatus(info: { status: string; id: number }): void {
-    let apiPutRoute = "http://localhost:3000/order/statement/";
+    let apiPutRoute = "http://172.16.44.43:3000/order/statement/";
     switch (info.status) {
       case "pendingRealization":
         apiPutRoute += "validate/" + info.id;

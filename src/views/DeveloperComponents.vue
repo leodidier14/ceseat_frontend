@@ -94,9 +94,9 @@ export default class DeveloperComponent extends Vue {
 
   private components: Array<Components.component> = [];
 
-  private apiGetRoute: string = "http://localhost:3000/devTools/components/";
+  private apiGetRoute: string = "http://172.16.44.43:3000/devTools/components/";
   private apiSubmitLogRoute: string =
-    "http://localhost:3000/devTools/logs/components/";
+    "http://172.16.44.43:3000/devTools/logs/components/";
 
   mounted() {
     axios

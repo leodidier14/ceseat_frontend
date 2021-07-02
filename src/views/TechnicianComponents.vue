@@ -225,7 +225,7 @@ export default class TechnicianComponents extends Vue {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
 
-  private apiGetRoute: string = "http://localhost:3000/devTools/components/";
+  private apiGetRoute: string = "http://172.16.44.43:3000/devTools/components/";
 
   mounted() {
     axios

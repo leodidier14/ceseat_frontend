@@ -20,10 +20,10 @@ import User from "@/store/user";
 export default class RestaurantMenu extends Vue {
   private userModule = getModule(User, this.$store);
   private apiGetRoute: string =
-    "http://localhost:3000/restaurantboard/" + this.userModule.roleId;
-  private apiSubmitArticleRoute: string = "http://localhost:3000/article/";
-  private apiArticleRoute: string = "http://localhost:3000/article/";
-  private apiMenuRoute: string = "http://localhost:3000/menu/";
+    "http://172.16.44.43:3000/restaurantboard/" + this.userModule.roleId;
+  private apiSubmitArticleRoute: string = "http://172.16.44.43:3000/article/";
+  private apiArticleRoute: string = "http://172.16.44.43:3000/article/";
+  private apiMenuRoute: string = "http://172.16.44.43:3000/menu/";
 
   private articles: Array<Articles.Article> = [];
   private menus: Array<Articles.Menu> = [];

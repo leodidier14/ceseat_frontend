@@ -179,9 +179,9 @@ export default class RestaurantHistory extends Vue {
   private orders: Array<Orders.Order> = [];
 
   private apiDeleteRoute: string =
-    "http://localhost:3000/order/restaurant/ordershistory/";
+    "http://172.16.44.43:3000/order/restaurant/ordershistory/";
   private apiGetRoute: string =
-    "http://localhost:3000/order/restaurant/ordershistory/" +
+    "http://172.16.44.43:3000/order/restaurant/ordershistory/" +
     this.userModule.roleId;
 
   //api call to post data

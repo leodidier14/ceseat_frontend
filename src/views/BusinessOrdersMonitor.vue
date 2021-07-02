@@ -127,7 +127,7 @@ export default class BusinessOrdersMonitor extends Vue {
   private userModule = getModule(User, this.$store);
   private transac: number = 0;
   private apiGetRoute: string =
-    "http://localhost:3000/order/restaurant/currentorder/" +
+    "http://172.16.44.43:3000/order/restaurant/currentorder/" +
     this.$route.params.restaurantId;
   mounted() {
     axios

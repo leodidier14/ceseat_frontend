@@ -29,7 +29,7 @@ export default class CustomerMenu extends Vue {
   private currentRestaurant: string = "McDonald's";
 
   private apiGetRoute: string =
-    "http://localhost:3000/restaurantboard/" + this.$route.params.id;
+    "http://172.16.44.43:3000/restaurantboard/" + this.$route.params.id;
 
   private articles: Array<Articles.Article> = [];
   private menus: Array<Articles.Menu> = [];

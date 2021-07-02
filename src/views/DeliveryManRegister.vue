@@ -27,7 +27,7 @@ export default class DeliveryManRegister extends Vue {
         this.createDeliveryMan(deliveryMan)
     );
   }
-  private apiSubmitRoute: string = "http://localhost:3000/deliveryman";
+  private apiSubmitRoute: string = "http://172.16.44.43:3000/deliveryman";
   private createDeliveryMan(deliveryMan: DeliveryMen.DeliveryMan) {
     axios
       .post(this.apiSubmitRoute, deliveryMan, {

@@ -77,11 +77,11 @@ export default class RestaurantsOrders extends Vue {
   private orders: Array<Orders.Order> = [];
   private socketModule = getModule(Socket, this.$store);
   private apiPutDelivredRoute: string =
-    "http://localhost:3000/orders/statement/delivered/";
+    "http://172.16.44.43:3000/orders/statement/delivered/";
   private apiPutAcceptedRoute: string =
-    "http://localhost:3000/orders/statement/deliverymanaccept/";
+    "http://172.16.44.43:3000/orders/statement/deliverymanaccept/";
   private apiGetRoute: string =
-    "http://localhost:3000/order/deliveryman/" + this.userModule.roleId;
+    "http://172.16.44.43:3000/order/deliveryman/" + this.userModule.roleId;
 
   created() {
     this.socketModule.socket.on(

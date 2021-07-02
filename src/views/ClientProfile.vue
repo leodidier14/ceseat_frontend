@@ -248,11 +248,11 @@ export default class ClientProfile extends Vue {
   private countries = ["France"];
 
   private apiDeleteRoute: string =
-    "http://localhost:3000/user/" + this.userModule.userId;
+    "http://172.16.44.43:3000/user/" + this.userModule.userId;
   private apiSubmitRoute: string =
-    "http://localhost:3000/user/" + this.userModule.userId;
+    "http://172.16.44.43:3000/user/" + this.userModule.userId;
   private apiGetRoute: string =
-    "http://localhost:3000/user/" + this.userModule.userId;
+    "http://172.16.44.43:3000/user/" + this.userModule.userId;
 
   //api call to post data
 

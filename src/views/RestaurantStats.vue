@@ -107,7 +107,7 @@ export default class RestaurantStats extends Vue {
   private meanArticlesByOrder: number = 0;
   private meanPriceByOrder: number = 0;
   private apiGetRoute: string =
-    "http://localhost:3000/stats/restaurant/" + this.userModule.roleId;
+    "http://172.16.44.43:3000/stats/restaurant/" + this.userModule.roleId;
 
   mounted() {
     axios

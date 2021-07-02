@@ -14,7 +14,7 @@ export default class Socket extends VuexModule {
 
     @Mutation
     private CREATE_CONNECTION(): void{
-        this.socket = io("http://localhost:3003")
+        this.socket = io("http://172.16.44.43:3003")
     }
 
     @Action

@@ -22,11 +22,11 @@ export default class DeliveryManProfile extends Vue {
     sponsorshipLink: "",
   };
   private apiGetRoute: string =
-    "http://localhost:3000/deliveryman/" + this.userModule.roleId;
+    "http://172.16.44.43:3000/deliveryman/" + this.userModule.roleId;
   private apiDeleteRoute: string =
-    "http://localhost:3000/deliveryman/" + this.userModule.roleId;
+    "http://172.16.44.43:3000/deliveryman/" + this.userModule.roleId;
   private apiUpdateRoute: string =
-    "http://localhost:3000/deliveryman/" + this.userModule.roleId;
+    "http://172.16.44.43:3000/deliveryman/" + this.userModule.roleId;
   mounted() {
     axios
       .get(this.apiGetRoute, {

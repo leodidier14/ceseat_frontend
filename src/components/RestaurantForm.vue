@@ -378,13 +378,13 @@ export default class RestaurantForm extends Vue {
     "Autre",
   ];
 
-  private apiSubmitRoute: string = "http://localhost:3000/restaurant";
+  private apiSubmitRoute: string = "http://172.16.44.43:3000/restaurant";
   private apiGetRoute: string =
-    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
+    "http://172.16.44.43:3000/restaurant/" + localStorage.getItem("restaurantId");
   private apiDeleteRoute: string =
-    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
+    "http://172.16.44.43:3000/restaurant/" + localStorage.getItem("restaurantId");
   private apiUpdateRoute: string =
-    "http://localhost:3000/restaurant/" + localStorage.getItem("restaurantId");
+    "http://172.16.44.43:3000/restaurant/" + localStorage.getItem("restaurantId");
 
   //api call to post data
   public submitForm(): void {

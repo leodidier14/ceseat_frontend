@@ -191,7 +191,7 @@ export default class Payment extends Vue {
   private countries = ["France"];
 
   private apiGetRoute: string =
-    "http://localhost:3000/user/" + this.userModule.userId;
+    "http://172.16.44.43:3000/user/" + this.userModule.userId;
 
   //api call to post data
 
@@ -218,7 +218,7 @@ export default class Payment extends Vue {
       });
   }
 
-  private apiSubmitRoute: string = "http://localhost:3000/order/";
+  private apiSubmitRoute: string = "http://172.16.44.43:3000/order/";
 
   public PaidCart(): void {
     console.log(this.cartModule.state);

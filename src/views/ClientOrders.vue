@@ -134,8 +134,8 @@ export default class ClientOrders extends Vue {
   private currentDialogItem: any = [];
   private socketModule = getModule(Socket, this.$store);
   private apiGetRoute: string =
-    "http://localhost:3000/order/user/" + this.userModule.userId;
-  private apiDeleteRoute: string = "http://localhost:3000/order/user/";
+    "http://172.16.44.43:3000/order/user/" + this.userModule.userId;
+  private apiDeleteRoute: string = "http://172.16.44.43:3000/order/user/";
 
   private headerProps: object = {
     sortByText: "Trier par",

@@ -72,7 +72,7 @@ export default class TechnicianConnexionLogs extends Vue {
   private logs: Array<Logs.componentLogs> = [];
 
   private apiGetRoute: string =
-    "http://localhost:3000/devTools/logs/components/";
+    "http://172.16.44.43:3000/devTools/logs/components/";
 
   mounted() {
     axios
