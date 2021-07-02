@@ -42,7 +42,7 @@
                     label="Prix"
                     v-model="article.price"
                     append-icon="mdi-currency-eur"
-                    :rules="[rules.required]"
+                    :rules="priceRule"
                     required
                   ></v-text-field>
                   <v-text-field
@@ -113,13 +113,19 @@ export default class AddArticle extends Vue {
   })
   article!: Articles.Article;
 
-  private categories: Array<string> = ["Burger", "Boisson", "Accompagnement"];
+  private categories: Array<string> = ["Burger", "Boisson", "Accompagnement", "Entrée", "Pizza", "Tacos", "Autre"];
 
   private dialog: boolean = false;
 
   private rules = {
     required: (value: string) => !!value || "Ce champ est obligatoire.",
   };
+
+  private priceRule = [
+    (price: string) => !!price || "Le prix est obligatoire.",
+    (price: string) =>
+      /(\d+\.\d{1,2})/g.test(price) || "Le prix doit être valide.",
+  ];
 
   private addArticle() {
     if (

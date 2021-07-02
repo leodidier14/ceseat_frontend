@@ -126,12 +126,15 @@ export default class RestaurantsList extends Vue {
   private searchCity: string = "";
   private searchType: string = "";
   private searchSchedule: string = "";
-  private types: Array<string> = [
-    "Tous",
-    "Snack",
+  private types = [
+    "Fast food",
     "Japonais",
-    "Hamburger",
+    "Chinois",
+    "Pizza",
+    "Burger",
     "Tacos",
+    "Kebab",
+    "Autre",
   ];
   private schedule: Array<string> = ["Tous", "Ouverts", "Fermés"];
 
@@ -202,10 +205,10 @@ function getByCity(list: Array<any>, city: string) {
   }
 }
 
-function getByType(list: Array<any>, city: string) {
-  if (city && city != "Tous") {
+function getByType(list: Array<any>, type: string) {
+  if (type && type != "Tous") {
     return list.filter((item: any) => {
-      return city
+      return type
         .toLowerCase()
         .split(" ")
         .every((v: any) => item.type.toLowerCase().includes(v));
