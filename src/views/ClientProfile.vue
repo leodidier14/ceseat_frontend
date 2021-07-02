@@ -271,15 +271,18 @@ export default class ClientProfile extends Vue {
         .then((res: any) => {
           //Perform Success Action
           console.log(res);
+
           this.userModule.set_token("").then((token: string) => {
             localStorage.clear();
-
             window.location.href = "http://localhost:8080/client-register";
           });
         })
         .catch((error: any) => {
           // error.response.status Check status code
-          this.$router.go(0);
+          this.userModule.set_token("").then((token: string) => {
+            localStorage.clear();
+            window.location.href = "http://localhost:8080/client-register";
+          });
         })
         .finally(() => {
           //Perform action in always

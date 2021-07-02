@@ -20,6 +20,15 @@
       v-model="valid"
       lazy-validation
     >
+      <v-alert
+        class="textfield mx-auto"
+        :value="errorPopup"
+        dense
+        outlined
+        type="error"
+      >
+        Erreur à la connexion du compte
+      </v-alert>
       <v-text-field
         class="textfield mx-auto"
         v-model="login.email"
@@ -83,6 +92,7 @@ import User from "@/store/user";
 export default class DeveloperLogin extends Vue {
   private valid: boolean = true;
   private userModule = getModule(User, this.$store);
+  private errorPopup: boolean = false;
 
   private login = {
     email: "",
@@ -119,6 +129,7 @@ export default class DeveloperLogin extends Vue {
         .catch((error: any) => {
           // error.response.status Check status code
           // this.$router.go(0);
+          this.errorPopup = true;
         })
         .finally(() => {
           //Perform action in always

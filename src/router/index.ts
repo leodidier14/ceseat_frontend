@@ -67,6 +67,11 @@ function isBusinessMan() {
 }
 
 const routes: Array<RouteConfig> = [
+  {
+    path: "/policies",
+    name: "Policies",
+    component: () => import("@/views/Policies.vue"),
+  },
   /**************************CLIENT*********************************/
   {
     path: "/client-register",

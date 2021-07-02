@@ -165,8 +165,11 @@ export default class DeveloperProfile extends Vue {
           });
         })
         .catch((error: any) => {
-          // error.response.status Check status code
-          // this.$router.go(0);
+          this.userModule.set_token("").then((token: string) => {
+            localStorage.clear();
+
+            window.location.href = "http://localhost:8080/developer-register";
+          });
         })
         .finally(() => {
           //Perform action in always

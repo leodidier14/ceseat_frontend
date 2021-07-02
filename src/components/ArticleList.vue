@@ -4,7 +4,7 @@
       <h2 class="ml-10" id="title" v-text="restaurantName"></h2>
       <span class="mr-10" id="add-buttons" v-if="menuType == 'restaurant'">
         <AddArticle />
-        <AddMenu :articles="articles" />
+        <AddMenu :articles="articles" v-if="articles" />
       </span>
     </div>
 

@@ -17,10 +17,7 @@
         <tr>
           <td>{{ row.item.time }}</td>
           <td>{{ row.item.idUser }}</td>
-          <td>
-            <span v-if="row.item.state == true">Réussie</span
-            ><span v-else>Echouée</span>
-          </td>
+          <td>{{ row.item.state }}</td>
         </tr>
       </template>
     </v-data-table>

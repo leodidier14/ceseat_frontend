@@ -171,13 +171,6 @@
                         ></router-link
                       >
                       <router-link
-                        to="/deliveryman-wallet"
-                        class="router-mobile-link text-center mr-2"
-                        ><span @click="dialog = false"
-                          >Portefeuille</span
-                        ></router-link
-                      >
-                      <router-link
                         to="/deliveryman-orders"
                         class="router-mobile-link text-center mr-2"
                         ><span @click="dialog = false"

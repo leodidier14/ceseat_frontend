@@ -28,12 +28,34 @@
     <template>
       <v-footer color="#CA6B3E" padless>
         <v-row justify="center" no-gutters>
-          <v-btn color="white" text rounded class="my-2"> Accueil </v-btn>
-          <v-btn color="white" text rounded class="my-2">
-            Conditions d'utilisation
+          <router-link to="/" class="link"
+            ><v-btn color="white" text rounded class="my-2">
+              Accueil
+            </v-btn></router-link
+          >
+          <router-link to="/policies" class="link"
+            ><v-btn color="white" text rounded class="my-2">
+              Conditions d'utilisation
+            </v-btn></router-link
+          >
+          <v-btn
+            color="white"
+            text
+            rounded
+            class="my-2"
+            href="https://github.com/leodidier14/ceseat_frontend"
+          >
+            L'équipe
           </v-btn>
-          <v-btn color="white" text rounded class="my-2"> L'équipe </v-btn>
-          <v-btn color="white" text rounded class="my-2"> A propos </v-btn>
+          <v-btn
+            color="white"
+            text
+            rounded
+            class="my-2"
+            href="https://github.com/leodidier14/ceseat_frontend"
+          >
+            A propos
+          </v-btn>
           <v-col
             class="#CA6B3E lighten-2 py-4 text-center white--text"
             cols="12"
@@ -94,5 +116,9 @@ export default class App extends Vue {
 }
 html {
   overflow-y: auto !important;
+}
+
+.link {
+  text-decoration: none;
 }
 </style>

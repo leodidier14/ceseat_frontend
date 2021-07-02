@@ -22,6 +22,15 @@
       <v-container>
         <v-row no-gutters>
           <v-col cols="12" md="6">
+            <v-alert
+              class="input-field mx-auto"
+              :value="errorPopup"
+              dense
+              outlined
+              type="error"
+            >
+              Erreur à l'inscription
+            </v-alert>
             <v-text-field
               class="input-field mx-auto"
               color="#CA6B3E"
@@ -107,6 +116,7 @@ import axios from "axios";
 @Component
 export default class DeveloperRegister extends Vue {
   private valid: boolean = true;
+  private errorPopup: boolean = false;
 
   private devRegister = {
     email: "",
@@ -147,10 +157,12 @@ export default class DeveloperRegister extends Vue {
   };
 
   private apiSubmitRoute: string = "http://localhost:3000/dev/";
-  private apiGettRoute: string = "http://localhost:3000/dev/"+localStorage.getItem('devId');
-  private apiDeleteRoute: string = "http://localhost:3000/dev/"+localStorage.getItem('devId');
-  private apiUpdateRoute: string = "http://localhost:3000/dev/"+localStorage.getItem('devId');
-
+  private apiGettRoute: string =
+    "http://localhost:3000/dev/" + localStorage.getItem("devId");
+  private apiDeleteRoute: string =
+    "http://localhost:3000/dev/" + localStorage.getItem("devId");
+  private apiUpdateRoute: string =
+    "http://localhost:3000/dev/" + localStorage.getItem("devId");
 
   //api call to post data
   public submitForm(): void {
@@ -165,9 +177,8 @@ export default class DeveloperRegister extends Vue {
           this.$router.push({ name: "DeveloperLogin" });
         })
         .catch((error: any) => {
-          console.log(error)
-          // error.response.status Check status code
-          //this.$router.go(0);
+          console.log(error);
+          this.errorPopup = true;
         })
         .finally(() => {
           //Perform action in always
