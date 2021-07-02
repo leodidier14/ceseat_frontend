@@ -121,7 +121,7 @@
               text
               small
               color="black"
-              href="https://github.com/leodidier14"
+              v-bind:href="row.item.documentationLink"
             >
               <v-icon dark>mdi-information</v-icon>
             </v-btn>
@@ -132,7 +132,7 @@
               text
               small
               color="green"
-              href="https://github.com/leodidier14"
+              v-bind:href="row.item.downloadLink"
             >
               <v-icon dark>mdi-download</v-icon>
             </v-btn>

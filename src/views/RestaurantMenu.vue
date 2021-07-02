@@ -103,7 +103,6 @@ export default class RestaurantMenu extends Vue {
         (previousArticle: Articles.Article) => previousArticle.id == article.id
       )[0];
     }
-
     if (existingArticle != null) {
       axios
         .put(this.apiSubmitArticleRoute + article.id, article, {
@@ -127,8 +126,8 @@ export default class RestaurantMenu extends Vue {
           },
         })
         .then((res: any) => {
-            //this.articles.push(article);
-            this.$router.go(0)
+          //this.articles.push(article);
+          this.$router.go(0);
         })
         .catch((error: any) => {
           console.log(error);
@@ -139,7 +138,7 @@ export default class RestaurantMenu extends Vue {
   }
 
   private addMenu(menu: Articles.Menu) {
-    console.log(menu)
+    console.log(menu);
     if (this.menus) {
       let existingMenu: Articles.Menu = this.menus.filter(
         (previousMenu: Articles.Menu) => previousMenu.id == menu.id

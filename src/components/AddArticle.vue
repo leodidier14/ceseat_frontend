@@ -113,7 +113,15 @@ export default class AddArticle extends Vue {
   })
   article!: Articles.Article;
 
-  private categories: Array<string> = ["Burger", "Boisson", "Accompagnement", "Entrée", "Pizza", "Tacos", "Autre"];
+  private categories: Array<string> = [
+    "Burger",
+    "Boisson",
+    "Accompagnement",
+    "Entrée",
+    "Pizza",
+    "Tacos",
+    "Autre",
+  ];
 
   private dialog: boolean = false;
 
@@ -128,6 +136,7 @@ export default class AddArticle extends Vue {
   ];
 
   private addArticle() {
+    console.log("new Article");
     if (
       (
         this.$refs.addArticleForm as Vue & { validate: () => boolean }
