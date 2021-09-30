@@ -1,7 +1,8 @@
 # ceseat_frontend
 
 Development of an Uber Eats like (Ces'eat) in groups of 4 for 2 weeks using a microservices architecture (API for authentication, orders, accounts, etc.) in node js, mssql and mongo db on the backend and vue js on the frontend.
-- Customer: can create/edit/delete their account and place and track orders in real time.- Restaurant owner: can create/edit/delete a restaurant, edit its menu, accept and track orders in real time.
+- Customer: can create/edit/delete their account and place and track orders in real time.
+- Restaurant owner: can create/edit/delete a restaurant, edit its menu, accept and track orders in real time.
 - Deliverer: can take over and return orders.
 - Other roles: developer, sales and technical.
 
