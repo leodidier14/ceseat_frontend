@@ -5,9 +5,6 @@ Development of an Uber Eats like (Ces'eat) in groups of 4 for 2 weeks using a mi
 - Deliverer: can take over and return orders.
 - Other roles: developer, sales and technical.
 
-![image](https://user-images.githubusercontent.com/33622134/135449567-cf12fa73-8399-41ec-aa4e-2b262dff2fd7.png)
-
-
 ## Project setup
 ```
 npm install
